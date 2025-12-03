@@ -12,6 +12,10 @@ function makeRouter(model){
             //element: <OverviewView />,
             //element: <TestView></TestView>
         },
+        {
+            path: "/overview",
+            element: <OverviewView />,
+        },
     ]);
 }
 
