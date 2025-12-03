@@ -9,6 +9,8 @@ export const auth = getAuth(app);
 
 export const googleAuthProvider = new GoogleAuthProvider();
 googleAuthProvider.addScope('https://www.googleapis.com/auth/calendar');
+googleAuthProvider.addScope('https://www.googleapis.com/auth/tasks');
+
 
 window.db = db;
 
