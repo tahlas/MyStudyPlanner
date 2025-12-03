@@ -26,6 +26,7 @@ const Login = observer(
                     user_id: user.uid,
                     email: user.email,
                     name: user.displayName,
+                    photoURL: user.photoURL,
                     token: user.accessToken,
                 });
 

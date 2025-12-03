@@ -12,7 +12,7 @@ export function LoginView(props) {
     return (
         <AppProvider>
             {/* TODO: Fix OAuth sign-in */}
-            <Button variant="contained">TEST</Button>
+            <Button variant="contained" onClick = {loginACB}>TEST</Button>
             <SignInPage provider={["google"]} signIn={loginACB} />
         </AppProvider>
     );
