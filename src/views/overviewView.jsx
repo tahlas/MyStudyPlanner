@@ -1,7 +1,10 @@
+import Button from "@mui/material/Button";
+
 /**
- * Renders the
- * @returns
+ * Renders the Overview View component.
+ * @returns the Overview View JSX element
  */
-function OverviewView() {
-    return <div>Overview View</div>;
+export function OverviewView() {
+    return <Button variant="contained">Overview</Button>;
+    //return <div>Overview View</div>;
 }
