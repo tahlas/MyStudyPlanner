@@ -10,10 +10,14 @@ const ReactRoot = observer(function ReactRoot(props) {
 function makeRouter() {
     return createHashRouter([
         {
-            path: "/",
+            path: "/login",
             element: <LoginView />,
             //element: <OverviewView />,
             //element: <TestView></TestView>
+        },
+        {
+            path: "/overview",
+            element: <OverviewView />,
         },
     ]);
 }
