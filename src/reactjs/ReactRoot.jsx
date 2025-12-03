@@ -1,11 +1,17 @@
 import { observer } from "mobx-react-lite";
 import { TestView } from "../views/Testview";
-const ReactRoot = observer(
-    function ReactRoot(props) {
-        return (
-                <div>hello</div>
-            );
-    }
-)
+import { createHashRouter, RouterProvider } from "react-router-dom";
+const ReactRoot = observer(function ReactRoot(props) {
+    return <RouterProvider router={makeRouter()} />;
+});
 
-export { ReactRoot }
+function makeRouter() {
+    return createHashRouter([
+        {
+            path: "/",
+            element: <OverviewView />,
+        },
+    ]);
+}
+
+export { ReactRoot };
