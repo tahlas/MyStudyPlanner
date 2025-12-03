@@ -5,5 +5,8 @@ configure({ enforceActions: "never", });  // we don't use Mobx actions in the La
 
 export const reactiveModel= observable(model);
 
+// for debugging in console
+// DELETE IN FINAL VERSION!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+window.myModel = reactiveModel;
 import { taskConstants } from "/src/taskConstants.js";
-window.taskConstants = taskConstants; // for debugging in console
+window.taskConstants = taskConstants; 
