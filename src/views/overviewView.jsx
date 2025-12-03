@@ -13,7 +13,7 @@ export function OverviewView() {
 function todaysOverview() {
     //TODO
     return renderTasksForToday();
-}
+} 
 
 function renderTasksForToday() {
     return (
