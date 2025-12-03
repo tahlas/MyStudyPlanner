@@ -1,14 +1,14 @@
-import {auth, googleAuthProvider } from "/src/firebaseSetup.js"
+import { auth, googleAuthProvider } from "/src/firebaseSetup.js"
+import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 
 export function TestView(props){
 
 //code from firebase documentation
 function loginACB(){
-const auth = getAuth();
 signInWithPopup(auth, googleAuthProvider)
   .then((result) => {
     // This gives you a Google Access Token. You can use it to access the Google API.
-    const credential = googleAuthProvider.credentialFromResult(result);
+    const credential = GoogleAuthProvider.credentialFromResult(result);
     const token = credential.accessToken;
     // The signed-in user info.
     const user = result.user;
@@ -21,7 +21,7 @@ signInWithPopup(auth, googleAuthProvider)
     // The email of the user's account used.
     const email = error.customData.email;
     // The AuthCredential type that was used.
-    const credential = googleAuthProvider.credentialFromError(error);
+    const credential = GoogleAuthProvider.credentialFromError(error);
     // ...
   })
   };

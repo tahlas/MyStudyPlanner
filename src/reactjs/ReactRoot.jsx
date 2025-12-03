@@ -11,6 +11,7 @@ function makeRouter() {
         {
             path: "/",
             element: <OverviewView />,
+            element: <TestView></TestView>
         },
     ]);
 }
