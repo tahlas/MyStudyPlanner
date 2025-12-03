@@ -6,5 +6,8 @@ import Button from "@mui/material/Button";
  */
 export function OverviewView() {
     return <Button variant="contained">Overview</Button>;
-    //return <div>Overview View</div>;
+}
+
+function todaysOverview() {
+    //TODO
 }
