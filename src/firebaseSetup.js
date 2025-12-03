@@ -8,6 +8,7 @@ const db = getFirestore(app);
 export const auth = getAuth(app);
 
 export const googleAuthProvider = new GoogleAuthProvider();
+googleAuthProvider.addScope('https://www.googleapis.com/auth/calendar.readonly');
 
 window.db = db;
 
