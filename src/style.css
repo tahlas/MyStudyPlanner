@@ -1,0 +1,10 @@
+@import "tailwindcss";
+
+.overviewTask{
+    display:block;
+    border-radius: 10px;
+    width: 200px;
+    min-height: 50px;
+    border: 2px solid black;
+    font-size: 16px;
+}
