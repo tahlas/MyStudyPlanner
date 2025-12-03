@@ -1,4 +1,4 @@
-const firebaseConfig = {
+export const firebaseConfig = {
   apiKey: "AIzaSyDEdJApf-CBTcgd6M9ir5eTGhG25EOLlIo",
   authDomain: "mystudyplanner-b49b3.firebaseapp.com",
   projectId: "mystudyplanner-b49b3",
