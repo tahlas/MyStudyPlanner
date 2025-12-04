@@ -44,10 +44,10 @@ export function connectToPersistance(model, reaction) {
         }
     })
 
-    function readDataACB(sn) {
-        if (sn.data()) {
-            model.tasks = data.tasks || [];
-            model.events = data.events || [];
+    function readDataACB(snapshot) {
+        if (snapshot.data()) {
+            model.tasks = snapshot.data().tasks || [];
+            model.events = snapshot.data().events || [];
         }
         else {
             // If there is no data for the user initialize with default values
