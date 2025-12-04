@@ -21,7 +21,12 @@ export function OverviewView() {
 }
 
 function topBar() {
-    return <div className="overviewTopBar"></div>;
+    return (
+        <div className="overviewTopBar">
+            <div></div>
+
+        </div>
+    );
 }
 
 function todaysOverview() {
@@ -117,7 +122,7 @@ function taskIsDueNextWeekAndNotTomorrowCB(task) {
     const taskDueDate = new Date(task.due);
     const currentWeek = currentDate.getEuropeanWeek();
     const taskDueWeek = taskDueDate.getEuropeanWeek();
-    if (!taskIsDueTomorrowCB(task)) {
+    if (taskIsDueTomorrowCB(task)) {
         return false;
     }
     return taskDueWeek === currentWeek + 1;
