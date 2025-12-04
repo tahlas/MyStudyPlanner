@@ -1,6 +1,7 @@
 export const model = {
 
-    userInfo : {},
+    userInfo : {
+    },
 
     setUserInfo(user){
         this.userInfo.user_id = user.user_id;

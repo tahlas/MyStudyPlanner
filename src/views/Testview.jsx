@@ -1,4 +1,4 @@
-import { auth, googleAuthProvider } from "/src/firebaseSetup.js";
+import { auth, googleAuthProvider } from "/src/firestoreModel.js";
 import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 
 export function TestView(props) {
