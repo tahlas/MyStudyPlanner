@@ -20,7 +20,7 @@ const COLLECTION = "users";
 
 
 export function connectToPersistance(model, reaction) {
-    
+
     let user_firestoreDoc = null;
     model.ready = false;
 
@@ -34,7 +34,7 @@ export function connectToPersistance(model, reaction) {
                 token: user.accessToken,
             });
 
-             user_firestoreDoc = doc(db, COLLECTION, user.uid);
+            user_firestoreDoc = doc(db, COLLECTION, user.uid);
 
             getDoc(user_firestoreDoc).then(readDataACB).catch(errorACB);
 
@@ -44,9 +44,10 @@ export function connectToPersistance(model, reaction) {
         }
     })
 
-       function readDataACB(sn) {
+    function readDataACB(sn) {
         if (sn.data()) {
-            // todo read data from firestore if the data exists
+            model.tasks = data.tasks || [];
+            model.events = data.events || [];
         }
         else {
             // If there is no data for the user initialize with default values
@@ -54,17 +55,17 @@ export function connectToPersistance(model, reaction) {
         model.ready = true;
     }
 
-    function errorACB(error){
+    function errorACB(error) {
         console.log(error);
     }
 
-    function modelChangeACB(){
-        return[/* specify what data changes causes a write to persistance, current is to test*/ model.userInfo.name];
+    function modelChangeACB() {
+        return [/* specify what data changes causes a write to persistance, current data is to test*/ model.tasks, model.events];
     }
 
-    function writeToPersistanceACB(){
-        if(user_firestoreDoc && model.ready){
-            setDoc(user_firestoreDoc, {/* specify what data to save */ username: model.user.name}, {merge:true});
+    function writeToPersistanceACB() {
+        if (user_firestoreDoc && model.ready) {
+            setDoc(user_firestoreDoc, {/* specify what data to save */  tasks: model.tasks, events: model.events }, { merge: true });
         }
     }
 

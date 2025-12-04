@@ -1,7 +1,8 @@
 export const model = {
 
-    userInfo : {
-    },
+    userInfo : {},
+    tasks:  [],
+    events: [],
 
     setUserInfo(user){
         this.userInfo.user_id = user.user_id;
