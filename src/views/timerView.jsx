@@ -3,6 +3,7 @@ import PlayCircleFilledWhiteIcon from "@mui/icons-material/PlayCircleFilledWhite
 import Stack from "@mui/material/Stack";
 import IconButton from "@mui/material/IconButton";
 import PauseCircleIcon from "@mui/icons-material/PauseCircle";
+import { Typography } from "@mui/material";
 
 export function TimerView(props) {
     return (
@@ -15,12 +16,25 @@ export function TimerView(props) {
 
     function timerProgress() {
         return (
-            <div>
+            <div style={{ position: "relative", display: "inline-flex" }}>
                 <CircularProgress
                     variant="determinate"
                     value={100}
+                    // value={(props.timeLeftInSeconds / props.defaultPomodoroSessionTimeInSeconds) * 100}
                     size={250}
                 />
+                <Typography
+                    variant="h2"
+                    color="white"
+                    sx={{
+                        position: "absolute",
+                        top: "50%",
+                        left: "50%",
+                        transform: "translate(-50%, -50%)",
+                    }}
+                >
+                    25:00
+                </Typography>
             </div>
         );
     }

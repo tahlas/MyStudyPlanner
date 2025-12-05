@@ -43,5 +43,4 @@ body {
     left: 50%;
     /* Offsets the text by half of its own width and height */
     transform: translate(-50%, -50%);
-    font-size: 50px;
 }
