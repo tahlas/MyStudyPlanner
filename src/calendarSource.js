@@ -13,7 +13,7 @@ export function getCalendarEvents(token, searchParams) {
     }
 
     return fetch(
-        CALENDAR_URL + "/calendars/primary/events" + "?" + new URLSearchParams(searchParams),
+        CALENDAR_URL + "/primary/events" + "?" + new URLSearchParams(searchParams),
         {
             headers: {
                  "Authorization": `Bearer ${token}`
