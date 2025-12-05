@@ -32,7 +32,6 @@ function topBar() {
     ];
 
     const settings = {
-        margin: { right: 5 },
         width: 200,
         height: 200,
         hideLegend: true,
