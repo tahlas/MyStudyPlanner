@@ -6,6 +6,7 @@ export const model = {
     userInfo: {},
     tasks: [],
     events: [],
+    playingStatus: false,
     accessToken: null,
     calendarFetchPromiseState: {},
 
@@ -19,41 +20,11 @@ export const model = {
         this.token = user.token;
     },
 
-    setAccessToken(accessToken) {
-        this.accessToken = accessToken;
-    },
+    clearUserInfo(){},
 
-
-    clearUserInfo() { },
-
-
-
-    getFutureEvents() {
-
-        console.log('Sending token:', this.accessToken);
-
-
-        const searchParams = {
-            timeMin: new Date().toISOString(),
-            orderBy: 'startTime',
-            singleEvents: true,
-            maxResults: 250
-        };
-
-        const promise = getCalendarEvents(this.accessToken, searchParams)
-            .then(events => {
-                this.events = events;
-                console.log('Events fetched:', toJS(this.events));
-            });
-
-        resolvePromise(promise, this.calendarFetchPromiseState);
-
-       
+    getFutureEvents(){
 
     }
 }
-
-//remove later this is for debugging
-window.model = model;
 
 
