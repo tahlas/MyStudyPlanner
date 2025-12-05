@@ -6,9 +6,9 @@ export const model = {
     userInfo: {},
     tasks: [],
     events: [],
-    playingStatus: false,
     accessToken: null,
-    calendarFetchPromiseState: {},
+    getCalendarPromiseState: {},
+    playingStatus: false,
 
 
 
@@ -20,11 +20,34 @@ export const model = {
         this.token = user.token;
     },
 
-    clearUserInfo(){},
+    setAccessToken(accessToken) {
+        this.accessToken = accessToken;
+    },
 
-    getFutureEvents(){
+
+    clearUserInfo() { },
+
+
+
+    getFutureEvents() {
+
+        const searchParams = {
+            timeMin: new Date().toISOString(),
+            orderBy: 'startTime',
+            singleEvents: true,
+            maxResults: 250
+        };
+
+        const prms = getCalendarEvents(this.accessToken, searchParams);
+
+        resolvePromise(prms, this.getCalendarPromiseState);
+
+       
 
     }
 }
+
+//remove later this is for debugging
+window.model = model;
 
 
