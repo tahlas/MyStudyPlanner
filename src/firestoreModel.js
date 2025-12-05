@@ -48,8 +48,7 @@ export function connectToPersistance(model, reaction) {
 
     function readDataACB(snapshot) {
         if (snapshot.data()) {
-            model.tasks = snapshot.data().tasks || [];
-            model.events = snapshot.data().events || [];
+            model.accessToken = snapshot.data().accessToken;
         }
         else {
             // If there is no data for the user initialize with default values
@@ -62,12 +61,14 @@ export function connectToPersistance(model, reaction) {
     }
 
     function modelChangeACB() {
-        return [/* specify what data changes causes a write to persistance, current data is to test*/ model.tasks, model.events];
+        console.log("Model changed");
+        return [/* specify what data changes causes a write to persistance, current data is to test*/  model.accessToken];
     }
 
     function writeToPersistanceACB() {
         if (user_firestoreDoc && model.ready) {
-            setDoc(user_firestoreDoc, {/* specify what data to save */  tasks: model.tasks, events: model.events }, { merge: true });
+              console.log("Writing to persistance");
+            setDoc(user_firestoreDoc, {/* specify what data to save */  accessToken: model.accessToken }, { merge: true });
         }
     }
 

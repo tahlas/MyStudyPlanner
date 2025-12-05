@@ -9,15 +9,15 @@ export function getCalendarEvents(token, searchParams) {
     }
 
     function returnItemsACB(data) {
+         console.log("Calendar API returned data:", data.items); // for debugging
         return data.items || [];
     }
 
     return fetch(
-        CALENDAR_URL + "/calendars/primary/events" + "?" + new URLSearchParams(searchParams),
+        CALENDAR_URL + "/primary/events" + "?" + new URLSearchParams(searchParams),
         {
             headers: {
-                "Authorization": "Bearer " + token,
-                "Content-Type": "application/json"
+                 "Authorization": `Bearer ${token}`
             }
         }
     ).then(responseACB).then(returnItemsACB);
