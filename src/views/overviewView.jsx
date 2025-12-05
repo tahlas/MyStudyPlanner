@@ -1,4 +1,5 @@
 import { PieChart } from "@mui/x-charts/PieChart";
+import { Button } from "@mui/material";
 import "/src/style.css";
 import "/src/utilities.js";
 
@@ -50,6 +51,8 @@ function topBar() {
                 {...settings}
             />
             <div className="textInDonut">{taskConstants.length}</div>
+            {/* This button is in the wrong position! It should be in the top bar! */}
+            <Button variant="contained">Add Task</Button>
         </div>
     );
 }
