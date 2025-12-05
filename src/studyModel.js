@@ -6,6 +6,7 @@ export const model = {
     userInfo : {},
     tasks:  [],
     events: [],
+    playingStatus: false,
 
     setUserInfo(user){
         this.userInfo.user_id = user.user_id;
@@ -19,7 +20,11 @@ export const model = {
 
     getFutureEvents(){
 
-    }
+    },
+
+    setPlayingStatus(status){
+        this.playingStatus = status;
+    },
 }
 
 

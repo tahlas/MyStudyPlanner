@@ -2,6 +2,7 @@ import { observer } from "mobx-react-lite";
 import { createHashRouter, RouterProvider } from "react-router-dom";
 import { Overview } from "./overviewPresenter";
 import { Login } from "./loginPresenter";
+import { Timer } from "./timerPresenter";
 
 const ReactRoot = observer(function ReactRoot(props) {
     return <RouterProvider router={makeRouter(props.model)} />;
@@ -25,7 +26,7 @@ function makeRouter(model){
         },
         {
             path: "/timer",
-            // element: <Timer model={model} />,
+            element: <Timer model={model} />,
         }
     ]);
 }
