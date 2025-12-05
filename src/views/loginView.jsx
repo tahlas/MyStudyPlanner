@@ -9,11 +9,11 @@ export function LoginView(props) {
         props.login();
     }
     
+    const providers = [ {id: 'google', name: 'Google'} ];
+
     return (
         <AppProvider>
-            {/* TODO: Fix OAuth sign-in */}
-            <Button variant="contained" onClick = {loginACB}>TEST</Button>
-            <SignInPage provider={["google"]} signIn={loginACB} />
+            <SignInPage providers={providers} signIn={loginACB} />
         </AppProvider>
     );
 }
