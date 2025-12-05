@@ -42,8 +42,7 @@ export function connectToPersistance(model, reaction) {
 
         } else {
             // User is signed out
-            // ...
-             window.location.hash="#/login"
+              window.location.hash="#/login"
         }
     })
 

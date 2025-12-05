@@ -1,3 +1,6 @@
+import { getCalendarEvents } from "./calendarSource";
+
+
 export const model = {
 
     userInfo : {},
@@ -10,5 +13,13 @@ export const model = {
         this.userInfo.name = user.name;
         this.photoURL= user.photoURL;
         this.token = user.token;
+    },
+
+    clearUserInfo(){},
+
+    getFutureEvents(){
+
     }
 }
+
+
