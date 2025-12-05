@@ -16,8 +16,7 @@ export function getCalendarEvents(token, searchParams) {
         CALENDAR_URL + "/calendars/primary/events" + "?" + new URLSearchParams(searchParams),
         {
             headers: {
-                "Authorization": "Bearer " + token,
-                "Content-Type": "application/json"
+                 "Authorization": `Bearer ${token}`
             }
         }
     ).then(responseACB).then(returnItemsACB);

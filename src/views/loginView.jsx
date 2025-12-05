@@ -7,6 +7,7 @@ export function LoginView(props) {
 
     function loginACB(){
         props.login();
+         window.location.hash="#/overview"
     }
     
     const providers = [ {id: 'google', name: 'Google'} ];
