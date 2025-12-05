@@ -21,11 +21,11 @@ function makeRouter(model){
 
         {
             path: "/overview",
-            element: <OverviewView />,
+            element: <Overview />,
         },
         {
             path: "/timer",
-            element: <TimerView model={model} />,
+            element: <Timer model={model} />,
         }
     ]);
 }
