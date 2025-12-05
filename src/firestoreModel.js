@@ -38,9 +38,12 @@ export function connectToPersistance(model, reaction) {
 
             getDoc(user_firestoreDoc).then(readDataACB).catch(errorACB);
 
+               window.location.hash="#/overview"
+
         } else {
             // User is signed out
             // ...
+             window.location.hash="#/login"
         }
     })
 

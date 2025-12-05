@@ -10,6 +10,12 @@ function makeRouter(model){
             path: "/",
             element: <Login model = {model}/>,
         },
+        
+        {
+            path: "/login",
+            element: <Login model = {model}/>,
+        },
+
         {
             path: "/overview",
             element: <OverviewView />,
