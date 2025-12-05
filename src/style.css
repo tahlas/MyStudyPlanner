@@ -22,8 +22,7 @@
     height: 200px;
     width: 100%;
     background-color: #2fe80aff;
-    /* border-radius: 10px 10px 0px 0px;
-    margin-bottom: 10px; */
+    position: relative;
 }
 
 .flexParent {
@@ -37,9 +36,12 @@ body {
     background: linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(9, 9, 121, 1) 35%, rgba(0, 212, 255, 1) 100%);
 }
 
-/* .donut{
-    border: 50px solid #ffffff;
-    border-radius: 50%;
-    height:100px;
-    width:100px;
-} */
+.textInDonut{
+    position: absolute;
+    /* Places the top left corner in the middle of the parent */
+    top: 50%;
+    left: 50%;
+    /* Offsets the text by half of its own width and height */
+    transform: translate(-50%, -50%);
+    font-size: 50px;
+}

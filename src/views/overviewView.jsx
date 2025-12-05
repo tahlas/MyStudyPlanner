@@ -22,6 +22,8 @@ export function OverviewView() {
 }
 
 function topBar() {
+    //TODO: ADD LOGIC THAT COUNTS THE NUMBER OF TASKS PER COURSE 
+    // AND DISPLAYS IT IN THE DONUT CHART
     const data = [
         { label: "Group A", value: 400, color: "#0088FE" },
         { label: "Group B", value: 300, color: "#00C49F" },
@@ -42,13 +44,13 @@ function topBar() {
                 series={[
                     {
                         innerRadius: 50,
-                        outerRadius: 100,
+                        outerRadius: 55,
                         data,
-                        arcLabel: "value",
                     },
                 ]}
                 {...settings}
             />
+            <div className="textInDonut">{taskConstants.length}</div>
         </div>
     );
 }
@@ -59,7 +61,6 @@ function todaysOverview() {
             <div style={{ color: "white" }}>Today</div>
             <div>
                 {taskConstants.filter(taskIsDueTodayCB).map(renderTaskCB)}
-                {/* {taskConstants.map(renderTaskCB)} */}
             </div>
         </div>
     );
