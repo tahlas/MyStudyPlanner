@@ -9,8 +9,6 @@ function makeRouter(model){
         {
             path: "/",
             element: <Login model = {model}/>,
-            //element: <OverviewView />,
-            //element: <TestView></TestView>
         },
         {
             path: "/overview",
@@ -19,10 +17,8 @@ function makeRouter(model){
     ]);
 }
 
-
 const ReactRoot = observer(function ReactRoot(props) {
     return <RouterProvider router={makeRouter(props.model)} />;
 });
-
 
 export { ReactRoot };
