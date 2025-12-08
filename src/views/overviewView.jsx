@@ -10,19 +10,19 @@ import { taskConstants } from "../taskConstants";
  * Renders the Overview View component.
  * @returns the Overview View JSX element
  */
-export function OverviewView() {
+export function OverviewView(props) {
     return (
         <div>
-            <div>{topBar()}</div>
+            <div>{topBar(props.tasksData)}</div>
             <div className="flexParent">
-                {todaysOverview()}
-                {upcomingOverview()}
+                {todaysOverview(props.tasksData)}
+                {upcomingOverview(props.tasksData)}
             </div>
         </div>
     );
 }
 
-function topBar() {
+function topBar(tasksData) {
     //TODO: ADD LOGIC THAT COUNTS THE NUMBER OF TASKS PER COURSE 
     // AND DISPLAYS IT IN THE DONUT CHART
     const data = [
@@ -50,29 +50,29 @@ function topBar() {
                 ]}
                 {...settings}
             />
-            <div className="textInDonut">{taskConstants.length}</div>
+            <div className="textInDonut">{tasksData.length}</div>
             {/* This button is in the wrong position! It should be in the top bar! */}
             {/* <Button variant="contained">Add Task</Button> */}
         </div>
     );
 }
 
-function todaysOverview() {
+function todaysOverview(tasksData) {
     return (
         <div>
             <div style={{ color: "white" }}>Today</div>
             <div>
-                {taskConstants.filter(taskIsDueTodayCB).map(renderTaskCB)}
+                {tasksData.filter(taskIsDueTodayCB).map(renderTaskCB)}
             </div>
         </div>
     );
 }
 
-function upcomingOverview() {
-    const overdueTasks = taskConstants.filter(taskIsOverdueCB);
-    const dueTodayTasks = taskConstants.filter(taskIsDueTodayCB);
-    const dueTomorrowTasks = taskConstants.filter(taskIsDueTomorrowCB);
-    const dueNextWeek = taskConstants.filter(taskIsDueNextWeekAndNotTomorrowCB);
+function upcomingOverview(tasksData) {
+    const overdueTasks = tasksData.filter(taskIsOverdueCB);
+    const dueTodayTasks = tasksData.filter(taskIsDueTodayCB);
+    const dueTomorrowTasks = tasksData.filter(taskIsDueTomorrowCB);
+    const dueNextWeek = tasksData.filter(taskIsDueNextWeekAndNotTomorrowCB);
 
     return (
         <div>

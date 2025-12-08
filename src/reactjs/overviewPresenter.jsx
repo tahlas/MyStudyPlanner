@@ -5,7 +5,7 @@ const Overview = observer(function OverviewRender(props) {
     const state = props.model.currentTasksPromiseState;
     const promiseIsResolvedWithoutErrors = state.data && !state.error;
     if (promiseIsResolvedWithoutErrors) {
-        return <OverviewView />;
+        return <OverviewView tasksData={state.data} />;
     }
 });
 
