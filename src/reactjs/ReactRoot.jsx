@@ -22,7 +22,7 @@ function makeRouter(model){
 
         {
             path: "/overview",
-            element: <Overview />,
+            element: <Overview model = {model}/>,
         },
         {
             path: "/timer",

@@ -10,6 +10,7 @@ export const model = {
     events: [],
     accessToken: null,
     getCalendarPromiseState: {},
+    currentTasksPromiseState: {},
     playingStatus: false,
     defaultPomodoroSessionTimeInSeconds: 60 * 25,
     timeLeftInSeconds: 60 * 25,
