@@ -41,9 +41,11 @@ export function getAllTasks(token, searchParams) {
     }
 
     function getAllTasksFromListsACB(lists){
-       return lists.map(getTaskFromListACB);
+       return Promise.all(lists.map(getTaskFromListACB)); // using Promise.all to return a sinegle promise, instead of an array of promises. Will make model code easier.
 
     }
+
+    
 
     return getAllLists(token).then(getAllTasksFromListsACB);
 
