@@ -10,7 +10,7 @@ We plan on making it possible to create tasks/events/exams via the website and t
 # Your project file structure (short description/purpose of each file)
 ```
 lardner-tahmid-HT25-Project/
-├── .firebase/                         Firebase deployment c ache
+├── .firebase/                         Firebase deployment cache
 ├── .firebaserc                        Firebase project configuration
 ├── .gitignore                         Git ignore rules
 ├── .prettierrc.json                   Code formatting configuration
