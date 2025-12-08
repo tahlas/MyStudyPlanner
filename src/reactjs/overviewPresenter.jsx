@@ -5,8 +5,12 @@ const Overview = observer(function OverviewRender(props) {
     const state = props.model.currentTasksPromiseState;
     const promiseIsResolvedWithoutErrors = state.data && !state.error;
     if (promiseIsResolvedWithoutErrors) {
-        return <OverviewView tasksData={state.data} />;
+        // Flatten the array of arrays into a single array of tasks
+        const flattenedTasks = state.data.flat();
+        return <OverviewView tasksData={flattenedTasks} />;
     }
+    // Temporary loading state
+    return <div style={{ color: "red" }}>Loading...</div>;
 });
 
 export { Overview };

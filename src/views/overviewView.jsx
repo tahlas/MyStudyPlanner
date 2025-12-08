@@ -112,6 +112,7 @@ function renderTaskCB(task) {
             Course Name <br />
             {task.title} <br />
             {task.description} <br />
+            {new Date(task.due).toString()} <br />
         </div>
     );
 }
@@ -119,7 +120,13 @@ function renderTaskCB(task) {
 function taskIsOverdueCB(task) {
     const currentDate = new Date();
     const taskDueDate = new Date(task.due);
-    return taskDueDate < currentDate;
+    console.log("Current Date: ", currentDate);
+    console.log("Task Due Date: ", taskDueDate);
+    //Getting/setting the due time is not supported by the Google Tasks API :(
+    console.log("Current Date Time: ", currentDate.getTime());
+    console.log("Task Due Date Time: ", taskDueDate.getTime());
+
+    return taskDueDate.getTime() < currentDate.getTime() && taskDueDate < currentDate;
 }
 
 function taskIsDueTodayCB(task) {
