@@ -13,10 +13,15 @@ const Overview = observer(function OverviewRender(props) {
     
     const state = props.model.currentTasksPromiseState;
     
-    if (state.error) {
-         window.location.hash="#/login"
-       // return <div style={{ color: "red" }}>Error: {state.error.message}</div>;
-    }
+    useEffect(() => {
+        if (state.error) {
+            window.location.hash = "#/login";
+            // return <div style={{ color: "red" }}>Error: {state.error.message}</div>;
+        }
+          
+    }, [state.error]);
+  
+    
     
     if (state.data) {
         // Flatten the array of arrays into a single array of tasks
