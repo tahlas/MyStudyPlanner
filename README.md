@@ -8,7 +8,7 @@ The project implements firebase authentication allowing a user to login through 
 We plan on making it possible to create tasks/events/exams via the website and to have them be sent to the user’s Google Calendar/Tasks. Additionally, we will finish the pomodoro timer and let the user see an overview of how much time they have spent on their tasks for each week. This will be in the same view as the timer or in a new view. Furthermore, a calendar view will be created. In this view it will be possible to view all of the tasks/events in the current week or month, and clicking on a day will show a popup with all of the tasks/events for that day. In addition, we need to fix issues with the google sign in button loading forever and not redirecting to the overview page.
 
 # Your project file structure (short description/purpose of each file)
-...
+```
 lardner-tahmid-HT25-Project/
 ├── .firebase/                         Firebase deployment c ache
 ├── .firebaserc                        Firebase project configuration
@@ -42,4 +42,4 @@ lardner-tahmid-HT25-Project/
         ├── loginView.jsx              Login page view
         ├── overviewView.jsx           Overview page view
         └── timerView.jsx              Pomodoro timer view
-...
+```
