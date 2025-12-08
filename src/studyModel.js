@@ -41,7 +41,7 @@ export const model = {
 
         resolvePromise(prms, this.getCalendarPromiseState);
     },
-    
+
     getTasks() {
         const searchParams = {
             showCompleted: true,
@@ -56,6 +56,6 @@ export const model = {
         this.timeLeftInSeconds = seconds;
     },
 };
-
+ 
 //remove later this is for debugging
 window.model = model;
