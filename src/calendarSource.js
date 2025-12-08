@@ -8,9 +8,7 @@ export function getCalendarEvents(token, searchParams) {
         return response.json();
     }
 
-    function returnItemsACB(data) {
-         console.log("Calendar API returned data:", data.items); // for debugging
-        return data.items || [];
+    function returnItemsACB(data) { 
     }
 
     return fetch(
