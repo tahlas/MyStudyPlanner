@@ -52,7 +52,7 @@ function topBar() {
             />
             <div className="textInDonut">{taskConstants.length}</div>
             {/* This button is in the wrong position! It should be in the top bar! */}
-            <Button variant="contained">Add Task</Button>
+            {/* <Button variant="contained">Add Task</Button> */}
         </div>
     );
 }
