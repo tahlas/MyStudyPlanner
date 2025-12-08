@@ -21,3 +21,16 @@ export function getAllLists(token) {
         }
     ).then(responseACB).then(returnItemsACB);
 }
+
+
+export function getAllTasks() {
+    getAllLists().then()
+
+    functon getTasksForListACB(list) {
+        return fetch(
+            TASKS_URL + "/lists/" + list.id + "/tasks",
+            {
+                headers: {  
+
+
+}
