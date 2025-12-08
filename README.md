@@ -8,36 +8,38 @@ The project implements firebase authentication allowing a user to login through 
 We plan on making it possible to create tasks/events/exams via the website and to have them be sent to the user’s Google Calendar/Tasks. Additionally, we will finish the pomodoro timer and let the user see an overview of how much time they have spent on their tasks for each week. This will be in the same view as the timer or in a new view. Furthermore, a calendar view will be created. In this view it will be possible to view all of the tasks/events in the current week or month, and clicking on a day will show a popup with all of the tasks/events for that day. In addition, we need to fix issues with the google sign in button loading forever and not redirecting to the overview page.
 
 # Your project file structure (short description/purpose of each file)
+...
 lardner-tahmid-HT25-Project/
-├── .firebase/                          # Firebase deployment c ache
-├── .firebaserc                         # Firebase project configuration
-├── .gitignore                          # Git ignore rules
-├── .prettierrc.json                    # Code formatting configuration
-├── firebase.json                       # Firebase hosting configuration
-├── index.html                          # Main HTML entry point
-├── package.json                        # Node.js dependencies and scripts
-├── README.md                           # Project documentation
-├── vite.config.js                      # Vite build configuration
+├── .firebase/                         Firebase deployment c ache
+├── .firebaserc                        Firebase project configuration
+├── .gitignore                         Git ignore rules
+├── .prettierrc.json                   Code formatting configuration
+├── firebase.json                      Firebase hosting configuration
+├── index.html                         Main HTML entry point
+├── package.json                       Node.js dependencies and scripts
+├── README.md                          Project documentation
+├── vite.config.js                     Vite build configuration
 └── src/
-    ├── apiConfig.js                    # API URLs for Google Calendar and Tasks
-    ├── calendarSource.js               # Fetches calendar events from Google API
-    ├── eventConstants.js               # Mock/test event data
-    ├── firebaseConfig.js               # Firebase project credentials
-    ├── firestoreModel.js              # Firebase authentication and Firestore persistence
-    ├── mobxReactiveModel.js           # MobX observable wrapper for the model
-    ├── resolvePromise.js              # Promise state management utility
-    ├── studyModel.js                  # Main application model (data and logic)
-    ├── style.css                       # Styling for the website
-    ├── taskConstants.js               # Mock/test task data
-    ├── tasksSource.js                 # Fetches tasks from Google Tasks API
-    ├── utilities.js                   # Helper functions
-    ├── reactjs/                       # Presenters
-    │   ├── index.jsx                  # React app initialization
-    │   ├── loginPresenter.jsx         # Login page presenter
-    │   ├── overviewPresenter.jsx      # Overview page presenter
-    │   ├── ReactRoot.jsx              # Router configuration
-    │   └── timerPresenter.jsx         # Timer page presenter
-    └── views/                         # Views
-        ├── loginView.jsx              # Login page view
-        ├── overviewView.jsx           # Overview page view
-        └── timerView.jsx              # Pomodoro timer view
+    ├── apiConfig.js                   API URLs for Google Calendar and Tasks
+    ├── calendarSource.js              Fetches calendar events from Google API
+    ├── eventConstants.js              Mock/test event data
+    ├── firebaseConfig.js              Firebase project credentials
+    ├── firestoreModel.js              Firebase authentication and Firestore persistence
+    ├── mobxReactiveModel.js           MobX observable wrapper for the model
+    ├── resolvePromise.js              Promise state management utility
+    ├── studyModel.js                  Main application model (data and logic)
+    ├── style.css                      Styling for the website
+    ├── taskConstants.js               Mock/test task data
+    ├── tasksSource.js                 Fetches tasks from Google Tasks API
+    ├── utilities.js                   Helper functions
+    ├── reactjs/                       Presenters
+    │   ├── index.jsx                  React app initialization
+    │   ├── loginPresenter.jsx         Login page presenter
+    │   ├── overviewPresenter.jsx      Overview page presenter
+    │   ├── ReactRoot.jsx              Router configuration
+    │   └── timerPresenter.jsx         Timer page presenter
+    └── views/                         Views
+        ├── loginView.jsx              Login page view
+        ├── overviewView.jsx           Overview page view
+        └── timerView.jsx              Pomodoro timer view
+...
