@@ -1,10 +1,15 @@
 import { observer } from "mobx-react-lite";
 import { OverviewView } from "../views/overviewView.jsx";
+import { useEffect } from "react";
 
 const Overview = observer(function OverviewRender(props) {
 
     
-    // Only fetch tasks if model is ready and we haven't already fetched
+   useEffect(() => {
+        if (props.model.ready && !props.model.currentTasksPromiseState.promise) {
+            props.model.getTasks();
+        }
+    }, [props.model.ready, props.model.currentTasksPromiseState.promise]);
     
     const state = props.model.currentTasksPromiseState;
     
