@@ -1,7 +1,11 @@
 import { observable, configure } from "mobx";
 import { reaction } from "mobx";
 import {model} from "/src/studyModel.js";
-import { connectToPersistance } from "./firestoreModel";
+import { connectToPersistence } from "./firebaseModel.js";
+
+
+
+
 configure({ enforceActions: "never", });  // we don't use Mobx actions in the Lab
 
 export const reactiveModel= observable(model);
@@ -10,7 +14,18 @@ export const reactiveModel= observable(model);
 // DELETE IN FINAL VERSION!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 window.myModel = reactiveModel;
 import { taskConstants } from "/src/taskConstants.js";
-window.taskConstants = taskConstants; 
+import { reactToLogin } from "./reactjs/authenticationRouting.js";
+window.taskConstants = taskConstants;
 
-connectToPersistance(reactiveModel,reaction);
+connectToPersistence(reactiveModel,reaction);
+reactToLogin(reactiveModel);
 
+function taskErrorChangeACB() {
+    return reactiveModel.currentTasksPromiseState.error;
+}
+
+function taskErrorSideEffectACB(){reactiveModel.taskPromiseStateErrorSideEffect()}
+
+
+
+reaction(taskErrorChangeACB, taskErrorSideEffectACB);

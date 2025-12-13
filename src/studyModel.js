@@ -1,10 +1,12 @@
+
 import { getCalendarEvents } from "./calendarSource";
 import { resolvePromise } from "./resolvePromise";
 import { getAllTasks } from "./tasksSource";
+import { signOut } from "firebase/auth";
+import { auth } from "./firebaseModel.js";
 
 export const model = {
-    userInfo: {},
-    tasks: [],
+    loggedIn: false,
     userInfo: {},
     tasks: [],
     events: [],
@@ -23,11 +25,32 @@ export const model = {
         this.token = user.token;
     },
 
+    clearUserInfo(){
+        this.loggedIn = false;
+        this.userInfo = {};
+        this.accessToken = null;
+        this.currentTasksPromiseState = {};
+    },
+
+    handleExpiredToken(){
+        this.clearUserInfo();
+        this.loggedIn = false;
+    },
+
     setAccessToken(accessToken) {
         this.accessToken = accessToken;
     },
 
-    clearUserInfo() {},
+
+
+    taskPromiseStateErrorSideEffect() {
+
+        if (this.currentTasksPromiseState.error ) { //&& this.currentTasksPromiseState.error.status === 401
+            console.log("error");
+            signOut(auth).then(r => console.log("signed out"));
+        }
+    },
+
 
     getFutureEvents() {
         const searchParams = {

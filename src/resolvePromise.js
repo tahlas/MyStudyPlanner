@@ -6,7 +6,7 @@ export function resolvePromise(prms, promiseState){
     if(!prms)
         return;
 
-    function sucessACB(result){
+    function successACB(result){
         if(promiseState.promise === prms)
         promiseState.data = result;
     }
@@ -15,5 +15,5 @@ export function resolvePromise(prms, promiseState){
         promiseState.error = error;
     }
 
-    prms.then(sucessACB).catch(errorACB);
+    prms.then(successACB).catch(errorACB);
 }

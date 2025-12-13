@@ -12,20 +12,18 @@ googleAuthProvider.addScope('https://www.googleapis.com/auth/calendar');
 googleAuthProvider.addScope('https://www.googleapis.com/auth/tasks');
 
 window.db = db;
-
 window.doc = doc;
 window.setDoc = setDoc;
 
 const COLLECTION = "users";
 
-
-export function connectToPersistance(model, reaction) {
-
+export function connectToPersistence(model, reaction) {
     let user_firestoreDoc = null;
-    model.ready = false;
 
     onAuthStateChanged(auth, (user) => {
+        model.authStateKnown = true;
         if (user) {
+            model.loggedIn = true;
             model.setUserInfo({
                 user_id: user.uid,
                 email: user.email,
@@ -35,23 +33,17 @@ export function connectToPersistance(model, reaction) {
             });
 
             user_firestoreDoc = doc(db, COLLECTION, user.uid);
-
             getDoc(user_firestoreDoc).then(readDataACB).catch(errorACB);
 
-               window.location.hash="#/overview"
-
         } else {
-            // User is signed out
-              window.location.hash="#/login"
+            model.loggedIn = false;
+            model.clearUserInfo();
         }
     })
 
     function readDataACB(snapshot) {
         if (snapshot.data()) {
             model.accessToken = snapshot.data().accessToken;
-        }
-        else {
-            // If there is no data for the user initialize with default values
         }
         model.ready = true;
     }
@@ -61,18 +53,14 @@ export function connectToPersistance(model, reaction) {
     }
 
     function modelChangeACB() {
-        console.log("Model changed");
-        return [/* specify what data changes causes a write to persistance, current data is to test*/  model.accessToken];
+        return [model.accessToken];
     }
 
-    function writeToPersistanceACB() {
+    function writeToPersistenceACB() {
         if (user_firestoreDoc && model.ready) {
-              console.log("Writing to persistance");
-            setDoc(user_firestoreDoc, {/* specify what data to save */  accessToken: model.accessToken }, { merge: true });
+            setDoc(user_firestoreDoc, { accessToken: model.accessToken }, { merge: true });
         }
     }
 
-    reaction(modelChangeACB, writeToPersistanceACB);
-
-
+    reaction(modelChangeACB, writeToPersistenceACB);
 }
