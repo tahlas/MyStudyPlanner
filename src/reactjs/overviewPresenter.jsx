@@ -1,18 +1,22 @@
 import { observer } from "mobx-react-lite";
 import { OverviewView } from "../views/overviewView.jsx";
 import { useEffect } from "react";
-import { signOut } from "firebase/auth";
-import { auth, googleAuthProvider} from "/src/firebaseModel.js";
+
 
 const Overview = observer(function OverviewRender(props) {
 
     useEffect(() => {
-
         if (props.model.accessToken && !props.model.currentTasksPromiseState.promise) {
-            console.log("Calling getTasks()");
             props.model.getTasks();
         }
-    }, [props.model.accessToken]);
+    }, [props.model.accessToken,props.model.user]);
+
+    useEffect(() => {
+        if (props.model.currentTasksPromiseState.error && props.model.currentTasksPromiseState.error.status === 401) {
+            props.model.currentTasksPromiseState = {}
+            window.location.hash = "#/login";
+        }
+    },[props.model.currentTasksPromiseState.error]);
 
     const state = props.model.currentTasksPromiseState;
 

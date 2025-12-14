@@ -1,58 +1,38 @@
-
 import { getCalendarEvents } from "./calendarSource";
 import { resolvePromise } from "./resolvePromise";
 import { getAllTasks } from "./tasksSource";
 import { signOut } from "firebase/auth";
-import { auth } from "./firebaseModel.js";
+import {auth} from "./authModel.js";
 
 export const model = {
-    loggedIn: false,
-    userInfo: {},
+    user: undefined,
+    accessToken: null,
+    isTokenFromLogin: false,
+    ready: false,
     tasks: [],
     events: [],
-    accessToken: null,
     getCalendarPromiseState: {},
     currentTasksPromiseState: {},
     playingStatus: false,
     defaultPomodoroSessionTimeInSeconds: 60 * 25,
     timeLeftInSeconds: 60 * 25,
 
-    setUserInfo(user) {
-        this.userInfo.user_id = user.user_id;
-        this.userInfo.email = user.email;
-        this.userInfo.name = user.name;
-        this.photoURL = user.photoURL;
-        this.token = user.token;
-    },
-
-    clearUserInfo(){
-        this.loggedIn = false;
-        this.userInfo = {};
-        this.accessToken = null;
-        this.currentTasksPromiseState = {};
-    },
-
-    handleExpiredToken(){
-        this.clearUserInfo();
-        this.loggedIn = false;
-    },
 
     setAccessToken(accessToken) {
         this.accessToken = accessToken;
+        this.isTokenFromLogin = true;
     },
 
-
-
-    taskPromiseStateErrorSideEffect() {
-
-        if (this.currentTasksPromiseState.error ) { //&& this.currentTasksPromiseState.error.status === 401
-            console.log("error");
-            signOut(auth).then(r => console.log("signed out"));
-        }
+    setUser(user) {
+        this.user = user;
+        this.currentTasksPromiseState = {};
+        this.getCalendarPromiseState = {};
     },
 
 
     getFutureEvents() {
+        if (!this.accessToken) return;
+
         const searchParams = {
             timeMin: new Date().toISOString(),
             orderBy: "startTime",
@@ -61,17 +41,17 @@ export const model = {
         };
 
         const prms = getCalendarEvents(this.accessToken, searchParams);
-
         resolvePromise(prms, this.getCalendarPromiseState);
     },
 
     getTasks() {
+        if (!this.accessToken) return;
+
         const searchParams = {
             showCompleted: true,
             maxResults: 250,
         };
         const prms = getAllTasks(this.accessToken, searchParams);
-
         resolvePromise(prms, this.currentTasksPromiseState);
     },
 
@@ -79,6 +59,6 @@ export const model = {
         this.timeLeftInSeconds = seconds;
     },
 };
- 
-//remove later this is for debugging
+
+// Remove later this is for debugging
 window.model = model;

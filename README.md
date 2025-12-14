@@ -24,7 +24,7 @@ lardner-tahmid-HT25-Project/
     ├── calendarSource.js              Fetches calendar events from Google API
     ├── eventConstants.js              Mock/test event data
     ├── firebaseConfig.js              Firebase project credentials
-    ├── firebaseModel.js              Firebase authentication and Firestore persistence
+    ├── firestoreModel.js              Firebase authentication and Firestore persistence
     ├── mobxReactiveModel.js           MobX observable wrapper for the model
     ├── resolvePromise.js              Promise state management utility
     ├── studyModel.js                  Main application model (data and logic)

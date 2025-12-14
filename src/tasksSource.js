@@ -3,7 +3,9 @@ import { TASKS_URL } from "./apiConfig";
 
 function responseACB(response) {
        if(response.status === 401){
-            throw new Error("unauthorized token"); // TODO refresh token so that this doesnt happen so often!!
+            throw  {
+                status:401,
+            }; // TODO refresh token so that this doesnt happen so often!!
  }
 
     if (response.status !== 200)
