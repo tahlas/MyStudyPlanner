@@ -1,8 +1,7 @@
 import { getCalendarEvents } from "./calendarSource";
 import { resolvePromise } from "./resolvePromise";
 import { getAllTasks } from "./tasksSource";
-import { signOut } from "firebase/auth";
-import {auth} from "./authModel.js";
+
 
 export const model = {
     user: undefined,
