@@ -23,10 +23,21 @@ export const model = {
         this.isTokenFromLogin = true;
     },
 
-    setUser(user) {
-        this.user = user;
-        this.currentTasksPromiseState = {};
+    clearData(){
+        this.isTokenFromLogin = false;
+        this.ready = false;
+        this.tasks = [];
+        this.events = [];
         this.getCalendarPromiseState = {};
+        this.currentTasksPromiseState = {};
+        this.playingStatus = false;
+        this.defaultPomodoroSessionTimeInSeconds = 60 * 25;
+        this.timeLeftInSeconds = 60 * 25;
+    },
+
+    setUser(user) {
+        this.clearData();
+        this.user = user;
     },
 
 
