@@ -4,6 +4,7 @@ import Stack from "@mui/material/Stack";
 import IconButton from "@mui/material/IconButton";
 import PauseCircleIcon from "@mui/icons-material/PauseCircle";
 import { Typography } from "@mui/material";
+import AddTaskModal from "./components/addTaskModal.jsx";
 
 export function TimerView(props) {
     return (

@@ -2,6 +2,8 @@ import { PieChart } from "@mui/x-charts/PieChart";
 import { Button } from "@mui/material";
 import "/src/style.css";
 import "/src/utilities.js";
+import AddTaskModal from "./components/addTaskModal.jsx";
+import { useState } from 'react';
 
 //should not be used in final version
 import { taskConstants } from "../taskConstants";
@@ -13,7 +15,7 @@ import { taskConstants } from "../taskConstants";
 export function OverviewView(props) {
     return (
         <div>
-            <div>{topBar(props.tasksData)}</div>
+            <div>{topBar(props.tasksData, props.newTask)}</div>
             <div className="flexParent">
                 {todaysOverview(props.tasksData)}
                 {upcomingOverview(props.tasksData)}
@@ -22,8 +24,9 @@ export function OverviewView(props) {
     );
 }
 
-function topBar(tasksData) {
-    //TODO: ADD LOGIC THAT COUNTS THE NUMBER OF TASKS PER COURSE 
+function topBar(tasksData,newTask) {
+    const [showTaskModal, setShowTaskModal] = useState(false);
+    //TODO: ADD LOGIC THAT COUNTS THE NUMBER OF TASKS PER COURSE
     // AND DISPLAYS IT IN THE DONUT CHART
     const data = [
         { label: "Group A", value: 400, color: "#0088FE" },
@@ -53,6 +56,17 @@ function topBar(tasksData) {
             <div className="textInDonut">{tasksData.length}</div>
             {/* This button is in the wrong position! It should be in the top bar! */}
             {/* <Button variant="contained">Add Task</Button> */}
+            <button
+                onClick={() => setShowTaskModal(true)}
+                className="bg-violet-600 text-white px-6 py-3 rounded-md font-bold hover:bg-indigo-700">
+                Add Task
+            </button>
+            {showTaskModal && (
+                <AddTaskModal
+                    onClose={() => setShowTaskModal(false)}
+                    onNewTask = {newTask}
+                />
+            )}
         </div>
     );
 }

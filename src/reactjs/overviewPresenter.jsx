@@ -24,11 +24,16 @@ const Overview = observer(function OverviewRender(props) {
     if (state.data) {
         // Flatten the array of arrays into a single array of tasks
         const flattenedTasks = state.data.flat();
-        return <OverviewView tasksData={flattenedTasks}/>;
+        return <OverviewView tasksData={flattenedTasks} newTask = {handleNewTaskACB} />;
     }
 
     // Temporary loading state
     return <div style={{ color: "red", padding: "20px" }}>Loading</div>;
+
+
+    function handleNewTaskACB(taskInfo){
+        console.log("handleNewTASKACB called + ", taskInfo);
+    }
 });
 
 export { Overview };
