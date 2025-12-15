@@ -2,16 +2,20 @@ import { LoginView } from "../views/loginView";
 import { observer } from "mobx-react-lite";
 import { signInWithPopup } from "firebase/auth";
 import {GoogleAuthProvider} from "firebase/auth";
-import { googleAuthProvider,auth } from "../authModel.js";
-import { useEffect } from "react";
+import { googleAuthProvider, auth } from "../authModel.js";
+import { useEffect, useState } from "react";
 
 //code structure taken from firebase authentication documentation
 const Login = observer(function loginRender(props) {
 
-    if(props.model.user)
-        console.log(props.model.user);
+    useEffect(() => {
+        if (props.model.user && props.model.accessToken) {
+            window.location.hash = "#/overview";
+        }
+    }, [props.model.user, props.model.accessToken]);
 
     function loginACB() {
+      
         signInWithPopup(auth, googleAuthProvider)
             .then((result) => {
                 const credential = GoogleAuthProvider.credentialFromResult(result);
@@ -20,9 +24,11 @@ const Login = observer(function loginRender(props) {
                 window.location.hash = "#/overview";
             })
             .catch((error) => {
-                console.error(error);
+                console.error("Login error:", error);
+        
             });
     }
+
 
     return <LoginView login={loginACB}></LoginView>;
 });

@@ -46,9 +46,11 @@ export function connectToPersistence(model, reaction) {
     }
 
     function writeToPersistenceACB() {
-        if (model.user && model.accessToken && model.ready) {
-            const user_firestoreDoc = doc(db, COLLECTION, model.user.uid);
-            setDoc(user_firestoreDoc, { accessToken: model.accessToken }, { merge: true });
+        if (model.user && model.accessToken) {
+            if (model.isTokenFromLogin || model.ready) {
+                const user_firestoreDoc = doc(db, COLLECTION, model.user.uid);
+                setDoc(user_firestoreDoc, { accessToken: model.accessToken }, { merge: true });
+            }
         }
     }
 }

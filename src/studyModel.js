@@ -1,3 +1,4 @@
+import { logout } from "./authModel";
 import { getCalendarEvents } from "./calendarSource";
 import { resolvePromise } from "./resolvePromise";
 import { getAllTasks } from "./tasksSource";
@@ -20,11 +21,12 @@ export const model = {
     setAccessToken(accessToken) {
         this.accessToken = accessToken;
         this.isTokenFromLogin = true;
+        this.ready = true; 
     },
 
     clearData(){
-        this.isTokenFromLogin = false;
         this.ready = false;
+        this.isTokenFromLogin = false;
         this.tasks = [];
         this.events = [];
         this.getCalendarPromiseState = {};
@@ -35,7 +37,6 @@ export const model = {
     },
 
     setUser(user) {
-        this.clearData();
         this.user = user;
     },
 
@@ -68,7 +69,13 @@ export const model = {
     setTimeLeftInSeconds(seconds) {
         this.timeLeftInSeconds = seconds;
     },
-};
 
+
+    //This function is only for testing, remove later
+    testLogOut() {
+        logout(this).then(() => window.location.hash = "#/login");
+     },
+
+}
 // Remove later this is for debugging
-window.model = model;
+ window.model = model
