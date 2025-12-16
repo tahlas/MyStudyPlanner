@@ -8,10 +8,14 @@ import AddTaskModal from "./components/addTaskModal.jsx";
 
 export function TimerView(props) {
     return (
-        <div>
-            {timerProgress()}
-            {timerControls()}
-            {showPlayOrPause}
+        <div style={{ display: "flex", gap: "40px", padding: "20px" }}>
+            <div>
+                {timerProgress()}
+                {timerControls()}
+            </div>
+            <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+                {tasksList()}
+            </div>
         </div>
     );
 
@@ -51,7 +55,7 @@ export function TimerView(props) {
         return (
             <div>
                 <Stack direction="row" spacing={1}>
-                    {showPlayOrPause(props.playingStatus)}
+                    {showPlayOrPause()}
                 </Stack>
             </div>
         );
@@ -74,5 +78,34 @@ export function TimerView(props) {
 
     function userChangesStatus() {
         props.onStatusChange(!props.playingStatus);
+    }
+
+    function tasksList(){
+        if(!props.tasksData || props.tasksData.length === 0){
+            return <Typography color="white">No tasks available!</Typography>;
+        }
+
+        return (
+            <>
+                <Typography variant="h4" color="white" style={{ marginBottom: "10px" }}>
+                    Tasks
+                </Typography>
+                {props.tasksData.map(renderTaskCB)}
+            </>
+        );
+
+        function renderTaskCB(task){
+            return (
+                <div
+                    key={task.id}
+                    className="overviewTask"
+                    style={{ backgroundColor: "#4bbfe3" }}
+                >
+                    {task.title} <br />
+                    {task.notes && <>{task.notes} <br /></>}
+                    {task.due && <>{new Date(task.due).toLocaleDateString()}</>}
+                </div>
+            );
+        }
     }
 }

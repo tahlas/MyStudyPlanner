@@ -125,8 +125,8 @@ function renderTaskCB(task) {
         >
             Course Name <br />
             {task.title} <br />
-            {task.description} <br />
-            {new Date(task.due).toString()} <br />
+            {task.notes} <br />
+            {/* {new Date(task.due).toString()} <br /> */}
         </div>
     );
 }

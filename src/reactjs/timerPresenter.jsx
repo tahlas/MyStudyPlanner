@@ -1,7 +1,18 @@
 import { observer } from "mobx-react-lite";
 import { TimerView } from "../views/timerView.jsx";
+import { useEffect } from "react";
 
 const Timer = observer(function RenderTimer(props) {
+    useEffect(() => {
+            if (props.model.accessToken && !props.model.currentTasksPromiseState.promise) {
+                props.model.getTasks();
+            }
+    }, [props.model.accessToken,props.model.user]);
+    
+    const state = props.model.currentTasksPromiseState;
+    const flattenedTasks = state.data ? state.data.flat() : [];
+    
+
     return (
         <TimerView
             playingStatus={props.model.playingStatus}
@@ -10,6 +21,7 @@ const Timer = observer(function RenderTimer(props) {
             defaultBreakTime={props.model.defaultBreakTimeInSeconds}
             defaultPomodoroSessionTimeInSeconds={props.model.defaultPomodoroSessionTimeInSeconds}
             onStatusChange={setPlayingStatusCB}
+            tasksData={flattenedTasks}  
         />
     );
 
