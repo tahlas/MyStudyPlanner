@@ -20,8 +20,8 @@ export function TimerView(props) {
             <div style={{ position: "relative", display: "inline-flex" }}>
                 <CircularProgress
                     variant="determinate"
-                    value={100}
-                    // value={(props.timeLeftInSeconds / props.defaultPomodoroSessionTimeInSeconds) * 100}
+                    // value={100}
+                    value={(props.timeLeftInSeconds / props.defaultPomodoroSessionTimeInSeconds) * 100}
                     size={250}
                 />
                 <Typography
@@ -34,10 +34,17 @@ export function TimerView(props) {
                         transform: "translate(-50%, -50%)",
                     }}
                 >
-                    25:00
+                    {convertSecondsToTimeString(props.timeLeftInSeconds)}
                 </Typography>
             </div>
         );
+
+        function convertSecondsToTimeString(seconds) {
+            const roundedSeconds = Math.floor(seconds);
+            const minutes = Math.floor(roundedSeconds / 60);
+            const remainingSeconds = roundedSeconds % 60;
+            return minutes.toString().padStart(2, '0') + ":" + remainingSeconds.toString().padStart(2, '0');
+        }
     }
 
     function timerControls() {

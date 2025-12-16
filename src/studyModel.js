@@ -3,7 +3,6 @@ import { getCalendarEvents } from "./calendarSource";
 import { resolvePromise } from "./resolvePromise";
 import { getAllTasks } from "./tasksSource";
 
-
 export const model = {
     user: undefined,
     accessToken: null,
@@ -16,15 +15,15 @@ export const model = {
     playingStatus: false,
     defaultPomodoroSessionTimeInSeconds: 60 * 25,
     timeLeftInSeconds: 60 * 25,
-
+    timerIntervalId: null, //unique id of the interval timer to identify it later for clearing it
 
     setAccessToken(accessToken) {
         this.accessToken = accessToken;
         this.isTokenFromLogin = true;
-        this.ready = true; 
+        this.ready = true;
     },
 
-    clearData(){
+    clearData() {
         this.ready = false;
         this.isTokenFromLogin = false;
         this.tasks = [];
@@ -34,12 +33,15 @@ export const model = {
         this.playingStatus = false;
         this.defaultPomodoroSessionTimeInSeconds = 60 * 25;
         this.timeLeftInSeconds = 60 * 25;
+        if(this.timerIntervalId){
+            clearInterval(this.timerIntervalId);
+            this.timerIntervalId = null;
+        }
     },
 
     setUser(user) {
         this.user = user;
     },
-
 
     getFutureEvents() {
         if (!this.accessToken) return;
@@ -66,16 +68,38 @@ export const model = {
         resolvePromise(prms, this.currentTasksPromiseState);
     },
 
+    setPlayingStatus(status) {
+        this.playingStatus = status;
+        const timeBeforeCallingAgainInMilliseconds = 100;
+        if (status) {
+            this.timerIntervalId = setInterval(() => {
+                if (this.timeLeftInSeconds > 0) {
+                    this.setTimeLeftInSeconds(this.timeLeftInSeconds - 0.1);
+                } else {
+                    this.setPlayingStatus(false);
+                }
+            }, timeBeforeCallingAgainInMilliseconds);
+        } else {
+            if (this.timerIntervalId) {
+                clearInterval(this.timerIntervalId); //stops the timer with this id 
+                this.timerIntervalId = null;
+            }
+        }
+    },
+
     setTimeLeftInSeconds(seconds) {
         this.timeLeftInSeconds = seconds;
     },
 
+    resetTimer() {
+        this.setPlayingStatus(false);
+        this.setTimeLeftInSeconds(this.defaultPomodoroSessionTimeInSeconds);
+    },
 
     //This function is only for testing, remove later
     testLogOut() {
-        logout(this).then(() => window.location.hash = "#/login");
-     },
-
-}
+        logout(this).then(() => (window.location.hash = "#/login"));
+    },
+};
 // Remove later this is for debugging
- window.model = model
+window.model = model;

@@ -6,6 +6,7 @@ const Timer = observer(function RenderTimer(props) {
         <TimerView
             playingStatus={props.model.playingStatus}
             timeLeftInSeconds={props.model.timeLeftInSeconds}
+            defaultPomodoroSessionTimeInSeconds={props.model.defaultPomodoroSessionTimeInSeconds}
             onStatusChange={setPlayingStatusCB}
         />
     );
