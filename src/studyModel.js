@@ -87,15 +87,9 @@ export const model = {
 
                 if (newTime <= 0) {
                     if (!this.isBreak) {
-                        //Start break
-                        this.isBreak = true;
-                        this.setTimeLeftInSeconds(this.defaultBreakTimeInSeconds); //5 minutes break
+                        this.startBreak();
                     } else {
-                        this.isBreak = false;
-                        this.setPlayingStatus(false);
-                        this.setTimeLeftInSeconds(
-                            this.defaultPomodoroSessionTimeInSeconds,
-                        );
+                        this.startPomodoroSession();
                     }
                 }
                 else{
@@ -112,6 +106,17 @@ export const model = {
 
     setTimeLeftInSeconds(seconds) {
         this.timeLeftInSeconds = seconds;
+    },
+
+    startBreak() {
+        this.isBreak = true;
+        this.setTimeLeftInSeconds(this.defaultBreakTimeInSeconds);
+    },
+
+    startPomodoroSession() {
+        this.isBreak = false;
+        this.setPlayingStatus(false);
+        this.setTimeLeftInSeconds(this.defaultPomodoroSessionTimeInSeconds);
     },
 
     saveNewTask(taskInfo) {
