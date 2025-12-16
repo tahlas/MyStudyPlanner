@@ -3,6 +3,9 @@ import { getCalendarEvents } from "./calendarSource";
 import { resolvePromise } from "./resolvePromise";
 import { getAllTasks } from "./tasksSource";
 
+const DEFAULT_POMODORO_TIME = 60 * 25;
+const DEFAULT_BREAK_TIME = 60 * 5;
+
 export const model = {
     user: undefined,
     accessToken: null,
@@ -13,9 +16,11 @@ export const model = {
     getCalendarPromiseState: {},
     currentTasksPromiseState: {},
     playingStatus: false,
-    defaultPomodoroSessionTimeInSeconds: 60 * 25,
-    timeLeftInSeconds: 60 * 25,
+    defaultPomodoroSessionTimeInSeconds: DEFAULT_POMODORO_TIME,
+    timeLeftInSeconds: DEFAULT_POMODORO_TIME,
+    defaultBreakTimeInSeconds: DEFAULT_BREAK_TIME,
     timerIntervalId: null, //unique id of the interval timer to identify it later for clearing it
+    isBreak: false,
 
     setAccessToken(accessToken) {
         this.accessToken = accessToken;
@@ -31,12 +36,14 @@ export const model = {
         this.getCalendarPromiseState = {};
         this.currentTasksPromiseState = {};
         this.playingStatus = false;
-        this.defaultPomodoroSessionTimeInSeconds = 60 * 25;
-        this.timeLeftInSeconds = 60 * 25;
-        if(this.timerIntervalId){
+        this.defaultPomodoroSessionTimeInSeconds = DEFAULT_POMODORO_TIME;
+        this.timeLeftInSeconds = DEFAULT_POMODORO_TIME;
+        this.defaultBreakTimeInSeconds = DEFAULT_BREAK_TIME;
+        if (this.timerIntervalId) {
             clearInterval(this.timerIntervalId);
             this.timerIntervalId = null;
         }
+        this.isBreak = false;
     },
 
     setUser(user) {
@@ -73,15 +80,29 @@ export const model = {
         const timeBeforeCallingAgainInMilliseconds = 100;
         if (status) {
             this.timerIntervalId = setInterval(() => {
-                if (this.timeLeftInSeconds > 0) {
-                    this.setTimeLeftInSeconds(this.timeLeftInSeconds - 0.1);
-                } else {
-                    this.setPlayingStatus(false);
+                const timeToDecreaseWithInSeconds = 0.1;
+                const newTime = this.timeLeftInSeconds - timeToDecreaseWithInSeconds;
+
+                if (newTime <= 0) {
+                    if (!this.isBreak) {
+                        //Start break
+                        this.isBreak = true;
+                        this.setTimeLeftInSeconds(this.defaultBreakTimeInSeconds); //5 minutes break
+                    } else {
+                        this.isBreak = false;
+                        this.setPlayingStatus(false);
+                        this.setTimeLeftInSeconds(
+                            this.defaultPomodoroSessionTimeInSeconds,
+                        );
+                    }
+                }
+                else{
+                    this.setTimeLeftInSeconds(newTime);
                 }
             }, timeBeforeCallingAgainInMilliseconds);
         } else {
             if (this.timerIntervalId) {
-                clearInterval(this.timerIntervalId); //stops the timer with this id 
+                clearInterval(this.timerIntervalId); //stops the timer with this id
                 this.timerIntervalId = null;
             }
         }
@@ -94,6 +115,7 @@ export const model = {
     resetTimer() {
         this.setPlayingStatus(false);
         this.setTimeLeftInSeconds(this.defaultPomodoroSessionTimeInSeconds);
+        this.isBreak = false;
     },
 
     //This function is only for testing, remove later

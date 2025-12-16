@@ -21,7 +21,7 @@ export function TimerView(props) {
                 <CircularProgress
                     variant="determinate"
                     // value={100}
-                    value={(props.timeLeftInSeconds / props.defaultPomodoroSessionTimeInSeconds) * 100}
+                    value={props.breakStatus ? (props.timeLeftInSeconds / props.defaultBreakTime) * 100 : (props.timeLeftInSeconds / props.defaultPomodoroSessionTimeInSeconds) * 100}
                     size={250}
                 />
                 <Typography
