@@ -2,6 +2,7 @@ import { observer } from "mobx-react-lite";
 import { OverviewView } from "../views/overviewView.jsx";
 import { useEffect } from "react";
 import { logout } from "../authModel.js";
+import { SuspenseView } from "../views/suspenseView.jsx";
 
 
 const Overview = observer(function OverviewRender(props) {
@@ -27,8 +28,7 @@ const Overview = observer(function OverviewRender(props) {
         return <OverviewView tasksData={flattenedTasks} newTask = {handleNewTaskACB} />;
     }
 
-    // Temporary loading state
-    return <div style={{ color: "red", padding: "20px" }}>Loading</div>;
+    return <SuspenseView promise={state.promise} error={state.error} />;
 
 
     function handleNewTaskACB(taskInfo){
