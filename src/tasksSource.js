@@ -46,6 +46,8 @@ export function getAllTasks(token, searchParams) {
 
     }
 
+
+
     function getAllTasksFromListsACB(lists){
        return Promise.all(lists.map(getTaskFromListACB)); // using Promise.all to return a single promise, instead of an array of promises. Will make model code easier.
 
@@ -55,4 +57,20 @@ export function getAllTasks(token, searchParams) {
 
     return getAllLists(token).then(getAllTasksFromListsACB);
 
+}
+
+
+
+export function addTask(token, taskInfo) {
+    return fetch(
+        TASKS_URL + "/lists/@default/tasks",
+        {
+            method: "POST",
+            headers: {
+                "Authorization": `Bearer ${token}`,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(taskInfo)
+        }
+    ).then(responseACB);
 }

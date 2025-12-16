@@ -15,3 +15,14 @@ Date.prototype.getEuropeanWeek = function() {
   return Math.floor((dayDiff + dayOfWeek) / 7) + 1;
 }
 
+
+export function googleDateFormat(date, time) {
+  if (!date) {
+    return null;
+  }
+  if (!time || time === "") {
+    return date + "T00:00:00Z";
+  }
+  return date + "T" + time + ":00Z";
+}
+

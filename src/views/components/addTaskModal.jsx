@@ -18,7 +18,7 @@ function AddTaskModal({ onClose, onNewTask }) {
 
     return (
         <div
-            className="fixed inset-0 bg-black/30 backdrop-blur-sm flex justiy-center">
+            className="fixed top-0 left-0 right-0 bottom-0 bg-black/30 backdrop-blur-sm flex justify-center items-center z-50">
             <div className = "mt-10 flex flex-col gap-5 text-white">
                 <IconButton  className="place-self-end"><CloseIcon className="text-white bg-gray-600 hover:bg-red-700"  onClick={onClose}/></IconButton>
                 <div className="bg-gray-600 rounded-xl px-20 py-25 flex-col gap-25 items-center mx-4">
@@ -47,6 +47,7 @@ function AddTaskModal({ onClose, onNewTask }) {
                             <input
                                 id="date"
                                 type="date"
+                                required
                                 className=" px-1 py-1 text-black bg-white"
                             />
                         </div>

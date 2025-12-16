@@ -32,7 +32,7 @@ const Overview = observer(function OverviewRender(props) {
 
 
     function handleNewTaskACB(taskInfo){
-        console.log("handleNewTASKACB called + ", taskInfo);
+        props.model.saveNewTask(taskInfo);
     }
 });
 
