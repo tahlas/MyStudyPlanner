@@ -24,7 +24,7 @@ const Overview = observer(function OverviewRender(props) {
     if (state.data) {
         // Flatten the array of arrays into a single array of tasks
         const flattenedTasks = state.data.flat();
-        return <OverviewView tasksData={flattenedTasks} newTask = {handleNewTaskACB} />;
+        return <OverviewView tasksData={flattenedTasks} newTask = {handleNewTaskACB} completeTask = {handleCompleteTaskACB}/>;
     }
 
     // Temporary loading state
@@ -33,6 +33,10 @@ const Overview = observer(function OverviewRender(props) {
 
     function handleNewTaskACB(taskInfo){
         props.model.saveNewTask(taskInfo);
+    }
+
+    function handleCompleteTaskACB(isComplete){
+        console.log("is complete " + isComplete);
     }
 });
 
