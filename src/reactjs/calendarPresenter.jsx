@@ -9,3 +9,5 @@ const Calendar = observer(function CalendarRender(props) {
         <CalendarView tasksData={props.model.currentTasksPromiseState.data} />
     );
 });
+
+export { Calendar };

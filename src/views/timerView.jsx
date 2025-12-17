@@ -30,7 +30,7 @@ export function TimerView(props) {
                 />
                 <Typography
                     variant="h2"
-                    color="white"
+                    
                     sx={{
                         position: "absolute",
                         top: "50%",
