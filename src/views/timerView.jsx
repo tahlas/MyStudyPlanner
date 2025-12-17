@@ -98,7 +98,7 @@ export function TimerView(props) {
             return (
                 <div
                     key={task.id}
-                    className="overviewTask"
+                    className="overviewTask font-bold"
                     style={{ backgroundColor: "#4bbfe3" }}
                 >
                     {task.title} <br />
