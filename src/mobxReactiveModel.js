@@ -8,7 +8,7 @@ import {connectToAuthentication} from "./authModel.js";
 configure({ enforceActions: "never", });  // we don't use Mobx actions in the Lab
 
 export const reactiveModel= observable(model);
-
+//TODO:
 // for debugging in console
 // DELETE IN FINAL VERSION!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 window.myModel = reactiveModel;
