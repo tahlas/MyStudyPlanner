@@ -39,7 +39,8 @@ export function getAllTasks(token, searchParams) {
         function addTasklistIdToTaskACB(task) {
             return {
                 ...task,
-                tasklistId: list.id
+                listId: list.id,
+              listTitle: list.title
             };
         }
 
@@ -72,11 +73,43 @@ export function getAllTasks(token, searchParams) {
 
 }
 
-
-
-export function addTask(token, taskInfo) {
+export function createNewList(token, listTitle) {
     return fetch(
-        TASKS_URL + "/lists/@default/tasks",
+        TASKS_URL + "/users/@me/lists",
+        {
+            method: "POST",
+            headers: {
+                "Authorization": `Bearer ${token}`,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ title: listTitle })
+        }
+    ).then(responseACB);
+}
+
+
+export async function addTask(token, taskInfo, listTitle, currentTasks) {
+    let listId;
+
+    const tasks = currentTasks || [];
+
+
+    function findListByTitleACB(list) {
+        return list.title === listTitle;
+    }
+
+    const existingList = tasks.find(findListByTitleACB);
+
+
+    if (existingList) {
+        listId = existingList.id;
+    } else {
+        const newList = await createNewList(token, listTitle);
+        listId = newList.id;
+    }
+
+    return fetch(
+        TASKS_URL + "/lists/" + listId + "/tasks",
         {
             method: "POST",
             headers: {

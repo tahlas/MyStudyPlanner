@@ -117,26 +117,30 @@ export const model = {
         this.setPlayingStatus(false);
         this.setTimeLeftInSeconds(this.defaultPomodoroSessionTimeInSeconds);
     },
+        saveNewTask(taskInfo) {
+            if (!this.accessToken) return;
 
-    saveNewTask(taskInfo) {
-        if (!this.accessToken) return;
+            const prms = addTask(
+                this.accessToken,
+                {
+                    title: taskInfo.title,
+                    notes: taskInfo.description,
+                    due: googleDateFormat(taskInfo.date, taskInfo.time),
+                },
+                taskInfo.listTitle,
+                this.currentTasksPromiseState?.data
+            ).then(() => getAllTasks(this.accessToken, { showCompleted: false }));
 
-        const prms = addTask(this.accessToken, {
-            title: taskInfo.title,
-            notes: taskInfo.description,
-            due: googleDateFormat(taskInfo.date, taskInfo.time),
-        }).then(() => getAllTasks(this.accessToken, { showCompleted: false }));
+            resolvePromise(prms, this.currentTasksPromiseState);
+        },
 
-        resolvePromise(prms, this.currentTasksPromiseState);
-    },
-
-    markTaskAsCompleted(taskInfo) {
+    markTaskAsCompleted(task) {
         if (!this.accessToken) return;
 
         const prms = completeTask(
             this.accessToken,
-            taskInfo.tasklistId,
-            taskInfo.id
+            task.listId,
+            task.id
         ).then(() => getAllTasks(this.accessToken, { showCompleted: false }));
 
         resolvePromise(prms, this.currentTasksPromiseState);

@@ -151,9 +151,10 @@ function renderTaskCB(task, onTaskSelect) {
             style={{ backgroundColor: "#4bbfe3", cursor: "pointer" }}
             onClick={function() { onTaskSelect(task); }}
         >
-            Course Name <br />
+            {task.listTitle} <br />
             {task.title} <br />
             {task.notes} <br />
+
             {/* {new Date(task.due).toString()} <br /> */}
         </div>
     );

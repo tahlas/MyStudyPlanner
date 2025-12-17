@@ -7,6 +7,7 @@ function AddTaskModal({ onClose, onNewTask }) {
         evt.preventDefault();
 
         onNewTask({
+            listTitle: evt.target.list.value,
             title: evt.target.title.value,
             description: evt.target.description.value,
             date: evt.target.date.value,
@@ -14,7 +15,6 @@ function AddTaskModal({ onClose, onNewTask }) {
         });
         onClose();
     }
-
 
     return (
         <div
@@ -24,6 +24,15 @@ function AddTaskModal({ onClose, onNewTask }) {
                 <div className="bg-gray-600 rounded-xl px-20 py-25 flex-col gap-25 items-center mx-4">
                     <h1 className= "text-3xl font-bold text-center mb-6">Add Task</h1>
                     <form className="w-full space-y-3" onSubmit={submitACB}>
+                        <div>
+                            <input
+                                id="list"
+                                type="text"
+                                placeholder="List Title"
+                                className="w-full px-4 py-3 text-black  rounded-md bg-white"
+                            />
+                        </div>
+
                         <div>
                             <input
                                 id="title"
