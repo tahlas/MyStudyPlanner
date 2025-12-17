@@ -147,7 +147,7 @@ function renderTaskCB(task, onTaskSelect) {
     return (
         <div
             key={task.id}
-            className="overviewTask  font-bold"
+            className="overviewTask  font-semibold"
             style={{ backgroundColor: "#4bbfe3", cursor: "pointer" }}
             onClick={function() { onTaskSelect(task); }}
         >
