@@ -4,6 +4,7 @@ import { Overview } from "./overviewPresenter";
 import { Login } from "./loginPresenter";
 import { Timer } from "./timerPresenter";
 import { Sidebar } from "./sidebarPresenter.jsx";
+import { Calendar } from "./calendarPresenter.jsx";
 
 const ReactRoot = observer(function ReactRoot(props) {
     return <RouterProvider router={makeRouter(props.model)} />;
@@ -48,6 +49,10 @@ function makeRouter(model) {
                     path: "/timer",
                     element: <Timer model={model} />,
                 },
+                {
+                    path: "/calendar",
+                    element: <Calendar model={model} />,
+                }
             ],
         },
     ]);
