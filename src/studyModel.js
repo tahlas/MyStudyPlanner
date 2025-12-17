@@ -127,8 +127,7 @@ export const model = {
                     notes: taskInfo.description,
                     due: googleDateFormat(taskInfo.date, taskInfo.time),
                 },
-                taskInfo.listTitle,
-                this.currentTasksPromiseState?.data
+                taskInfo.listTitle
             ).then(() => getAllTasks(this.accessToken, { showCompleted: false }));
 
             resolvePromise(prms, this.currentTasksPromiseState);

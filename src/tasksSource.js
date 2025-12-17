@@ -88,18 +88,16 @@ export function createNewList(token, listTitle) {
 }
 
 
-export async function addTask(token, taskInfo, listTitle, currentTasks) {
+export async function addTask(token, taskInfo, listTitle) {
     let listId;
 
-    const tasks = currentTasks || [];
-
+    const lists = await getAllLists(token);
 
     function findListByTitleACB(list) {
         return list.title === listTitle;
     }
 
-    const existingList = tasks.find(findListByTitleACB);
-
+    const existingList = lists.find(findListByTitleACB);
 
     if (existingList) {
         listId = existingList.id;
