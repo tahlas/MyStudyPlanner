@@ -5,11 +5,9 @@ function CompleteTaskModal({ onClose, onCompleteTask,  task}) {
 
     function submitACB(evt){
         evt.preventDefault();
-        onCompleteTask(true);
+        onCompleteTask(task);
         onClose();
     }
-
-
 
     return (
         <div
@@ -26,7 +24,6 @@ function CompleteTaskModal({ onClose, onCompleteTask,  task}) {
                                 className="w-6 h-6 rounded accent-red-600 cursor-pointer transition-all duration-300"
                             />
                             <label className="text-xl text-white cursor-pointer font-bold ">
-
                                 Mark task as completed
                             </label>
                         </div>

@@ -35,8 +35,8 @@ const Overview = observer(function OverviewRender(props) {
         props.model.saveNewTask(taskInfo);
     }
 
-    function handleCompleteTaskACB(isComplete){
-        console.log("is complete " + isComplete);
+    function handleCompleteTaskACB(task){
+        props.model.markTaskAsCompleted(task);
     }
 });
 

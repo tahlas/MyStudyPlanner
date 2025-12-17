@@ -1,9 +1,8 @@
 import { logout } from "./authModel";
 import { getCalendarEvents } from "./calendarSource";
 import { resolvePromise } from "./resolvePromise";
-import { getAllTasks } from "./tasksSource";
+import { getAllTasks, addTask, completeTask } from "./tasksSource";
 import { googleDateFormat } from "./utilities.js"
-import { addTask } from "./tasksSource.js";
 
 const DEFAULT_POMODORO_TIME = 60 * 25;
 const DEFAULT_BREAK_TIME = 60 * 5;
@@ -70,7 +69,7 @@ export const model = {
         if (!this.accessToken) return;
 
         const searchParams = {
-            showCompleted: true,
+            showCompleted: false,
             maxResults: 250,
         };
         const prms = getAllTasks(this.accessToken, searchParams);
@@ -122,11 +121,23 @@ export const model = {
     saveNewTask(taskInfo) {
         if (!this.accessToken) return;
 
-      const prms =  addTask(this.accessToken, {
-            title : taskInfo.title,
-            notes : taskInfo.description,
-            due: googleDateFormat(taskInfo.date,taskInfo.time),
-        }).then(() => getAllTasks(this.accessToken, {}));
+        const prms = addTask(this.accessToken, {
+            title: taskInfo.title,
+            notes: taskInfo.description,
+            due: googleDateFormat(taskInfo.date, taskInfo.time),
+        }).then(() => getAllTasks(this.accessToken, { showCompleted: false }));
+
+        resolvePromise(prms, this.currentTasksPromiseState);
+    },
+
+    markTaskAsCompleted(taskInfo) {
+        if (!this.accessToken) return;
+
+        const prms = completeTask(
+            this.accessToken,
+            taskInfo.tasklistId,
+            taskInfo.id
+        ).then(() => getAllTasks(this.accessToken, { showCompleted: false }));
 
         resolvePromise(prms, this.currentTasksPromiseState);
     },
@@ -143,4 +154,4 @@ export const model = {
     },
 };
 // Remove later this is for debugging
-window.model = model;
+window.model = model
