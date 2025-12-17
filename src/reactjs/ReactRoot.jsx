@@ -1,5 +1,5 @@
 import { observer } from "mobx-react-lite";
-import { createHashRouter, RouterProvider, Outlet } from "react-router-dom";
+import { createHashRouter, RouterProvider, Outlet, useLocation } from "react-router-dom";
 import { Overview } from "./overviewPresenter";
 import { Login } from "./loginPresenter";
 import { Timer } from "./timerPresenter";
@@ -10,8 +10,8 @@ const ReactRoot = observer(function ReactRoot(props) {
 });
 
 function Layout(props) {
-    const location = window.location.hash;
-    const isLoginPage = location === "#/login" || location === "#/";
+    const location = useLocation();
+    const isLoginPage = location.pathname === "/login" || location.pathname === "/";
     return (
         <div className="flexParent">
             <div className="sidebarContent">
