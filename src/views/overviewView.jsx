@@ -14,20 +14,34 @@ import { taskConstants } from "../taskConstants";
  * @returns the Overview View JSX element
  */
 export function OverviewView(props) {
+    const [showCompleteTaskModal, setShowCompleteTaskModal] = useState(false);
+    const [selectedTask, setSelectedTask] = useState(null);
+
+    function  onTaskSelectACB(task) {
+        setSelectedTask(task);
+        setShowCompleteTaskModal(true);
+    }
+
     return (
         <div>
             <div>{topBar(props.tasksData, props.newTask, props.completeTask)}</div>
             <div className="flexParent">
-                {todaysOverview(props.tasksData)}
-                {upcomingOverview(props.tasksData)}
+                {todaysOverview(props.tasksData,onTaskSelectACB)}
+                {upcomingOverview(props.tasksData,onTaskSelectACB)}
             </div>
+            {showCompleteTaskModal && (
+                <CompleteTaskModal
+                    task={selectedTask}
+                    onClose={() => setShowCompleteTaskModal(false)}
+                    onCompleteTask = {props.completeTask}
+                />
+            )}
         </div>
     );
 }
 
-function topBar(tasksData,newTask,completeTask) {
+function topBar(tasksData,newTask) {
     const [showTaskModal, setShowTaskModal] = useState(false);
-    const [showCompleteTaskModal, setShowCompleteTaskModal] = useState(false);
     //TODO: ADD LOGIC THAT COUNTS THE NUMBER OF TASKS PER COURSE
     // AND DISPLAYS IT IN THE DONUT CHART
     const data = [
@@ -70,72 +84,72 @@ function topBar(tasksData,newTask,completeTask) {
                 />
             )}
 
-            <button
-                onClick={() => setShowCompleteTaskModal(true)}
-                className="bg-violet-600 text-white px-6 py-3 rounded-md font-bold hover:bg-indigo-700">
-                Complete Task
-            </button>
-                {showCompleteTaskModal && (
-                    <CompleteTaskModal
-                        onClose={() => setShowCompleteTaskModal(false)}
-                       onCompleteTask = {completeTask}
-                    />
-                )}
+
         </div>
     );
 }
 
-function todaysOverview(tasksData) {
+function todaysOverview(tasksData, onTaskSelect) {
+
+    function renderTaskWithSelectACB(task) {
+        return renderTaskCB(task, onTaskSelect);
+    }
+
     return (
         <div>
             <div style={{ color: "white" }}>Today</div>
             <div>
-                {tasksData.filter(taskIsDueTodayCB).map(renderTaskCB)}
+                {tasksData.filter(taskIsDueTodayCB).map(renderTaskWithSelectACB)}
             </div>
         </div>
     );
 }
 
-function upcomingOverview(tasksData) {
+function upcomingOverview(tasksData, onTaskSelect) {
     const overdueTasks = tasksData.filter(taskIsOverdueCB);
     const dueTodayTasks = tasksData.filter(taskIsDueTodayCB);
     const dueTomorrowTasks = tasksData.filter(taskIsDueTomorrowCB);
     const dueNextWeek = tasksData.filter(taskIsDueNextWeekAndNotTomorrowCB);
+
+    function renderTaskWithSelectACB(task) {
+        return renderTaskCB(task, onTaskSelect);
+    }
 
     return (
         <div>
             <div hidden={overdueTasks.length === 0} style={{ color: "red" }}>
                 Overdue
             </div>
-            {overdueTasks.map(renderTaskCB)}
+            {overdueTasks.map(renderTaskWithSelectACB)}
             <div
                 hidden={dueTodayTasks.length === 0}
                 style={{ color: "orange" }}
             >
                 Due Today
             </div>
-            {dueTodayTasks.map(renderTaskCB)}
+            {dueTodayTasks.map(renderTaskWithSelectACB)}
             <div
                 hidden={dueTomorrowTasks.length === 0}
                 style={{ color: "yellow" }}
             >
                 Due Tomorrow
             </div>
-            {dueTomorrowTasks.map(renderTaskCB)}
+            {dueTomorrowTasks.map(renderTaskWithSelectACB)}
             <div style={{ color: "white" }} hidden={dueNextWeek.length === 0}>
                 Due Next Week
             </div>
-            {dueNextWeek.map(renderTaskCB)}
+            {dueNextWeek.map(renderTaskWithSelectACB)}
         </div>
     );
 }
 
-function renderTaskCB(task) {
+function renderTaskCB(task, onTaskSelect) {
     return (
         <div
             key={task.id}
             className="overviewTask"
-            style={{ backgroundColor: "#4bbfe3" }}
+            style={{ backgroundColor: "#4bbfe3", cursor: "pointer" }}
+            onClick={function() { onTaskSelect(task); }}
         >
             Course Name <br />
             {task.title} <br />
