@@ -21,19 +21,19 @@
 .overviewTopBar {
     height: 200px;
     width: 100%;
-    background-color: #2fe80aff;
+    background-color: #1c8d77;
     position: relative;
 }
 
 .flexParent {
     display: flex;
     flex-direction: row;
-    gap: 20px;
 }
 
-body {
-    background: #020024;
-    background: linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(9, 9, 121, 1) 35%, rgba(0, 212, 255, 1) 100%);
+body { 
+    background: #f9f9f9;
+    /* background: #f9f9f9; Color from MyStudyLife*/
+    /* background: linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(9, 9, 121, 1) 35%, rgba(0, 212, 255, 1) 100%); */
 }
 
 .textInDonut {
@@ -53,8 +53,17 @@ body {
 
 .sidebarContent{
     flex:0;
+    position:fixed;
+    top:0;
+    left:0;
+    height: 100vh;
+    /* Z-index sets which order to show things.
+    Higher number gives higher priority */
+    z-index:100; 
 }
 
 .mainContent{
     flex:1;
+    /* TODO: This is hardcoded. Should fix this, but I'm lazy. */
+    margin-left: 40px;
 }
