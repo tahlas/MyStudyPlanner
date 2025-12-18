@@ -4,6 +4,7 @@ import "/src/style.css";
 import "/src/utilities.js";
 import AddTaskModal from "./components/addTaskModal.jsx";
 import CompleteTaskModal from "./components/completeTaskModal.jsx";
+import AddCourseModal from "./components/addCourseModal.jsx";
 import { useState } from 'react';
 
 //should not be used in final version
@@ -175,10 +176,15 @@ function renderTaskCB(task, onTaskSelect) {
     );
 }
 
-//TODO: DUPLICATED CODE?
 function taskIsOverdueCB(task) {
     const currentDate = new Date();
     const taskDueDate = new Date(task.due);
+    // console.log("Current Date: ", currentDate);
+    // console.log("Task Due Date: ", taskDueDate);
+    //Getting/setting the due time is not supported by the Google Tasks API :(
+    // console.log("Current Date Time: ", currentDate.getTime());
+    // console.log("Task Due Date Time: ", taskDueDate.getTime());
+
     return taskDueDate < currentDate;
 }
 
