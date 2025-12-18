@@ -44,6 +44,7 @@ body {
     left: 50%;
     /* Offsets the text by half of its own width and height */
     transform: translate(-50%, -50%);
+    font-size: 50px;
 }
 
 .flexParent {
@@ -67,4 +68,10 @@ body {
     flex:1;
     /* TODO: This is hardcoded. Should fix this, but I'm lazy. */
     margin-left: 40px;
+}
+
+.emptyDayCell{
+    aspect-ratio: square;
+    border: 1px solid;
+    border-color: #333537;  
 }
