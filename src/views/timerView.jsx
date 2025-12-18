@@ -10,14 +10,53 @@ export function TimerView(props) {
     return (
         <div style={{ display: "flex", gap: "40px", padding: "20px" }}>
             <div>
+                {selectedTaskDisplay()}
                 {timerProgress()}
                 {timerControls()}
             </div>
-            <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+            <div
+                style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "10px",
+                }}
+            >
                 {tasksList()}
             </div>
         </div>
     );
+
+    function selectedTaskDisplay() {
+        if (!props.selectedTask) {
+            return (
+                <Typography
+                    variant="h5"
+                    color="white"
+                    style={{ marginBottom: "10px" }}
+                >
+                    No task selected
+                </Typography>
+            );
+        }
+
+        const timeSpent = props.getTaskTimeSpent(props.selectedTask.id);
+        const hours = Math.floor(timeSpent / 3600);
+        const minutes = Math.floor((timeSpent % 3600) / 60);
+
+        return (
+            <div>
+                <Typography variant="h6" color="white">
+                    Current Task:
+                </Typography>
+                <Typography variant="h5" color="#4bbfe3" fontWeight="bold">
+                    {props.selectedTask.title}
+                </Typography>
+                <Typography variant="body1" color="white">
+                    Time spent: {hours}h {minutes}m
+                </Typography>
+            </div>
+        );
+    }
 
     function timerProgress() {
         return (
@@ -25,12 +64,19 @@ export function TimerView(props) {
                 <CircularProgress
                     variant="determinate"
                     // value={100}
-                    value={props.breakStatus ? (props.timeLeftInSeconds / props.defaultBreakTime) * 100 : (props.timeLeftInSeconds / props.defaultPomodoroSessionTimeInSeconds) * 100}
+                    value={
+                        props.breakStatus
+                            ? (props.timeLeftInSeconds /
+                                  props.defaultBreakTime) *
+                              100
+                            : (props.timeLeftInSeconds /
+                                  props.defaultPomodoroSessionTimeInSeconds) *
+                              100
+                    }
                     size={250}
                 />
                 <Typography
                     variant="h2"
-                    
                     sx={{
                         position: "absolute",
                         top: "50%",
@@ -47,7 +93,11 @@ export function TimerView(props) {
             const roundedSeconds = Math.floor(seconds);
             const minutes = Math.floor(roundedSeconds / 60);
             const remainingSeconds = roundedSeconds % 60;
-            return minutes.toString().padStart(2, '0') + ":" + remainingSeconds.toString().padStart(2, '0');
+            return (
+                minutes.toString().padStart(2, "0") +
+                ":" +
+                remainingSeconds.toString().padStart(2, "0")
+            );
         }
     }
 
@@ -80,30 +130,48 @@ export function TimerView(props) {
         props.onStatusChange(!props.playingStatus);
     }
 
-    function tasksList(){
-        if(!props.tasksData || props.tasksData.length === 0){
+    function tasksList() {
+        if (!props.tasksData || props.tasksData.length === 0) {
             return <Typography color="white">No tasks available!</Typography>;
         }
 
         return (
             <>
-                <Typography variant="h4" color="white" style={{ marginBottom: "10px" }}>
+                <Typography
+                    variant="h4"
+                    color="white"
+                    style={{ marginBottom: "10px" }}
+                >
                     Tasks
                 </Typography>
                 {props.tasksData.map(renderTaskCB)}
             </>
         );
 
-        function renderTaskCB(task){
+        function renderTaskCB(task) {
+            const timeSpent = props.getTaskTimeSpent(task.id);
+            const hours = Math.floor(timeSpent / 3600);
+            const minutes = Math.floor((timeSpent % 3600) / 60);    
+            const isSelected = props.selectedTask?.id === task.id;
+
             return (
                 <div
                     key={task.id}
+                    onClick={() => props.onTaskSelect(task)}
                     className="overviewTask font-semibold"
-                    style={{ backgroundColor: "#4bbfe3" }}
+                    style={{
+                        backgroundColor: isSelected ? "#2a9d8f" : "#4bbfe3",
+                        border: isSelected ? "3px solid #f4a261" : "none",
+                    }}
                 >
                     {task.title} <br />
-                    {task.notes && <>{task.notes} <br /></>}
-                    {task.due && <>{new Date(task.due).toLocaleDateString()}</>}
+                    {task.notes && (
+                        <>
+                            {task.notes} <br />
+                        </>
+                    )}
+                    Time spent: {hours}h {minutes}m <br />
+                    {/* {task.due && <>{new Date(task.due).toLocaleDateString()}</>} */}
                 </div>
             );
         }

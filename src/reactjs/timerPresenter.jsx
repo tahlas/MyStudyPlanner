@@ -22,12 +22,25 @@ const Timer = observer(function RenderTimer(props) {
             defaultPomodoroSessionTimeInSeconds={props.model.defaultPomodoroSessionTimeInSeconds}
             onStatusChange={setPlayingStatusCB}
             tasksData={flattenedTasks}  
+
+            selectedTask={props.model.selectedTask}
+            onTaskSelect={handleTaskSelectCB}
+            getTaskTimeSpent={getTaskTimeSpentCB}
+
         />
     );
 
     function setPlayingStatusCB(status) {
         props.model.setPlayingStatus(status);
         console.log("Playing status set to: " + status);
+    }
+
+    function handleTaskSelectCB(task) {
+        props.model.selectTask(task);
+    }
+
+    function getTaskTimeSpentCB(taskId) {
+        return props.model.getTaskTimeSpent(taskId);
     }
 });
 
