@@ -89,8 +89,12 @@ export const model = {
         resolvePromise(prms, this.currentTasksPromiseState);
     },
 
+    getCourseNames(){
+        return this.courses.map(c => c.name);
+    },
+
     newCourse(course) {
-        const courseNames = this.courses.map((c) => c.name);
+        const courseNames = this.getCourseNames();
         if (courseNames.includes(course.name)) return;
 
         this.courses.push(course);

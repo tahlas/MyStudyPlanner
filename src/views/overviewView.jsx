@@ -4,6 +4,7 @@ import "/src/style.css";
 import "/src/utilities.js";
 import AddTaskModal from "./components/addTaskModal.jsx";
 import CompleteTaskModal from "./components/completeTaskModal.jsx";
+import AddCourseModal from "./components/addCourseModal.jsx";
 import { useState } from 'react';
 
 //should not be used in final version
@@ -25,7 +26,7 @@ export function OverviewView(props) {
 
     return (
         <div>
-            <div>{topBar(props.tasksData, props.newTask, props.newCourse)}</div>
+            <div>{topBar(props.tasksData, props.newTask, props.courseNames, props.newCourse)}</div>
             <div className="flexParent">
                 {todaysOverview(props.tasksData,onTaskSelectACB)}
                 {upcomingOverview(props.tasksData,onTaskSelectACB)}
@@ -41,7 +42,7 @@ export function OverviewView(props) {
     );
 }
 
-function topBar(tasksData,newTask,newCourse) {
+function topBar(tasksData,newTask,courseNames,newCourse) {
     const [showTaskModal, setShowTaskModal] = useState(false);
     const [showCourseModal, setShowCourseModal] = useState(false);
     //TODO: ADD LOGIC THAT COUNTS THE NUMBER OF TASKS PER COURSE
@@ -85,6 +86,7 @@ function topBar(tasksData,newTask,newCourse) {
                 <AddTaskModal
                     onClose={() => setShowTaskModal(false)}
                     onNewTask = {newTask}
+                    courseNames={courseNames}
                 />
             )}
 
@@ -175,10 +177,15 @@ function renderTaskCB(task, onTaskSelect) {
     );
 }
 
-//TODO: DUPLICATED CODE?
 function taskIsOverdueCB(task) {
     const currentDate = new Date();
     const taskDueDate = new Date(task.due);
+    // console.log("Current Date: ", currentDate);
+    // console.log("Task Due Date: ", taskDueDate);
+    //Getting/setting the due time is not supported by the Google Tasks API :(
+    // console.log("Current Date Time: ", currentDate.getTime());
+    // console.log("Task Due Date Time: ", taskDueDate.getTime());
+
     return taskDueDate < currentDate;
 }
 

@@ -1,13 +1,13 @@
 import CloseIcon from '@mui/icons-material/Close';
 import { IconButton } from '@mui/material';
 
-function AddTaskModal({ onClose, onNewTask }) {
+function AddTaskModal({ onClose, onNewTask, courseNames}) {
 
    function submitACB(evt){
         evt.preventDefault();
 
         onNewTask({
-            listTitle: evt.target.list.value,
+            listTitle: evt.target.course.value,
             title: evt.target.title.value,
             description: evt.target.description.value,
             date: evt.target.date.value,
@@ -25,12 +25,18 @@ function AddTaskModal({ onClose, onNewTask }) {
                     <h1 className= "text-3xl font-bold text-center mb-6">Add Task</h1>
                     <form className="w-full space-y-3" onSubmit={submitACB}>
                         <div>
-                            <input
-                                id="list"
-                                type="text"
-                                placeholder="List Title"
-                                className="w-full px-4 py-3 text-black  rounded-md bg-white"
-                            />
+                            <select
+                                id="course"
+                                required
+                                className="w-full px-4 py-3 text-black rounded-md bg-white"
+                            >
+                                <option value="">Select Course</option>
+                                {courseNames.map((courseName) => (
+                                    <option key={courseName} value={courseName}>
+                                        {courseName}
+                                    </option>
+                                ))}
+                            </select>
                         </div>
 
                         <div>
