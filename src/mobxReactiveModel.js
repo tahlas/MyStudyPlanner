@@ -5,7 +5,7 @@ import { connectToPersistence } from "./firestoreModel.js";
 import {connectToAuthentication} from "./authModel.js";
 
 
-configure({ enforceActions: "never", });  // we don't use Mobx actions in the Lab
+configure({ enforceActions: "always", });  // we don't use Mobx actions in the Lab
 
 export const reactiveModel= observable(model);
 //TODO:
