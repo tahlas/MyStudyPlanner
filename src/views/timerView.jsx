@@ -45,13 +45,13 @@ export function TimerView(props) {
 
         return (
             <div>
-                <Typography variant="h6" color="white">
+                <Typography variant="h6" color="black">
                     Current Task:
                 </Typography>
                 <Typography variant="h5" color="#4bbfe3" fontWeight="bold">
                     {props.selectedTask.title}
                 </Typography>
-                <Typography variant="body1" color="white">
+                <Typography variant="body1" color="black">
                     Time spent: {hours}h {minutes}m
                 </Typography>
             </div>
