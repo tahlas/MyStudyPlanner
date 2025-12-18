@@ -25,7 +25,7 @@ const Overview = observer(function OverviewRender(props) {
     if (state.data) {
         // Flatten the array of arrays into a single array of tasks
         const flattenedTasks = state.data.flat();
-        return <OverviewView tasksData={flattenedTasks} newTask = {handleNewTaskACB} completeTask = {handleCompleteTaskACB}/>;
+        return <OverviewView tasksData={flattenedTasks} newTask = {handleNewTaskACB} completeTask = {handleCompleteTaskACB} newCourse = {handleNewCourse} />;
     }
 
     return <SuspenseView promise={state.promise} error={state.error} />;
@@ -38,6 +38,11 @@ const Overview = observer(function OverviewRender(props) {
     function handleCompleteTaskACB(task){
         props.model.markTaskAsCompleted(task);
     }
+
+    function handleNewCourse(course){
+        props.model.newCourse(course);
+    }
+
 });
 
 export { Overview };

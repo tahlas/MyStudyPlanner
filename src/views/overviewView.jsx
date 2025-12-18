@@ -9,6 +9,7 @@ import { useState } from 'react';
 //should not be used in final version
 import { taskConstants } from "../taskConstants";
 import { numberOfTasksPerList } from "../utilities.js";
+import AddCourseModal from "./components/addCourseModal.jsx";
 
 /**
  * Renders the Overview View component.
@@ -25,7 +26,7 @@ export function OverviewView(props) {
 
     return (
         <div>
-            <div>{topBar(props.tasksData, props.newTask, props.completeTask)}</div>
+            <div>{topBar(props.tasksData, props.newTask, props.newCourse)}</div>
             <div className="flexParent">
                 {todaysOverview(props.tasksData,onTaskSelectACB)}
                 {upcomingOverview(props.tasksData,onTaskSelectACB)}
@@ -41,8 +42,9 @@ export function OverviewView(props) {
     );
 }
 
-function topBar(tasksData,newTask) {
+function topBar(tasksData,newTask,newCourse) {
     const [showTaskModal, setShowTaskModal] = useState(false);
+    const [showCourseModal, setShowCourseModal] = useState(false);
     //TODO: ADD LOGIC THAT COUNTS THE NUMBER OF TASKS PER COURSE
     // AND DISPLAYS IT IN THE DONUT CHART
 
@@ -87,6 +89,17 @@ function topBar(tasksData,newTask) {
                 />
             )}
 
+            <button
+                onClick={() => setShowCourseModal(true)}
+                className="bg-violet-600 text-white px-6 py-3 rounded-md font-bold hover:bg-indigo-700">
+                Add Course
+            </button>
+            {showCourseModal && (
+                <AddCourseModal
+                    onClose={() => setShowCourseModal(false)}
+                    onNewCourse = {newCourse}
+                />
+            )}
 
         </div>
     );

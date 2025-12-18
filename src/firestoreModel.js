@@ -31,6 +31,10 @@ export function connectToPersistence(model, reaction) {
             if (!model.isTokenFromLogin) {
                 model.accessToken = firestoreToken;
             }
+            snapshot.data().courses ? model.courses = snapshot.data().courses : model.courses = [];
+        }
+        else{
+            model.courses = [];
         }
         model.ready = true;
     }
@@ -42,14 +46,14 @@ export function connectToPersistence(model, reaction) {
     reaction(modelChangeACB, writeToPersistenceACB);
 
     function modelChangeACB() {
-        return [model.accessToken, model.user];
+        return [model.accessToken, model.user, model.courses.length];
     }
 
     function writeToPersistenceACB() {
         if (model.user && model.accessToken) {
             if (model.isTokenFromLogin || model.ready) {
                 const user_firestoreDoc = doc(db, COLLECTION, model.user.uid);
-                setDoc(user_firestoreDoc, { accessToken: model.accessToken }, { merge: true });
+                setDoc(user_firestoreDoc, { accessToken: model.accessToken, courses: model.courses}, { merge: true });
             }
         }
     }

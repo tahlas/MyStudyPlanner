@@ -14,6 +14,7 @@ export const model = {
     ready: false,
     tasks: [],
     events: [],
+    courses: [],
     getCalendarPromiseState: {},
     currentTasksPromiseState: {},
     playingStatus: false,
@@ -77,6 +78,13 @@ export const model = {
             });
 
         resolvePromise(prms, this.currentTasksPromiseState);
+    },
+
+    newCourse(course) {
+        const courseNames = this.courses.map(c => c.name);
+        if (courseNames.includes(course.name)) return;
+
+        this.courses.push(course);
     },
 
     setPlayingStatus(status) {

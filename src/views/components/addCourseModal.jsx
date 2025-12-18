@@ -1,17 +1,14 @@
 import CloseIcon from '@mui/icons-material/Close';
 import { IconButton } from '@mui/material';
 
-function AddCourseModal({ onClose, onNewTask }) {
+function AddCourseModal({ onClose, onNewCourse }) {
 
     function submitACB(evt){
         evt.preventDefault();
 
-        onNewTask({
-            listTitle: evt.target.list.value,
-            title: evt.target.title.value,
-            description: evt.target.description.value,
-            date: evt.target.date.value,
-            time: evt.target.time.value
+        onNewCourse({
+            name: evt.target.name.value,
+            color: evt.target.color.value,
         });
         onClose();
     }
@@ -22,42 +19,30 @@ function AddCourseModal({ onClose, onNewTask }) {
             <div className = "mt-10 flex flex-col gap-5 text-white">
                 <IconButton  className="place-self-end"><CloseIcon className="text-white bg-gray-600 hover:bg-red-700"  onClick={onClose}/></IconButton>
                 <div className="bg-gray-600 rounded-xl px-20 py-25 flex-col gap-25 items-center mx-4">
-                    <h1 className= "text-3xl font-bold text-center mb-6">Add Task</h1>
+                    <h1 className= "text-3xl font-bold text-center mb-6">Add Course</h1>
                     <form className="w-full space-y-3" onSubmit={submitACB}>
                         <div>
                             <input
-                                id="list"
+                                id="name"
                                 type="text"
-                                placeholder="List Title"
+                                placeholder="Course Name"
                                 className="w-full px-4 py-3 text-black  rounded-md bg-white"
                             />
                         </div>
-
                         <div>
-                            <textarea
-                                id="description"
-                                placeholder="Description (Optional)"
-                                className="w-full px-4 py-3 text-black  rounded-md bg-white"
-                            />
-                        </div>
-
-
-                        <div>
+                            <label className="block mb-1 text-white font-semibold">
+                                Color
+                            </label>
                             <input
-                                id="date"
-                                type="date"
-                                required
-                                className=" px-1 py-1 text-black bg-white"
+                                id="color"
+                                type="color"
+                                defaultValue="#800080"
+                                className="w-16 h-10  cursor-pointer"
                             />
                         </div>
-                        <input
-                            id="time"
-                            type="time"
-                            className=" px-1 py-1 text-black bg-white"
-                        />
                         <div>
                             <button className="bg-red-600 text-white rounded-md px-4 py-3 w-full font-bold hover:bg-red-800" type="submit">
-                                Save Task
+                                Save Course
                             </button>
                         </div>
                     </form>
