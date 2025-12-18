@@ -2,6 +2,7 @@ import { useState } from "react";
 import { IconButton, Typography } from "@mui/material";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import "/src/style.css";
 
 export function CalendarView(props) {
     
@@ -11,6 +12,7 @@ export function CalendarView(props) {
     const month = currentDate.getMonth();
 
     const firstDayOfMonth = new Date(year, month, 1);
+    //moves to next month and back one day to get last day of current month
     const lastDayOfMonth = new Date(year, month + 1, 0);
     const daysInMonth = lastDayOfMonth.getDate();
     
@@ -40,7 +42,7 @@ export function CalendarView(props) {
         for (let i = 0; i < startingDay; i++) {
             days.push(
                 <div
-                    key={`empty-${i}`}
+                    key={"empty"+i}
                     className="aspect-square border border-gray-600"
                 />
             );
@@ -108,18 +110,20 @@ export function CalendarView(props) {
         <div className="p-6 bg-gray-900 min-h-screen">
             <div className="max-w-6xl mx-auto">
                 {/* Header with navigation */}
-                <div className="flex items-center justify-between mb-6">
-                    <IconButton onClick={goToPreviousMonth}>
-                        <ChevronLeftIcon sx={{ color: "white", fontSize: 40 }} />
-                    </IconButton>
-                    
-                    <Typography variant="h3" color="white" fontWeight="bold">
+                <div className="flex items-center mb-6">
+                    <div className="ml-4">
+                        <IconButton onClick={goToPreviousMonth}>
+                            <ChevronLeftIcon sx={{ color: "white", fontSize: 20 }} />
+                        </IconButton>
+                        
+                        <IconButton onClick={goToNextMonth}>
+                            <ChevronRightIcon sx={{ color: "white", fontSize: 20 }} />
+                        </IconButton>
+                    </div>
+
+                    <Typography variant="h6" color="white" fontWeight="bold">
                         {monthNames[month]} {year}
                     </Typography>
-                    
-                    <IconButton onClick={goToNextMonth}>
-                        <ChevronRightIcon sx={{ color: "white", fontSize: 40 }} />
-                    </IconButton>
                 </div>
 
                 {/* Weekday headers */}
