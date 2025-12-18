@@ -4,7 +4,7 @@ import "/src/style.css";
 import "/src/utilities.js";
 import AddTaskModal from "./components/addTaskModal.jsx";
 import CompleteTaskModal from "./components/completeTaskModal.jsx";
-import { useState } from 'react';
+import { useState } from "react";
 
 //should not be used in final version
 import { taskConstants } from "../taskConstants";
@@ -18,41 +18,42 @@ export function OverviewView(props) {
     const [showCompleteTaskModal, setShowCompleteTaskModal] = useState(false);
     const [selectedTask, setSelectedTask] = useState(null);
 
-    function  onTaskSelectACB(task) {
+    function onTaskSelectACB(task) {
         setSelectedTask(task);
         setShowCompleteTaskModal(true);
     }
 
     return (
         <div>
-            <div>{topBar(props.tasksData, props.newTask, props.completeTask)}</div>
+            <div>
+                {topBar(props.tasksData, props.newTask, props.completeTask)}
+            </div>
             <div className="flexParent">
-                {todaysOverview(props.tasksData,onTaskSelectACB)}
-                {upcomingOverview(props.tasksData,onTaskSelectACB)}
+                {todaysOverview(props.tasksData, onTaskSelectACB)}
+                {upcomingOverview(props.tasksData, onTaskSelectACB)}
             </div>
             {showCompleteTaskModal && (
                 <CompleteTaskModal
                     task={selectedTask}
                     onClose={() => setShowCompleteTaskModal(false)}
-                    onCompleteTask = {props.completeTask}
+                    onCompleteTask={props.completeTask}
                 />
             )}
         </div>
     );
 }
 
-function topBar(tasksData,newTask) {
+function topBar(tasksData, newTask) {
     const [showTaskModal, setShowTaskModal] = useState(false);
     //TODO: ADD LOGIC THAT COUNTS THE NUMBER OF TASKS PER COURSE
     // AND DISPLAYS IT IN THE DONUT CHART
 
-
     const data = [
-       { label: "Group A", value: 400, color: "#0088FE" },
+        { label: "Group A", value: 400, color: "#0088FE" },
         { label: "Group B", value: 300, color: "#00C49F" },
         { label: "Group C", value: 300, color: "#FFBB28" },
-       { label: "Group D", value: 200, color: "#FF8042" },
-     ];
+        { label: "Group D", value: 200, color: "#FF8042" },
+    ];
 
     const settings = {
         width: 200,
@@ -72,28 +73,28 @@ function topBar(tasksData,newTask) {
                 ]}
                 {...settings}
             />
-            <div className="textInDonut">{tasksData.length}</div>
+            <div className="textInDonut">
+                {tasksData.length}
+            </div>
             {/* This button is in the wrong position! It should be in the top bar! */}
             {/* <Button variant="contained">Add Task</Button> */}
             <button
                 onClick={() => setShowTaskModal(true)}
-                className="bg-violet-600 text-white px-6 py-3 rounded-md font-bold hover:bg-indigo-700">
+                className="bg-violet-600 text-white px-6 py-3 rounded-md font-bold hover:bg-indigo-700"
+            >
                 Add Task
             </button>
             {showTaskModal && (
                 <AddTaskModal
                     onClose={() => setShowTaskModal(false)}
-                    onNewTask = {newTask}
+                    onNewTask={newTask}
                 />
             )}
-
-
         </div>
     );
 }
 
 function todaysOverview(tasksData, onTaskSelect) {
-
     function renderTaskWithSelectACB(task) {
         return renderTaskCB(task, onTaskSelect);
     }
@@ -102,7 +103,9 @@ function todaysOverview(tasksData, onTaskSelect) {
         <div>
             <div style={{ color: "white" }}>Today</div>
             <div>
-                {tasksData.filter(taskIsDueTodayCB).map(renderTaskWithSelectACB)}
+                {tasksData
+                    .filter(taskIsDueTodayCB)
+                    .map(renderTaskWithSelectACB)}
             </div>
         </div>
     );
@@ -152,26 +155,22 @@ function renderTaskCB(task, onTaskSelect) {
             key={task.id}
             className="overviewTask  font-semibold"
             style={{ backgroundColor: "#4bbfe3", cursor: "pointer" }}
-            onClick={function() { onTaskSelect(task); }}
+            onClick={function () {
+                onTaskSelect(task);
+            }}
         >
             {task.listTitle} <br />
             {task.title} <br />
             {task.notes} <br />
-
             {/* {new Date(task.due).toString()} <br /> */}
         </div>
     );
 }
 
+//TODO: DUPLICATED CODE?
 function taskIsOverdueCB(task) {
     const currentDate = new Date();
     const taskDueDate = new Date(task.due);
-    // console.log("Current Date: ", currentDate);
-    // console.log("Task Due Date: ", taskDueDate);
-    //Getting/setting the due time is not supported by the Google Tasks API :(
-    // console.log("Current Date Time: ", currentDate.getTime());
-    // console.log("Task Due Date Time: ", taskDueDate.getTime());
-
     return taskDueDate < currentDate;
 }
 
