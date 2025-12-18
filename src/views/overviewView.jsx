@@ -26,7 +26,7 @@ export function OverviewView(props) {
 
     return (
         <div>
-            <div>{topBar(props.tasksData, props.newTask, props.newCourse)}</div>
+            <div>{topBar(props.tasksData, props.newTask, props.courseNames, props.newCourse)}</div>
             <div className="flexParent">
                 {todaysOverview(props.tasksData,onTaskSelectACB)}
                 {upcomingOverview(props.tasksData,onTaskSelectACB)}
@@ -42,7 +42,7 @@ export function OverviewView(props) {
     );
 }
 
-function topBar(tasksData,newTask,newCourse) {
+function topBar(tasksData,newTask,courseNames,newCourse) {
     const [showTaskModal, setShowTaskModal] = useState(false);
     const [showCourseModal, setShowCourseModal] = useState(false);
     //TODO: ADD LOGIC THAT COUNTS THE NUMBER OF TASKS PER COURSE
@@ -86,6 +86,7 @@ function topBar(tasksData,newTask,newCourse) {
                 <AddTaskModal
                     onClose={() => setShowTaskModal(false)}
                     onNewTask = {newTask}
+                    courseNames={courseNames}
                 />
             )}
 
