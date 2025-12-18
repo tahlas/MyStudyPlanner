@@ -5,7 +5,6 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import "/src/style.css";
 
 export function CalendarView(props) {
-    
     const [currentDate, setCurrentDate] = useState(new Date());
 
     const year = currentDate.getFullYear();
@@ -15,7 +14,7 @@ export function CalendarView(props) {
     //moves to next month and back one day to get last day of current month
     const lastDayOfMonth = new Date(year, month + 1, 0);
     const daysInMonth = lastDayOfMonth.getDate();
-    
+
     // Get the day of the week for the first day (0 = Sunday, 1 = Monday, etc.)
     const startingDayOfWeek = firstDayOfMonth.getDay();
     // Convert to Monday-based (0 = Monday, 6 = Sunday)
@@ -42,37 +41,50 @@ export function CalendarView(props) {
         for (let i = 0; i < startingDay; i++) {
             days.push(
                 <div
-                    key={"empty"+i}
+                    key={"empty" + i}
                     className="aspect-square border border-gray-600"
-                />
+                />,
             );
         }
 
         // Add cells for each day of the month
         for (let day = 1; day <= daysInMonth; day++) {
-            const isToday = 
+            const isToday =
                 day === new Date().getDate() &&
                 month === new Date().getMonth() &&
                 year === new Date().getFullYear();
 
+            const tasksForDay = getTasksForDay(day);
+
             days.push(
                 <div
                     key={day}
+                    // TODO: FIX HANDLE DAY CLICK
                     onClick={() => handleDayClick(day)}
                     className={`aspect-square border border-gray-600 p-2 cursor-pointer hover:bg-gray-700 transition-colors ${
                         isToday ? "bg-blue-600" : "bg-gray-800"
                     }`}
                 >
                     <span className="text-white font-semibold">{day}</span>
-                </div>
+                    <div className="text-xs text-white mt-1">
+                        {tasksForDay.map((task) => (
+                            <div key={task.id} className="truncate">
+                                {task.title}
+                            </div>
+                        ))}
+                    </div> 
+                </div>,
             );
 
             // Start a new week after Sunday
             if ((startingDay + day) % 7 === 0) {
                 weeks.push(
-                    <div key={`week-${weeks.length}`} className="grid grid-cols-7">
+                    <div
+                        key={`week-${weeks.length}`}
+                        className="grid grid-cols-7"
+                    >
                         {days}
-                    </div>
+                    </div>,
                 );
                 days = [];
             }
@@ -86,13 +98,13 @@ export function CalendarView(props) {
                     <div
                         key={`empty-end-${days.length}`}
                         className="aspect-square border border-gray-600"
-                    />
+                    />,
                 );
             }
             weeks.push(
                 <div key={`week-${weeks.length}`} className="grid grid-cols-7">
                     {days}
-                </div>
+                </div>,
             );
         }
 
@@ -100,8 +112,18 @@ export function CalendarView(props) {
     }
 
     const monthNames = [
-        "January", "February", "March", "April", "May", "June",
-        "July", "August", "September", "October", "November", "December"
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December",
     ];
 
     const weekDays = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
@@ -113,11 +135,15 @@ export function CalendarView(props) {
                 <div className="flex items-center mb-6">
                     <div className="ml-4">
                         <IconButton onClick={goToPreviousMonth}>
-                            <ChevronLeftIcon sx={{ color: "white", fontSize: 20 }} />
+                            <ChevronLeftIcon
+                                sx={{ color: "white", fontSize: 20 }}
+                            />
                         </IconButton>
-                        
+
                         <IconButton onClick={goToNextMonth}>
-                            <ChevronRightIcon sx={{ color: "white", fontSize: 20 }} />
+                            <ChevronRightIcon
+                                sx={{ color: "white", fontSize: 20 }}
+                            />
                         </IconButton>
                     </div>
 
@@ -139,10 +165,21 @@ export function CalendarView(props) {
                 </div>
 
                 {/* Calendar grid */}
-                <div className="space-y-0">
-                    {renderCalendarGrid()}
-                </div>
+                <div className="space-y-0">{renderCalendarGrid()}</div>
             </div>
         </div>
     );
+
+    function getTasksForDay(day) {
+        if (!props.tasksData) return [];
+        const cellDate = new Date(year, month, day);
+        return props.tasksData.filter((task) => {
+            const taskDueDate = new Date(task.due);
+            return (
+                taskDueDate.getFullYear() === cellDate.getFullYear() &&
+                taskDueDate.getMonth() === cellDate.getMonth() &&
+                taskDueDate.getDate() === cellDate.getDate()
+            );
+        });
+    }
 }
