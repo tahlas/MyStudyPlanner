@@ -64,7 +64,6 @@ export const model = {
         const prms = getCalendarEvents(this.accessToken, searchParams);
         resolvePromise(prms, this.getCalendarPromiseState);
     },
-
     getTasks() {
         if (!this.accessToken) return;
 
@@ -72,7 +71,11 @@ export const model = {
             showCompleted: false,
             maxResults: 250,
         };
-        const prms = getAllTasks(this.accessToken, searchParams);
+        const prms = getAllTasks(this.accessToken, searchParams)
+            .then(tasks => {this.tasks = tasks;
+                return tasks;
+            });
+
         resolvePromise(prms, this.currentTasksPromiseState);
     },
 

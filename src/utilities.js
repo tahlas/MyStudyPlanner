@@ -26,3 +26,17 @@ export function googleDateFormat(date, time) {
   return date + "T" + time + ":00Z";
 }
 
+
+
+
+  export function numberOfTasksPerList(taskData){
+
+    const everyList = taskData.map((task) => task.listTitle); //gets every list, can include duplicates.
+    let lists = everyList.filter((list, index) => everyList.indexOf(list) === index); // remove the duplicates.
+    lists = lists.map((listTitle) => {
+      return { listTitle: listTitle, taskCount: taskData.filter((task) => task.listTitle === listTitle).length };
+    });
+
+    return lists;
+}
+

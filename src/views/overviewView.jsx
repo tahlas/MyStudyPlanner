@@ -8,6 +8,7 @@ import { useState } from 'react';
 
 //should not be used in final version
 import { taskConstants } from "../taskConstants";
+import { numberOfTasksPerList } from "../utilities.js";
 
 /**
  * Renders the Overview View component.
@@ -44,12 +45,14 @@ function topBar(tasksData,newTask) {
     const [showTaskModal, setShowTaskModal] = useState(false);
     //TODO: ADD LOGIC THAT COUNTS THE NUMBER OF TASKS PER COURSE
     // AND DISPLAYS IT IN THE DONUT CHART
+
+
     const data = [
-        { label: "Group A", value: 400, color: "#0088FE" },
+       { label: "Group A", value: 400, color: "#0088FE" },
         { label: "Group B", value: 300, color: "#00C49F" },
         { label: "Group C", value: 300, color: "#FFBB28" },
-        { label: "Group D", value: 200, color: "#FF8042" },
-    ];
+       { label: "Group D", value: 200, color: "#FF8042" },
+     ];
 
     const settings = {
         width: 200,
