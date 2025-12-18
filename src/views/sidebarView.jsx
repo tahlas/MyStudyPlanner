@@ -11,7 +11,7 @@ export function SidebarView(props) {
     return (
         <Stack
             sx={{
-                backgroundColor: "#000000ff",
+                backgroundColor: "#2a2b2b",
                 height: "100vh",
                 flexDirection: "column",
             }}
