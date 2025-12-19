@@ -68,7 +68,7 @@ export function CalendarView(props) {
                     <span className="text-white font-semibold">{day}</span>
                     <div className="text-xs text-white mt-1">
                         {tasksForDay.map((task) => (
-                            <div key={task.id} className="truncate">
+                            <div key={task.id} className="truncate rounded-xl px-2" style={{backgroundColor: task.color}}>
                                 {task.title}
                             </div>
                         ))}

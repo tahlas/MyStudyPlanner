@@ -93,6 +93,12 @@ export const model = {
         return this.courses.map(c => c.name);
     },
 
+    getCourseColor(coursesName){
+        const course = this.courses.find(c => c.name === coursesName);
+        const defaultColor = "#5c5252ff"
+        return course ? course.color : null;
+    },
+
     newCourse(course) {
         const courseNames = this.getCourseNames();
         if (courseNames.includes(course.name)) return;

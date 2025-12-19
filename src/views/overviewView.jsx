@@ -152,7 +152,7 @@ function upcomingOverview(tasksData, onTaskSelect) {
                 Due Tomorrow
             </div>
             {dueTomorrowTasks.map(renderTaskWithSelectACB)}
-            <div style={{ color: "white" }} hidden={dueNextWeek.length === 0}>
+            <div style={{ color: "black" }} hidden={dueNextWeek.length === 0}>
                 Due Next Week
             </div>
             {dueNextWeek.map(renderTaskWithSelectACB)}
@@ -165,7 +165,7 @@ function renderTaskCB(task, onTaskSelect) {
         <div
             key={task.id}
             className="overviewTask  font-semibold"
-            style={{ backgroundColor: "#4bbfe3", cursor: "pointer" }}
+            style={{ backgroundColor: task.color, cursor: "pointer" }}
             onClick={function() { onTaskSelect(task); }}
         >
             {task.listTitle} <br />
