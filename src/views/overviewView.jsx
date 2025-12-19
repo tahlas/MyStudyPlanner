@@ -38,7 +38,17 @@ export function OverviewView(props) {
                 {todaysOverview(props.tasksData, onTaskSelectACB)}
 
                 <div>
-                    {pieCharts(props.tasksData)}
+                    <div
+                        style={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: "10px",
+                            backgroundColor: "#1c8d77",
+                        }}
+                    >
+                        {pieCharts(props.tasksData)}
+                        {addTaskButton(props.newTask, props.courseNames)}
+                    </div>
                     {upcomingOverview(props.tasksData, onTaskSelectACB)}
                 </div>
             </div>
@@ -53,6 +63,28 @@ export function OverviewView(props) {
     );
 }
 
+function addTaskButton(newTask, courseNames) {
+    const [showTaskModal, setShowTaskModal] = useState(false);
+
+    return (
+        <>
+            <button
+                onClick={() => setShowTaskModal(true)}
+                className="bg-white text-black px-3     py-2 rounded-md font-bold hover:bg-gray-200  transition duration-300"
+            >
+                Add Task
+            </button>
+            {showTaskModal && (
+                <AddTaskModal
+                    onClose={() => setShowTaskModal(false)}
+                    onNewTask={newTask}
+                    courseNames={courseNames}
+                />
+            )}
+        </>
+    );
+}
+
 function pieCharts(tasksData) {
     //TODO: ADD LOGIC THAT COUNTS THE NUMBER OF TASKS PER COURSE
     const data = [
@@ -63,13 +95,13 @@ function pieCharts(tasksData) {
     ];
 
     const settings = {
-        width: 200,
-        height: 200,
+        width: 150,
+        height: 150,
         hideLegend: true,
     };
 
     return (
-        <div style={{ position: "relative", backgroundColor: "#1c8d77" }}>
+        <div style={{ position: "relative" }}>
             <PieChart
                 series={[
                     {
@@ -93,19 +125,6 @@ function topBar(tasksData, newTask, courseNames, newCourse) {
         <div className="overviewTopBar">
             {/* This button is in the wrong position! It should be in the top bar! */}
             {/* <Button variant="contained">Add Task</Button> */}
-            <button
-                onClick={() => setShowTaskModal(true)}
-                className="bg-violet-600 text-white px-6 py-3 rounded-md font-bold hover:bg-indigo-700"
-            >
-                Add Task
-            </button>
-            {showTaskModal && (
-                <AddTaskModal
-                    onClose={() => setShowTaskModal(false)}
-                    onNewTask={newTask}
-                    courseNames={courseNames}
-                />
-            )}
 
             <button
                 onClick={() => setShowCourseModal(true)}
@@ -175,7 +194,7 @@ function upcomingOverview(tasksData, onTaskSelect) {
                 Due Next Week
             </div>
             {dueNextWeek.map(renderTaskWithSelectACB)}
-            <div style={{color:"black"}} hidden={dueLaterTasks.length === 0}>
+            <div style={{ color: "black" }} hidden={dueLaterTasks.length === 0}>
                 Due Later
             </div>
         </div>
@@ -203,7 +222,7 @@ function renderTaskCB(task, onTaskSelect) {
 function taskIsOverdueCB(task) {
     const currentDate = new Date();
     const taskDueDate = new Date(task.due);
-    
+
     return (
         taskDueDate.getFullYear() < currentDate.getFullYear() ||
         taskDueDate.getMonth() < currentDate.getMonth() ||
@@ -233,6 +252,7 @@ function taskIsDueTomorrowCB(task) {
     );
 }
 
+//TODO: Might not work if the next week is in the next year.
 function taskIsDueNextWeekAndNotTomorrowCB(task) {
     const currentDate = new Date();
     const taskDueDate = new Date(task.due);
@@ -244,10 +264,14 @@ function taskIsDueNextWeekAndNotTomorrowCB(task) {
     return taskDueWeek === currentWeek + 1;
 }
 
-function taskIsDueAfterNextWeekAndLaterCB(task){
-    const currentDate = new Date();
-    const taskDueDate = new Date(task.due);
-    const currentWeek = currentDate.getEuropeanWeek();
-    const taskDueWeek = taskDueDate.getEuropeanWeek();
-    return taskDueWeek > currentWeek + 1;
+function taskIsDueAfterNextWeekAndLaterCB(task) {
+    if (
+        taskIsDueTomorrowCB(task) ||
+        taskIsDueNextWeekAndNotTomorrowCB(task) ||
+        taskIsDueTodayCB(task) ||
+        taskIsOverdueCB(task)
+    ) {
+        return false;
+    }
+    return true;
 }
