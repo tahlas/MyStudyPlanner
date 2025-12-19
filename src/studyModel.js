@@ -1,7 +1,12 @@
 import { logout } from "./authModel";
 import { getCalendarEvents } from "./calendarSource";
 import { resolvePromise } from "./resolvePromise";
-import { getAllCourseTasks, addTask, completeTask } from "./tasksSource";
+import {
+    getAllCourseTasks,
+    addTask,
+    completeTask,
+    updateTaskListName,
+} from "./tasksSource";
 import { getCourseNames, googleDateFormat } from "./utilities.js";
 
 const DEFAULT_POMODORO_TIME = 60 * 25;
@@ -79,18 +84,17 @@ export const model = {
             showCompleted: false,
             maxResults: 250,
         };
-        const prms = getAllCourseTasks(this.accessToken,this.courses, searchParams).then(
-            (tasks) => {
-                this.tasks = tasks;
-                return tasks;
-            },
-        );
+        const prms = getAllCourseTasks(
+            this.accessToken,
+            this.courses,
+            searchParams,
+        ).then((tasks) => {
+            this.tasks = tasks;
+            return tasks;
+        });
 
         resolvePromise(prms, this.currentTasksPromiseState);
     },
-
-
-
 
     newCourse(course) {
         const courseNames = getCourseNames(this.courses);
@@ -173,7 +177,11 @@ export const model = {
                 due: googleDateFormat(taskInfo.date),
             },
             taskInfo.listTitle,
-        ).then(() => getAllCourseTasks(this.accessToken, this.courses,{ showCompleted: false }));
+        ).then(() =>
+            getAllCourseTasks(this.accessToken, this.courses, {
+                showCompleted: false,
+            }),
+        );
 
         resolvePromise(prms, this.currentTasksPromiseState);
     },
@@ -182,7 +190,36 @@ export const model = {
         if (!this.accessToken) return;
 
         const prms = completeTask(this.accessToken, task.listId, task.id).then(
-            () => getAllCourseTasks(this.accessToken, this.courses,{ showCompleted: false }),
+            () =>
+                getAllCourseTasks(this.accessToken, this.courses, {
+                    showCompleted: false,
+                }),
+        );
+
+        resolvePromise(prms, this.currentTasksPromiseState);
+    },
+
+    updateCourseName(oldName, newName) {
+        if (!this.accessToken) return;
+
+        const courseIndex = this.courses.findIndex(
+            (course) => course.name === oldName,
+        );
+        if (courseIndex !== -1) {
+            this.courses[courseIndex] = {
+                ...this.courses[courseIndex],
+                name: newName,
+            };
+        }
+
+        const prms = updateTaskListName(
+            this.accessToken,
+            oldName,
+            newName,
+        ).then(() =>
+            getAllCourseTasks(this.accessToken, this.courses, {
+                showCompleted: false,
+            }),
         );
 
         resolvePromise(prms, this.currentTasksPromiseState);

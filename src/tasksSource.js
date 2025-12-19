@@ -189,6 +189,28 @@ export async function addTask(token, taskInfo, listTitle) {
     ).then(responseACB);
 }
 
+export async function updateTaskListName(token, oldName, newName) {
+    const lists = await getAllLists(token);
+    
+    const foundList = lists.find(findListByTitleCB);
+    
+    function findListByTitleCB(list) {
+        return list.title === oldName;
+    }
+    
+    return fetch(
+        TASKS_URL + "/users/@me/lists/" + foundList.id,
+        {
+            method: "PATCH",
+            headers: {
+                "Authorization": `Bearer ${token}`,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ title: newName })
+        }
+    ).then(responseACB);
+}
+
 
 export function completeTask(token, tasklistId, taskId) {
     return fetch(
