@@ -2,7 +2,7 @@ import { logout } from "./authModel";
 import { getCalendarEvents } from "./calendarSource";
 import { resolvePromise } from "./resolvePromise";
 import { getAllCourseTasks, addTask, completeTask } from "./tasksSource";
-import { googleDateFormat } from "./utilities.js";
+import { getCourseNames, googleDateFormat } from "./utilities.js";
 
 const DEFAULT_POMODORO_TIME = 60 * 25;
 const DEFAULT_BREAK_TIME = 60 * 5;
@@ -93,7 +93,7 @@ export const model = {
 
 
     newCourse(course) {
-        const courseNames = this.getCourseNames();
+        const courseNames = getCourseNames(this.courses);
         if (courseNames.includes(course.name)) return;
 
         this.courses.push(course);
