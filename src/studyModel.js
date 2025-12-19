@@ -1,7 +1,7 @@
 import { logout } from "./authModel";
 import { getCalendarEvents } from "./calendarSource";
 import { resolvePromise } from "./resolvePromise";
-import { getAllTasks, addTask, completeTask } from "./tasksSource";
+import { getAllCourseTasks, addTask, completeTask } from "./tasksSource";
 import { googleDateFormat } from "./utilities.js";
 
 const DEFAULT_POMODORO_TIME = 60 * 25;
@@ -79,7 +79,7 @@ export const model = {
             showCompleted: false,
             maxResults: 250,
         };
-        const prms = getAllTasks(this.accessToken, searchParams).then(
+        const prms = getAllCourseTasks(this.accessToken,this.courses, searchParams).then(
             (tasks) => {
                 this.tasks = tasks;
                 return tasks;
@@ -89,15 +89,8 @@ export const model = {
         resolvePromise(prms, this.currentTasksPromiseState);
     },
 
-    getCourseNames(){
-        return this.courses.map(c => c.name);
-    },
 
-    getCourseColor(coursesName){
-        const course = this.courses.find(c => c.name === coursesName);
-        const defaultColor = "#5c5252ff"
-        return course ? course.color : null;
-    },
+
 
     newCourse(course) {
         const courseNames = this.getCourseNames();
@@ -180,7 +173,7 @@ export const model = {
                 due: googleDateFormat(taskInfo.date, taskInfo.time),
             },
             taskInfo.listTitle,
-        ).then(() => getAllTasks(this.accessToken, { showCompleted: false }));
+        ).then(() => getAllCourseTasks(this.accessToken, this.courses,{ showCompleted: false }));
 
         resolvePromise(prms, this.currentTasksPromiseState);
     },
@@ -189,7 +182,7 @@ export const model = {
         if (!this.accessToken) return;
 
         const prms = completeTask(this.accessToken, task.listId, task.id).then(
-            () => getAllTasks(this.accessToken, { showCompleted: false }),
+            () => getAllCourseTasks(this.accessToken, this.courses,{ showCompleted: false }),
         );
 
         resolvePromise(prms, this.currentTasksPromiseState);

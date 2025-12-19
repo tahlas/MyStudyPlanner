@@ -28,6 +28,15 @@ export function googleDateFormat(date, time) {
 
 
 
+export function getCourseNames(courses){
+  return courses.map(c => c.name);
+}
+
+export function getCourseColor(coursesName){
+  const course = this.courses.find(c => c.name === coursesName);
+  const defaultColor = "#5c5252ff"
+  return course ? course.color : null;
+}
 
   export function numberOfTasksPerList(taskData){
 

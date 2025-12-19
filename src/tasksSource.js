@@ -1,4 +1,5 @@
 import { TASKS_URL } from "./apiConfig";
+import { getCourseNames } from "./utilities.js";
 
 
 function responseACB(response) {
@@ -32,7 +33,49 @@ export function getAllLists(token) {
 }
 
 
-export function getAllTasks(token, searchParams) {
+// export function getAllTasks(token, searchParams) {
+//
+//     function getTaskFromListACB(list) {
+//
+//         function addTasklistIdToTaskACB(task) {
+//             return {
+//                 ...task,
+//                 listId: list.id,
+//                 listTitle: list.title
+//             };
+//         }
+//
+//         function addTasklistIdACB(tasks) {
+//             return tasks.map(addTasklistIdToTaskACB);
+//         }
+//
+//         return fetch(
+//             TASKS_URL + "/lists/" + list.id + "/tasks" + "?" + new URLSearchParams(searchParams),
+//             {
+//                 headers: {
+//                     "Authorization": `Bearer ${token}`
+//                 }
+//             }
+//         ).then(responseACB)
+//             .then(returnItemsACB)
+//             .then(addTasklistIdACB);
+//     }
+//
+//
+//
+//     function getAllTasksFromListsACB(lists){
+//         return Promise.all(lists.map(getTaskFromListACB)); // using Promise.all to return a single promise, instead of an array of promises. Will make model code easier.
+//
+//     }
+//
+//
+//
+//     return getAllLists(token).then(getAllTasksFromListsACB);
+//
+// }
+
+
+export function getAllCourseTasks(token, courses, searchParams) {
 
     function getTaskFromListACB(list) {
 
@@ -40,7 +83,8 @@ export function getAllTasks(token, searchParams) {
             return {
                 ...task,
                 listId: list.id,
-              listTitle: list.title
+                listTitle: list.title,
+                color: list.color
             };
         }
 
@@ -60,18 +104,44 @@ export function getAllTasks(token, searchParams) {
             .then(addTasklistIdACB);
     }
 
-
-
     function getAllTasksFromListsACB(lists){
-        return Promise.all(lists.map(getTaskFromListACB)); // using Promise.all to return a single promise, instead of an array of promises. Will make model code easier.
-
+        return Promise.all(lists.map(getTaskFromListACB));
     }
 
-
-
-    return getAllLists(token).then(getAllTasksFromListsACB);
-
+    return getCourseLists(token, courses).then(getAllTasksFromListsACB);
 }
+
+
+export function getCourseLists(token, courses) {
+
+    const courseNames = getCourseNames(courses);
+
+    function filterACB(lists){
+        function isCourseListACB(list){
+            return courseNames.includes(list.title);
+        }
+        return lists.filter(isCourseListACB);
+    }
+
+    function addColorToListsACB(lists) {
+        function addColorToListACB(list) {
+            function findCourseACB(course) {
+                return course.name === list.title;
+            }
+            const course = courses.find(findCourseACB);
+
+            return {
+                ...list,
+                color: course ? course.color : null
+            };
+        }
+        return lists.map(addColorToListACB);
+    }
+
+    return getAllLists(token).then(filterACB).then(addColorToListsACB);
+}
+
+
 
 export function createNewList(token, listTitle) {
     return fetch(

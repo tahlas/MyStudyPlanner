@@ -3,6 +3,9 @@ import { OverviewView } from "../views/overviewView.jsx";
 import { useEffect } from "react";
 import { logout } from "../authModel.js";
 import { SuspenseView } from "../views/suspenseView.jsx";
+import { getCourseColor } from "../utilities.js";
+import {getCourseNames} from "../utilities.js";
+
 
 const Overview = observer(function OverviewRender(props) {
     useEffect(() => {
@@ -30,7 +33,7 @@ const Overview = observer(function OverviewRender(props) {
         const flattenedTasks = state.data.flat();
         const tasksWithColors = flattenedTasks.map((task) => ({
             ...task,
-            color: props.model.getCourseColor(task.listTitle),
+            color: getCourseColor(task.listTitle),
         }));
         return (
             <OverviewView
@@ -38,7 +41,7 @@ const Overview = observer(function OverviewRender(props) {
                 newTask={handleNewTaskACB}
                 completeTask={handleCompleteTaskACB}
                 newCourse={handleNewCourse}
-                courseNames={props.model.getCourseNames()}
+                courseNames={getCourseNames(props.model.coures)}
             />
         );
     }
