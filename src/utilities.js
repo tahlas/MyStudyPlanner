@@ -35,14 +35,29 @@ export function getCourseColor(coursesName){
   return course ? course.color : null;
 }
 
-  export function numberOfTasksPerList(taskData){
+//   export function numberOfTasksPerList(taskData){
+//
+//     const everyList = taskData.map((task) => task.listTitle); //gets every list, can include duplicates.
+//     let lists = everyList.filter((list, index) => everyList.indexOf(list) === index); // remove the duplicates.
+//     lists = lists.map((listTitle) => {
+//       return { listTitle: listTitle, taskCount: taskData.filter((task) => task.listTitle === listTitle).length };
+//     });
+//
+//     return lists;
+// }
 
-    const everyList = taskData.map((task) => task.listTitle); //gets every list, can include duplicates.
-    let lists = everyList.filter((list, index) => everyList.indexOf(list) === index); // remove the duplicates.
-    lists = lists.map((listTitle) => {
-      return { listTitle: listTitle, taskCount: taskData.filter((task) => task.listTitle === listTitle).length };
-    });
 
-    return lists;
+export function numberOfTasksPerCourse(taskData) {
+  const everyList = taskData.map((task) => task.listTitle); //gets every course, can include duplicates.
+  let lists = everyList.filter((list, index) => everyList.indexOf(list) === index); // remove the duplicates.
+  lists = lists.map((listTitle) => {
+    const task = taskData.find((task) => task.listTitle === listTitle); // find a task with this listTitle to get color.
+    return {
+      label: listTitle,
+      value: taskData.filter((task) => task.listTitle === listTitle).length,  // count tasks with this listTitle.
+      color: task.color
+    };
+  });
+
+  return lists;
 }
-
