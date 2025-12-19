@@ -69,7 +69,7 @@ function pieCharts(tasksData) {
     };
 
     return (
-        <div style={{position:"relative", backgroundColor:"#1c8d77"}}>
+        <div style={{ position: "relative", backgroundColor: "#1c8d77" }}>
             <PieChart
                 series={[
                     {
@@ -205,7 +205,13 @@ function taskIsOverdueCB(task) {
     // console.log("Current Date Time: ", currentDate.getTime());
     // console.log("Task Due Date Time: ", taskDueDate.getTime());
 
-    return taskDueDate < currentDate;
+    //return taskDueDate < currentDate;
+
+    return (
+        taskDueDate.getFullYear() < currentDate.getFullYear() ||
+        taskDueDate.getMonth() < currentDate.getMonth() ||
+        taskDueDate.getDate() < currentDate.getDate()
+    );
 }
 
 function taskIsDueTodayCB(task) {
