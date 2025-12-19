@@ -11,7 +11,6 @@ function AddTaskModal({ onClose, onNewTask, courseNames}) {
             title: evt.target.title.value,
             description: evt.target.description.value,
             date: evt.target.date.value,
-            time: evt.target.time.value
         });
         onClose();
     }
@@ -57,7 +56,6 @@ function AddTaskModal({ onClose, onNewTask, courseNames}) {
                             />
                         </div>
 
-
                         <div>
                             <input
                                 id="date"
@@ -66,11 +64,6 @@ function AddTaskModal({ onClose, onNewTask, courseNames}) {
                                 className=" px-1 py-1 text-black bg-white"
                             />
                         </div>
-                        <input
-                            id="time"
-                            type="time"
-                            className=" px-1 py-1 text-black bg-white"
-                        />
                         <div>
                             <button className="bg-red-600 text-white rounded-md px-4 py-3 w-full font-bold hover:bg-red-800" type="submit">
                                 Save Task

@@ -16,14 +16,11 @@ Date.prototype.getEuropeanWeek = function() {
 }
 
 
-export function googleDateFormat(date, time) {
+export function googleDateFormat(date) {
   if (!date) {
     return null;
   }
-  if (!time || time === "") {
     return date + "T00:00:00Z";
-  }
-  return date + "T" + time + ":00Z";
 }
 
 

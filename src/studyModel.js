@@ -170,7 +170,7 @@ export const model = {
             {
                 title: taskInfo.title,
                 notes: taskInfo.description,
-                due: googleDateFormat(taskInfo.date, taskInfo.time),
+                due: googleDateFormat(taskInfo.date),
             },
             taskInfo.listTitle,
         ).then(() => getAllCourseTasks(this.accessToken, this.courses,{ showCompleted: false }));
