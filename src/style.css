@@ -15,7 +15,8 @@
 }
 
 .overviewTask:hover {
-    opacity: 0.8;
+    /* opacity: 0.8; */
+    filter: brightness(110%);
     /* transform: translateY(-3px); */
     transform: translate(-4px);
 }
