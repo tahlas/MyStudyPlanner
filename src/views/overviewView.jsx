@@ -107,11 +107,10 @@ function pieCharts(tasksData) {
                 ]}
                 // TODO: Understand how this works...
                 sx={{
-        [`& .${pieArcClasses.root}`]: {
-            stroke: "none",
-        },
-    }}
-
+                    [`& .${pieArcClasses.root}`]: {
+                        stroke: "none",
+                    },
+                }}
                 {...settings}
             />
             <div className="textInDonut">{tasksData.length}</div>
