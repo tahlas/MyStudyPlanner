@@ -31,17 +31,14 @@ const Overview = observer(function OverviewRender(props) {
     if (state.data) {
         // Flatten the array of arrays into a single array of tasks
         const flattenedTasks = state.data.flat();
-        const tasksWithColors = flattenedTasks.map((task) => ({
-            ...task,
-            color: getCourseColor(task.listTitle),
-        }));
+        
         return (
             <OverviewView
-                tasksData={tasksWithColors}
+                tasksData={flattenedTasks}
                 newTask={handleNewTaskACB}
                 completeTask={handleCompleteTaskACB}
                 newCourse={handleNewCourse}
-                courseNames={getCourseNames(props.model.coures)}
+                courseNames={getCourseNames(props.model.courses)}
             />
         );
     }

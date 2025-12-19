@@ -11,13 +11,9 @@ const Calendar = observer(function CalendarRender(props) {
 
     const state = props.model.currentTasksPromiseState;
     const flattenedTasks = state.data ? state.data.flat() : [];
-    const tasksWithColors = flattenedTasks.map((task) => ({
-        ...task,
-        color: props.model.getCourseColor(task.listTitle),
-    }));
 
     return (
-        <CalendarView tasksData={tasksWithColors} />
+        <CalendarView tasksData={flattenedTasks} />
     );
 });
 
