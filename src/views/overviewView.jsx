@@ -117,14 +117,12 @@ function pieCharts(tasksData) {
     );
 }
 
-function topBar(tasksData, newTask, courseNames, newCourse) {
-    const [showTaskModal, setShowTaskModal] = useState(false);
+function topBar(newCourse) {
     const [showCourseModal, setShowCourseModal] = useState(false);
 
     return (
         <div className="overviewTopBar">
             {/* This button is in the wrong position! It should be in the top bar! */}
-            {/* <Button variant="contained">Add Task</Button> */}
 
             <button
                 onClick={() => setShowCourseModal(true)}
@@ -197,6 +195,7 @@ function upcomingOverview(tasksData, onTaskSelect) {
             <div style={{ color: "black" }} hidden={dueLaterTasks.length === 0}>
                 Due Later
             </div>
+            {dueLaterTasks.map(renderTaskWithSelectACB)}
         </div>
     );
 }
@@ -222,12 +221,10 @@ function renderTaskCB(task, onTaskSelect) {
 function taskIsOverdueCB(task) {
     const currentDate = new Date();
     const taskDueDate = new Date(task.due);
+    currentDate.setHours(0, 0, 0, 0);
+    taskDueDate.setHours(0, 0, 0, 0);
 
-    return (
-        taskDueDate.getFullYear() < currentDate.getFullYear() ||
-        taskDueDate.getMonth() < currentDate.getMonth() ||
-        taskDueDate.getDate() < currentDate.getDate()
-    );
+    return taskDueDate < currentDate;
 }
 
 function taskIsDueTodayCB(task) {
