@@ -1,4 +1,4 @@
-import { PieChart } from "@mui/x-charts/PieChart";
+import { PieChart, pieArcClasses } from "@mui/x-charts/PieChart";
 import { Button } from "@mui/material";
 import "/src/style.css";
 import "/src/utilities.js";
@@ -70,7 +70,7 @@ function addTaskButton(newTask, courseNames) {
         <>
             <button
                 onClick={() => setShowTaskModal(true)}
-                className="bg-white text-black px-3     py-2 rounded-md font-bold hover:bg-gray-200  transition duration-300"
+                className="bg-white text-black px-3     py-2 rounded-md font-bold filter hover:brightness-80  transition duration-300"
             >
                 Add Task
             </button>
@@ -105,6 +105,13 @@ function pieCharts(tasksData) {
                         data,
                     },
                 ]}
+                // TODO: Understand how this works...
+                sx={{
+        [`& .${pieArcClasses.root}`]: {
+            stroke: "none",
+        },
+    }}
+
                 {...settings}
             />
             <div className="textInDonut">{tasksData.length}</div>
