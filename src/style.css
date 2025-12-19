@@ -4,7 +4,7 @@
 .overviewTask {
     display: block;
     border-radius: 10px;
-    width: 200px;
+    width: 300px;
     min-height: 50px;
     border: 2px solid black;
     font-size: 16px;
@@ -25,6 +25,7 @@
     background-color: #1c8d77;
     position: relative;
 }
+
 
 .flexParent {
     display: flex;
