@@ -17,8 +17,8 @@ function AddCourseModal({ onClose, onNewCourse }) {
         <div
             className="fixed top-0 left-0 right-0 bottom-0 bg-black/30 backdrop-blur-sm flex justify-center items-center z-50">
             <div className = "mt-10 flex flex-col gap-5 text-white">
-                <IconButton  className="place-self-end"><CloseIcon className="text-white bg-gray-600 hover:bg-red-700"  onClick={onClose}/></IconButton>
-                <div className="bg-gray-600 rounded-xl px-20 py-25 flex-col gap-25 items-center mx-4">
+                <div className="bg-gray-600 rounded-xl px-20 py-25 flex-col gap-25 items-center mx-4 relative">
+                    <IconButton  style={{ position: "absolute", top: 12, right: 12 }}><CloseIcon className="text-white hover:bg-red-700"  onClick={onClose}/></IconButton>
                     <h1 className= "text-3xl font-bold text-center mb-6">Add Course</h1>
                     <form className="w-full space-y-3" onSubmit={submitACB}>
                         <div>
