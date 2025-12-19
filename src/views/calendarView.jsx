@@ -61,14 +61,14 @@ export function CalendarView(props) {
                     key={day}
                     // TODO: FIX HANDLE DAY CLICK
                     onClick={() => handleDayClick(day)}
-                    className={`aspect-square border border-gray-600 p-2 cursor-pointer hover:bg-gray-700 transition-colors ${
+                    className={`aspect-square border border-gray-600 p-2 cursor-pointer hover:bg-gray-700 transition-colors flex flex-col ${
                         isToday ? "bg-blue-600" : "bg-gray-800"
                     }`}
                 >
                     <span className="text-white font-semibold">{day}</span>
-                    <div className="text-xs text-white mt-1">
+                    <div className="text-xs text-white mt-1 overflow-y-auto flex-1 min-h-0">
                         {tasksForDay.map((task) => (
-                            <div key={task.id} className="truncate rounded-xl px-2" style={{backgroundColor: task.color}}>
+                            <div key={task.id} className="truncate rounded-xl px-2 mb-1" style={{backgroundColor: task.color}}>
                                 {task.title}
                             </div>
                         ))}
