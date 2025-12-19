@@ -130,7 +130,7 @@ function todaysOverview(tasksData, onTaskSelect) {
 
     return (
         <div>
-            <div style={{ color: "white" }}>Today</div>
+            <div style={{ color: "black" }}>Today</div>
             <div>
                 {tasksData
                     .filter(taskIsDueTodayCB)
@@ -145,6 +145,7 @@ function upcomingOverview(tasksData, onTaskSelect) {
     const dueTodayTasks = tasksData.filter(taskIsDueTodayCB);
     const dueTomorrowTasks = tasksData.filter(taskIsDueTomorrowCB);
     const dueNextWeek = tasksData.filter(taskIsDueNextWeekAndNotTomorrowCB);
+    const dueLaterTasks = tasksData.filter(taskIsDueAfterNextWeekAndLaterCB);
 
     function renderTaskWithSelectACB(task) {
         return renderTaskCB(task, onTaskSelect);
@@ -174,6 +175,9 @@ function upcomingOverview(tasksData, onTaskSelect) {
                 Due Next Week
             </div>
             {dueNextWeek.map(renderTaskWithSelectACB)}
+            <div style={{color:"black"}} hidden={dueLaterTasks.length === 0}>
+                Due Later
+            </div>
         </div>
     );
 }
@@ -199,14 +203,7 @@ function renderTaskCB(task, onTaskSelect) {
 function taskIsOverdueCB(task) {
     const currentDate = new Date();
     const taskDueDate = new Date(task.due);
-    // console.log("Current Date: ", currentDate);
-    // console.log("Task Due Date: ", taskDueDate);
-    //Getting/setting the due time is not supported by the Google Tasks API :(
-    // console.log("Current Date Time: ", currentDate.getTime());
-    // console.log("Task Due Date Time: ", taskDueDate.getTime());
-
-    //return taskDueDate < currentDate;
-
+    
     return (
         taskDueDate.getFullYear() < currentDate.getFullYear() ||
         taskDueDate.getMonth() < currentDate.getMonth() ||
@@ -245,4 +242,12 @@ function taskIsDueNextWeekAndNotTomorrowCB(task) {
         return false;
     }
     return taskDueWeek === currentWeek + 1;
+}
+
+function taskIsDueAfterNextWeekAndLaterCB(task){
+    const currentDate = new Date();
+    const taskDueDate = new Date(task.due);
+    const currentWeek = currentDate.getEuropeanWeek();
+    const taskDueWeek = taskDueDate.getEuropeanWeek();
+    return taskDueWeek > currentWeek + 1;
 }
