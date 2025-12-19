@@ -13,7 +13,7 @@ export function connectToAuthentication(model) {
         if (user) {
             model.setUser(user);
         } else {
-            // User logged out - complete cleanup
+            // User logged out, complete cleanup
             model.accessToken = null;
             model.user = null;
             model.isTokenFromLogin = false;
@@ -31,4 +31,3 @@ export async function logout(model) {
         console.error(error);
     }
 }
-

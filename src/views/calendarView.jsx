@@ -2,10 +2,14 @@ import { useState } from "react";
 import { IconButton, Typography } from "@mui/material";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import ScheduleModal from "./components/scheduleModal.jsx";
 import "/src/style.css";
 
 export function CalendarView(props) {
     const [currentDate, setCurrentDate] = useState(new Date());
+    const [showScheduleModal, setShowScheduleModal] = useState(false);
+    const [selectedTask, setSelectedTask] = useState(null);
+
 
     const year = currentDate.getFullYear();
     const month = currentDate.getMonth();
@@ -30,7 +34,12 @@ export function CalendarView(props) {
 
     function handleDayClick(day) {
         const clickedDate = new Date(year, month, day);
-        props.onDayClick?.(clickedDate);
+        const tasksForDay = getTasksForDay(day);
+
+        if (tasksForDay.length > 0) {
+            setSelectedTask(tasksForDay);
+            setShowScheduleModal(true);
+        }
     }
 
     function renderCalendarGrid() {
@@ -59,7 +68,6 @@ export function CalendarView(props) {
             days.push(
                 <div
                     key={day}
-                    // TODO: FIX HANDLE DAY CLICK
                     onClick={() => handleDayClick(day)}
                     className={`aspect-square border border-gray-600 p-2 cursor-pointer hover:bg-gray-700 transition-colors flex flex-col ${
                         isToday ? "bg-blue-600" : "bg-gray-800"
@@ -167,6 +175,13 @@ export function CalendarView(props) {
                 {/* Calendar grid */}
                 <div className="space-y-0">{renderCalendarGrid()}</div>
             </div>
+            {showScheduleModal && (
+                <ScheduleModal
+                    tasks={selectedTask}
+                    onClose={() => setShowScheduleModal(false)}
+                    onCompleteTask={props.completeTask}
+                />
+            )}
         </div>
     );
 
