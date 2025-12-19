@@ -11,7 +11,7 @@ function ScheduleModal({ onClose, tasks}) {
                     <IconButton  style={{ position: "absolute", top: 12, right: 12 }}><CloseIcon className="text-white hover:bg-red-700"  onClick={onClose}/></IconButton>
                     <div className="text-white mt-1 overflow-y-auto flex-1 min-h-0">
                         {tasks.map((task) => (
-                            <div key={task.id}  className=" rounded-2xl px-6 py-5 mb-4 text-3xl font-semibold cursor-pointer border-4 border-transparent hover:border-white transition-all duration-200"
+                            <div key={task.id}  className="rounded-2xl px-6 py-5 mb-4 text-3xl font-semibold cursor-pointer transition-all duration-200 hover:brightness-110"
                                  style={{backgroundColor: task.color}}>
                                 {task.title}
                             </div>
