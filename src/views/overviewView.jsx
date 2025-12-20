@@ -43,7 +43,7 @@ export function OverviewView(props) {
                             display: "flex",
                             alignItems: "center",
                             gap: "10px",
-                            backgroundColor: "#1c8d77",
+                            backgroundColor: "#1e2939",
                         }}
                     >
                         {pieCharts(props.tasksData)}
@@ -110,6 +110,7 @@ function pieCharts(tasksData) {
                     [`& .${pieArcClasses.root}`]: {
                         stroke: "none",
                     },
+                    
                 }}
                 {...settings}
             />

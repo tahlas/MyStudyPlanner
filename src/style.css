@@ -24,7 +24,8 @@
 .overviewTopBar {
     height: 200px;
     width: 100%;
-    background-color: #1c8d77;
+    /* background-color: #1c8d77; */
+    background-color:#1e2939;
     position: relative;
 }
 
@@ -35,9 +36,8 @@
 }
 
 body { 
-    background: #f9f9f9;
-    /* background: #f9f9f9; Color from MyStudyLife*/
-    /* background: linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(9, 9, 121, 1) 35%, rgba(0, 212, 255, 1) 100%); */
+    /* background: #f9f9f9; Color from MyStudyLife */
+    background: #101828;
 }
 
 .textInDonut {
@@ -48,6 +48,7 @@ body {
     /* Offsets the text by half of its own width and height */
     transform: translate(-50%, -50%);
     font-size: 50px;
+    color:white;
 }
 
 .flexParent {
@@ -77,4 +78,14 @@ body {
     aspect-ratio: square;
     border: 1px solid;
     border-color: #333537;  
+}
+
+.settingsCoursesList{
+    border-radius: 10px;
+    /* background-color: #1c8d77; */
+    background-color: #1e2939;
+    width: 300px;
+    height: 300px;
+    margin: 10px;
+    
 }
