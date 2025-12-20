@@ -80,12 +80,13 @@ body {
     border-color: #333537;  
 }
 
-.settingsCoursesList{
+.settingsBoxes{
     border-radius: 10px;
     /* background-color: #1c8d77; */
     background-color: #1e2939;
+    margin: 10px;
     width: 300px;
     height: 300px;
-    margin: 10px;
+    /* overflow:auto; */
     
 }

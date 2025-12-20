@@ -9,7 +9,7 @@ export function LoginView(props) {
     
     const providers = [ {id: 'google', name: 'Google'} ];
 
-    return (
+    return (    
         <AppProvider>
             <SignInPage providers={providers} signIn={loginACB} />
         </AppProvider>
