@@ -3,6 +3,8 @@ import AssignmentIcon from "@mui/icons-material/Assignment";
 import TimerIcon from "@mui/icons-material/Timer";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import LogoutIcon from "@mui/icons-material/Logout";
+import SettingsIcon from '@mui/icons-material/Settings';
+
 
 /**
  * TODO: PLACEHOLDER. CHANGE LATER.
@@ -46,8 +48,16 @@ export function SidebarView(props) {
                 </IconButton>
             </Stack>
 
-            <IconButton>
+            {/* <IconButton>
                 <LogoutIcon onClick={props.onLogout} sx={{ color: "white" }} />
+            </IconButton> */}
+            <IconButton>
+                <SettingsIcon
+                    onClick={() => {
+                        window.location.hash = "#/settings";
+                    }}
+                    sx={{ color: "white" }}
+                />
             </IconButton>
         </Stack>
     );
