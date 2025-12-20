@@ -7,6 +7,7 @@ import CompleteTaskModal from "./components/completeTaskModal.jsx";
 import AddCourseModal from "./components/addCourseModal.jsx";
 import { useState } from "react";
 
+//TODO:
 //should not be used in final version
 import { taskConstants } from "../taskConstants";
 import { numberOfTasksPerCourse } from "../utilities.js";
@@ -28,10 +29,10 @@ export function OverviewView(props) {
         <div>
             <div>
                 {topBar(
-                    props.tasksData,
-                    props.newTask,
-                    props.courseNames,
-                    props.newCourse,
+                    // props.tasksData,
+                    // props.newTask,
+                    // props.courseNames,
+                    props.newCourse
                 )}
             </div>
             <div className="flexParent">
