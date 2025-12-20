@@ -12,6 +12,7 @@ const Calendar = observer(function CalendarRender(props) {
 
     useEffect(() => {
        if (props.model.accessToken && !props.model.currentCalendarEventsPromiseState.promise) {
+           console.log("Calling getCalendarEvents");
             props.model.getCalendarEvents();
         }
     }, [props.model.accessToken, props.model.user]);
@@ -19,11 +20,11 @@ const Calendar = observer(function CalendarRender(props) {
 
     const state = props.model.currentTasksPromiseState;
     const flattenedTasks = state.data ? state.data.flat() : [];
-    const eventState = props.model.currentTasksPromiseState;
-    const flattenedEvents = eventState.data ? eventState.data.flat() : [];
+
+
 
     return (
-        <CalendarView tasksData={flattenedTasks} eventsData = {flattenedEvents} courseNames = {getCourseNames(props.model.courses)} newEvent = {handleNewEventACB}  repeatOptions = {[ "Daily", "Weekly", "Monthly"]}
+        <CalendarView tasksData={flattenedTasks}  eventsData={props.model.currentCalendarEventsPromiseState} courseNames = {getCourseNames(props.model.courses)} newEvent = {handleNewEventACB}  repeatOptions = {[ "Daily", "Weekly", "Monthly"]}
                       eventTypeOptions = {["Lecture", "Seminar", "Exam", "Lab", "Tutorial", "Presentation", "Study Session", "Group Work"]}
         />
     );

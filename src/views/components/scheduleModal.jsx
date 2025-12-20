@@ -1,7 +1,10 @@
 import CloseIcon from '@mui/icons-material/Close';
 import { IconButton } from '@mui/material';
+import { formatTime } from "../../utilities.js";
 
-function ScheduleModal({ onClose, tasks}) {
+
+
+function ScheduleModal({ onClose, tasks,events}) {
 
     return (
         <div
@@ -14,6 +17,18 @@ function ScheduleModal({ onClose, tasks}) {
                             <div key={task.id}  className="rounded-2xl px-6 py-5 mb-4 text-3xl font-semibold cursor-pointer transition-all duration-200 hover:brightness-110"
                                  style={{backgroundColor: task.color}}>
                                 {task.title}
+                            </div>
+                        ))}
+                        {events.map((event) => (
+                            <div
+                                key={`event-${event.id}`}
+                                className="relative rounded-2xl px-6 py-5 mb-4 text-3xl font-semibold cursor-pointer transition-all duration-200 hover:brightness-110"
+                                style={{ backgroundColor: event.color }}
+                            >
+                                {event.summary}
+                                <span className="absolute bottom-1 left-1/2 -translate-x-1/2 text-sm">
+                                    {formatTime(event.start.dateTime) + ' – ' + formatTime(event.end.dateTime)}
+                                 </span>
                             </div>
                         ))}
                     </div>

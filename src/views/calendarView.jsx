@@ -10,6 +10,7 @@ export function CalendarView(props) {
     const [currentDate, setCurrentDate] = useState(new Date());
     const [showScheduleModal, setShowScheduleModal] = useState(false);
     const [selectedTask, setSelectedTask] = useState(null);
+    const [selectedEvent, setSelectedEvent] = useState(null);
     const [showAddEventModal, setShowAddEventModal] = useState(false);
 
 
@@ -38,9 +39,11 @@ export function CalendarView(props) {
     function handleDayClick(day) {
         const clickedDate = new Date(year, month, day);
         const tasksForDay = getTasksForDay(day);
+        const eventsForDay = getEventsForDay(day);
 
-        if (tasksForDay.length > 0) {
+        if (tasksForDay.length > 0 || eventsForDay.length > 0) {
             setSelectedTask(tasksForDay);
+            setSelectedEvent(eventsForDay);
             setShowScheduleModal(true);
         }
     }
@@ -49,7 +52,6 @@ export function CalendarView(props) {
         const weeks = [];
         let days = [];
 
-        // Add empty cells for days before the month starts
         for (let i = 0; i < startingDay; i++) {
             days.push(
                 <div
@@ -59,7 +61,6 @@ export function CalendarView(props) {
             );
         }
 
-        // Add cells for each day of the month
         for (let day = 1; day <= daysInMonth; day++) {
             const isToday =
                 day === new Date().getDate() &&
@@ -67,6 +68,7 @@ export function CalendarView(props) {
                 year === new Date().getFullYear();
 
             const tasksForDay = getTasksForDay(day);
+            const eventsForDay = getEventsForDay(day);
 
             days.push(
                 <div
@@ -78,6 +80,11 @@ export function CalendarView(props) {
                 >
                     <span className="text-white font-semibold">{day}</span>
                     <div className="text-xs text-white mt-1 overflow-y-auto flex-1 min-h-0">
+                        {eventsForDay.map((event) => (
+                            <div key={event.id} className="truncate rounded-xl px-2 mb-1" style={{backgroundColor: event.color}}>
+                                {event.summary}
+                            </div>
+                        ))}
                         {tasksForDay.map((task) => (
                             <div key={task.id} className="truncate rounded-xl px-2 mb-1" style={{backgroundColor: task.color}}>
                                 {task.title}
@@ -87,7 +94,6 @@ export function CalendarView(props) {
                 </div>,
             );
 
-            // Start a new week after Sunday
             if ((startingDay + day) % 7 === 0) {
                 weeks.push(
                     <div
@@ -101,9 +107,7 @@ export function CalendarView(props) {
             }
         }
 
-        // Add remaining days to the last week
         if (days.length > 0) {
-            // Fill remaining cells with empty divs
             while (days.length < 7) {
                 days.push(
                     <div
@@ -188,6 +192,7 @@ export function CalendarView(props) {
             {showScheduleModal && (
                 <ScheduleModal
                     tasks={selectedTask}
+                    events={selectedEvent}
                     onClose={() => setShowScheduleModal(false)}
                     onCompleteTask={props.completeTask}
                 />

@@ -105,3 +105,14 @@ export function calculateEndTime(date, time, durationMinutes) {
 
   return formatDateTime(endDate, endTime);
 }
+
+export function formatTime(dateTime) {
+  if (!dateTime) return '';
+
+  const date = new Date(dateTime);
+
+  const hours = String(date.getHours()).padStart(2, '0');
+  const minutes = String(date.getMinutes()).padStart(2, '0');
+
+  return hours + ':' + minutes;
+}
