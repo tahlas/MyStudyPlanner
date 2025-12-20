@@ -83,7 +83,7 @@ export function CalendarView(props) {
                                 {task.title}
                             </div>
                         ))}
-                    </div> 
+                    </div>
                 </div>,
             );
 
@@ -214,6 +214,22 @@ export function CalendarView(props) {
                 taskDueDate.getFullYear() === cellDate.getFullYear() &&
                 taskDueDate.getMonth() === cellDate.getMonth() &&
                 taskDueDate.getDate() === cellDate.getDate()
+            );
+        });
+    }
+
+    function getEventsForDay(day) {
+        if (!props.eventsData || !props.eventsData.data) return [];
+
+        const cellDate = new Date(year, month, day);
+
+        return props.eventsData.data.filter((event) => {
+
+            const eventDate = new Date(event.start.dateTime);
+            return (
+                eventDate.getFullYear() === cellDate.getFullYear() &&
+                eventDate.getMonth() === cellDate.getMonth() &&
+                eventDate.getDate() === cellDate.getDate()
             );
         });
     }

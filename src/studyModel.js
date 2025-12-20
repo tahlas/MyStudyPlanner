@@ -1,5 +1,5 @@
 import { logout } from "./authModel";
-import { addCalendarEvent, getCalendarEvents } from "./calendarSource";
+import { addCalendarEvent, getCalendarEvents, getCourseEvents } from "./calendarSource";
 import { resolvePromise } from "./resolvePromise";
 import {
     getAllCourseTasks,
@@ -20,7 +20,7 @@ export const model = {
     tasks: [],
     events: [],
     courses: [],
-    getCalendarPromiseState: {},
+    currentCalendarEventsPromiseState: {},
     currentTasksPromiseState: {},
     playingStatus: false,
     defaultPomodoroSessionTimeInSeconds: DEFAULT_POMODORO_TIME,
@@ -43,7 +43,7 @@ export const model = {
         this.isTokenFromLogin = false;
         this.tasks = [];
         this.events = [];
-        this.getCalendarPromiseState = {};
+        this.currentCalendarEventsPromiseState = {};
         this.currentTasksPromiseState = {};
         this.playingStatus = false;
         this.defaultPomodoroSessionTimeInSeconds = DEFAULT_POMODORO_TIME;
@@ -72,9 +72,8 @@ export const model = {
             singleEvents: true,
             maxResults: 250,
         };
-
         const prms = getCalendarEvents(this.accessToken, searchParams);
-        resolvePromise(prms, this.getCalendarPromiseState);
+        resolvePromise(prms, this.currentCalendarEventsPromiseState);
     },
     getTasks() {
         if (!this.accessToken) return;
@@ -87,13 +86,28 @@ export const model = {
             this.accessToken,
             this.courses,
             searchParams,
-        ).then((tasks) => {
-            this.tasks = tasks;
-            return tasks;
-        });
+        );
 
         resolvePromise(prms, this.currentTasksPromiseState);
     },
+
+        getCalendarEvents() {
+            if (!this.accessToken) return;
+
+            const searchParams = {
+                maxResults: 250,
+                singleEvents: true,
+                orderBy: 'startTime'
+            };
+
+            const prms = getCourseEvents(
+                this.accessToken,
+                this.courses,
+                searchParams,
+            );
+
+            resolvePromise(prms, this.currentCalendarEventsPromiseState);
+        },
 
     newCourse(course) {
         const courseNames = getCourseNames(this.courses);
