@@ -4,7 +4,7 @@ import { getCourseNames } from "../utilities.js";
 import { SuspenseView } from "../views/suspenseView.jsx";
 
 const Settings = observer(function SettingsRender(props) {
-    if (!props.model.user) {
+    if (!props.model.user || !props.model.ready) {
         return <SuspenseView />;
     }
 

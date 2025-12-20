@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { logout } from "../authModel.js";
 import { SuspenseView } from "../views/suspenseView.jsx";
 import { getCourseColor } from "../utilities.js";
-import {getCourseNames} from "../utilities.js";
+import { getCourseNames } from "../utilities.js";
 
 
 const Overview = observer(function OverviewRender(props) {
