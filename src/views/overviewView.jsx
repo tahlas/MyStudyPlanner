@@ -27,15 +27,12 @@ export function OverviewView(props) {
 
     return (
         <div>
-            <div>
-                {topBar(
-                    // props.tasksData,
-                    // props.newTask,
-                    // props.courseNames,
-                    props.newCourse
-                )}
-            </div>
+            <div>{topBar(props.newCourse)}</div>
             <div className="flexParent">
+                <div> 
+                    {pieCharts(props.tasksData.filter(taskIsDueTodayCB), "Today")}
+                </div>
+
                 {todaysOverview(props.tasksData, onTaskSelectACB)}
 
                 <div>
@@ -47,7 +44,7 @@ export function OverviewView(props) {
                             backgroundColor: "#1e2939",
                         }}
                     >
-                        {pieCharts(props.tasksData)}
+                        {pieCharts(props.tasksData, "All Tasks")}
                         {addTaskButton(props.newTask, props.courseNames)}
                     </div>
                     {upcomingOverview(props.tasksData, onTaskSelectACB)}
@@ -71,7 +68,7 @@ function addTaskButton(newTask, courseNames) {
         <>
             <button
                 onClick={() => setShowTaskModal(true)}
-                className="bg-white text-black px-3     py-2 rounded-md font-bold filter hover:brightness-80  transition duration-300"
+                className="bg-white text-black px-3 py-2 rounded-md font-bold filter hover:brightness-80  transition duration-300"
             >
                 Add Task
             </button>
@@ -86,8 +83,7 @@ function addTaskButton(newTask, courseNames) {
     );
 }
 
-function pieCharts(tasksData) {
-    //TODO: ADD LOGIC THAT COUNTS THE NUMBER OF TASKS PER COURSE
+function pieCharts(tasksData, label) {
     const data = numberOfTasksPerCourse(tasksData);
 
     const settings = {
@@ -98,6 +94,7 @@ function pieCharts(tasksData) {
 
     return (
         <div style={{ position: "relative" }}>
+            <div style={{ color: "white", marginBottom: "5px" }}>{label}</div>
             <PieChart
                 series={[
                     {
@@ -111,7 +108,6 @@ function pieCharts(tasksData) {
                     [`& .${pieArcClasses.root}`]: {
                         stroke: "none",
                     },
-                    
                 }}
                 {...settings}
             />
@@ -149,8 +145,8 @@ function todaysOverview(tasksData, onTaskSelect) {
     }
 
     return (
-        <div>
-            <div style={{ color: "black" }}>Today</div>
+        <div style={{ marginLeft: "10px" }}>
+            <div style={{ color: "white" }}>Today</div>
             <div>
                 {tasksData
                     .filter(taskIsDueTodayCB)
@@ -191,11 +187,11 @@ function upcomingOverview(tasksData, onTaskSelect) {
                 Due Tomorrow
             </div>
             {dueTomorrowTasks.map(renderTaskWithSelectACB)}
-            <div style={{ color: "black" }} hidden={dueNextWeek.length === 0}>
+            <div style={{ color: "white" }} hidden={dueNextWeek.length === 0}>
                 Due Next Week
             </div>
             {dueNextWeek.map(renderTaskWithSelectACB)}
-            <div style={{ color: "black" }} hidden={dueLaterTasks.length === 0}>
+            <div style={{ color: "white" }} hidden={dueLaterTasks.length === 0}>
                 Due Later
             </div>
             {dueLaterTasks.map(renderTaskWithSelectACB)}
@@ -205,7 +201,9 @@ function upcomingOverview(tasksData, onTaskSelect) {
 
 function renderTaskCB(task, onTaskSelect) {
     const dueDateDay = new Date(task.due).getDate();
-    const dueDateMonth = new Date(task.due).toLocaleString("default", { month: "short" });
+    const dueDateMonth = new Date(task.due).toLocaleString("default", {
+        month: "short",
+    });
     const notesExist = task.notes ? true : false;
 
     return (
@@ -223,7 +221,7 @@ function renderTaskCB(task, onTaskSelect) {
                 <>
                     {task.notes} <br />
                 </>
-            )} 
+            )}
             {dueDateMonth + " " + dueDateDay}
         </div>
     );
