@@ -59,5 +59,49 @@ export function numberOfTasksPerCourse(taskData) {
     };
   });
 
+
+
+
   return lists;
+}
+
+
+export function mapRepeatToRRule(repeatOption) {
+  const repeatMap = {
+    "Daily": "RRULE:FREQ=DAILY",
+    "Weekly": "RRULE:FREQ=WEEKLY",
+    "Monthly": "RRULE:FREQ=MONTHLY"
+  };
+
+  return repeatMap[repeatOption] || "";
+}
+
+
+export function formatDateTime(date, time = "00:00") {
+  if (!date) {
+    return null;
+  }
+
+  const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+  return {
+    dateTime: date + "T" + time + ":00",
+    timeZone: timeZone
+  };
+}
+
+
+//this function was written by the help of a llm
+export function calculateEndTime(date, time, durationMinutes) {
+  if (!date || !time || !durationMinutes) {
+    return null;
+  }
+
+  const startDateTime = new Date(date + "T" + time);
+  startDateTime.setMinutes(startDateTime.getMinutes() + parseInt(durationMinutes));
+
+  const endDate = startDateTime.toISOString().split('T')[0];
+  const endTime = startDateTime.toTimeString().slice(0, 5);
+
+  return formatDateTime(endDate, endTime);
 }

@@ -1,5 +1,5 @@
 import { logout } from "./authModel";
-import { getCalendarEvents } from "./calendarSource";
+import { addCalendarEvent, getCalendarEvents } from "./calendarSource";
 import { resolvePromise } from "./resolvePromise";
 import {
     getAllCourseTasks,
@@ -7,7 +7,7 @@ import {
     completeTask,
     updateTaskListName,
 } from "./tasksSource";
-import { getCourseNames, googleDateFormat } from "./utilities.js";
+import { calculateEndTime, formatDateTime, getCourseNames, googleDateFormat, mapRepeatToRRule } from "./utilities.js";
 
 const DEFAULT_POMODORO_TIME = 60 * 25;
 const DEFAULT_BREAK_TIME = 60 * 5;
@@ -22,7 +22,6 @@ export const model = {
     courses: [],
     getCalendarPromiseState: {},
     currentTasksPromiseState: {},
-
     playingStatus: false,
     defaultPomodoroSessionTimeInSeconds: DEFAULT_POMODORO_TIME,
     timeLeftInSeconds: DEFAULT_POMODORO_TIME,
@@ -184,6 +183,23 @@ export const model = {
         );
 
         resolvePromise(prms, this.currentTasksPromiseState);
+    },
+
+    saveNewEvent(eventInfo) {
+        if (!this.accessToken) return;
+
+        const eventData = {
+            summary: eventInfo.course + " - " + eventInfo.eventType,
+            description: eventInfo.description,
+            start: formatDateTime(eventInfo.date, eventInfo.time),
+            end: calculateEndTime(eventInfo.date, eventInfo.time, eventInfo.duration)
+        };
+
+        if (eventInfo.repeatOption) {
+            eventData.recurrence = [mapRepeatToRRule(eventInfo.repeatOption)];
+        }
+
+        addCalendarEvent(this.accessToken, eventData);
     },
 
     markTaskAsCompleted(task) {

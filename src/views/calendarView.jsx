@@ -4,11 +4,14 @@ import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import ScheduleModal from "./components/scheduleModal.jsx";
 import "/src/style.css";
+import AddEventModal from "./components/addEventModal.jsx";
 
 export function CalendarView(props) {
     const [currentDate, setCurrentDate] = useState(new Date());
     const [showScheduleModal, setShowScheduleModal] = useState(false);
     const [selectedTask, setSelectedTask] = useState(null);
+    const [showAddEventModal, setShowAddEventModal] = useState(false);
+
 
 
     const year = currentDate.getFullYear();
@@ -158,6 +161,13 @@ export function CalendarView(props) {
                     <Typography variant="h6" color="white" fontWeight="bold">
                         {monthNames[month]} {year}
                     </Typography>
+
+                    <button
+                        onClick={() => setShowAddEventModal(true)}
+                        className="bg-violet-600 text-white px-6 py-3 rounded-md font-bold hover:bg-indigo-700 transition duration-300"
+                    >
+                        Add Event
+                    </button>
                 </div>
 
                 {/* Weekday headers */}
@@ -180,6 +190,16 @@ export function CalendarView(props) {
                     tasks={selectedTask}
                     onClose={() => setShowScheduleModal(false)}
                     onCompleteTask={props.completeTask}
+                />
+            )}
+
+            {showAddEventModal && (
+                <AddEventModal
+                    onClose={() => setShowAddEventModal(false)}
+                    onNewEvent={props.newEvent}
+                    courseNames={props.courseNames}
+                    repeatOptions = {props.repeatOptions}
+                    eventTypeOptions={props.eventTypeOptions}
                 />
             )}
         </div>
