@@ -202,6 +202,10 @@ function upcomingOverview(tasksData, onTaskSelect) {
 }
 
 function renderTaskCB(task, onTaskSelect) {
+    const dueDateDay = new Date(task.due).getDate();
+    const dueDateMonth = new Date(task.due).toLocaleString("default", { month: "short" });
+    const notesExist = task.notes ? true : false;
+
     return (
         <div
             key={task.id}
@@ -213,8 +217,12 @@ function renderTaskCB(task, onTaskSelect) {
         >
             {task.listTitle} <br />
             {task.title} <br />
-            {task.notes} <br />
-            {/* {new Date(task.due).toString()} <br /> */}
+            {task.notes && (
+                <>
+                    {task.notes} <br />
+                </>
+            )} 
+            {dueDateMonth + " " + dueDateDay}
         </div>
     );
 }
