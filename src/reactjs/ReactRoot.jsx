@@ -5,6 +5,7 @@ import { Login } from "./loginPresenter";
 import { Timer } from "./timerPresenter";
 import { Sidebar } from "./sidebarPresenter.jsx";
 import { Calendar } from "./calendarPresenter.jsx";
+import { Settings } from "./settingsPresenter.jsx";
 
 const ReactRoot = observer(function ReactRoot(props) {
     return <RouterProvider router={makeRouter(props.model)} />;
@@ -52,6 +53,10 @@ function makeRouter(model) {
                 {
                     path: "/calendar",
                     element: <Calendar model={model} />,
+                },
+                {
+                    path: "/settings",
+                    element: <Settings model={model} />,
                 }
             ],
         },
