@@ -45,13 +45,13 @@ export function TimerView(props) {
 
         return (
             <div>
-                <Typography variant="h6" color="black">
+                <Typography variant="h6" color="white">
                     Current Task:
                 </Typography>
                 <Typography variant="h5" color="#4bbfe3" fontWeight="bold">
                     {props.selectedTask.title}
                 </Typography>
-                <Typography variant="body1" color="black">
+                <Typography variant="body1" color="white">
                     Time spent: {hours}h {minutes}m
                 </Typography>
             </div>
@@ -60,7 +60,7 @@ export function TimerView(props) {
 
     function timerProgress() {
         return (
-            <div style={{ position: "relative", display: "inline-flex" }}>
+            <div style={{ position: "relative", display: "inline-flex", color:"white" }}>
                 <CircularProgress
                     variant="determinate"
                     // value={100}
@@ -162,6 +162,7 @@ export function TimerView(props) {
                     style={{
                         backgroundColor: isSelected ? "#2a9d8f" : "#4bbfe3",
                         border: isSelected ? "3px solid #f4a261" : "none",
+                        padding: "5px",
                     }}
                 >
                     {task.title} <br />

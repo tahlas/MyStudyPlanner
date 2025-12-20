@@ -1,17 +1,17 @@
 import "/src/style.css";
-import { Typography, Divider } from "@mui/material";
+import { Typography, Divider, Button } from "@mui/material";
 
 
 export function SettingsView(props) {
     return (
-        <div>
-            {accountInfo(props.user)}
+        <div style={{display:"flex", flexDirection:"row"}}>
+            {accountInfo(props.user, props.onLogout)}
             {boxWithCourses(props.courses)}
         </div>
     );
 }
 
-function accountInfo(user){
+function accountInfo(user, onLogout){
     return(
         <div className="settingsBoxes">
             <Typography variant="h4" color="white" paddingLeft="15px" paddingTop="10px" paddingBottom="10px" fontWeight="bold">
@@ -19,14 +19,16 @@ function accountInfo(user){
             </Typography>
             <Divider sx={{ backgroundColor: "white" }} variant="middle"/>
             <img src={user.photoURL} alt="User Profile" style={{ borderRadius: "50%", margin: "15px" }} />
-            <Typography variant="h6" color="white" paddingLeft="15px" paddingBottom="10px" fontWeight="medium">
+            <Typography variant="h6" color="white" paddingLeft="15px" paddingBottom="10px">
                 {user.displayName}
             </Typography>
-            <Typography variant="h6" color="white" paddingLeft="15px" paddingBottom="15px" fontWeight="light">
+            <Typography variant="h6" color="white" paddingLeft="15px" paddingBottom="15px">
                 {user.email}
             </Typography>
+            <Button variant="outlined" onClick={onLogout} style={{ marginLeft: "15px" }}>Sign Out</Button>
         </div>
     );
+
 }
 
 function boxWithCourses(courses){
@@ -40,7 +42,7 @@ function boxWithCourses(courses){
     );
 }
 
-function renderCourseItemCB(course){
+function renderCourseItemCB(course) {
     return (
         <div key={course.name}>
             <Divider sx={{ backgroundColor: "white" }} variant="middle"/>
@@ -55,6 +57,8 @@ function renderCourseItemCB(course){
                 <Typography variant="h6" color="white">
                     {course.name}
                 </Typography>
+                {/* TOOD UPDATE COURSE */}
+                <Button onClick={() => console.log("TODO")} sx={{marginLeft: "auto", marginRight: "10px"}}>Edit</Button>
             </div>
         </div>
     )

@@ -85,8 +85,8 @@ body {
     /* background-color: #1c8d77; */
     background-color: #1e2939;
     margin: 10px;
-    width: 300px;
-    height: 300px;
+    min-width: 300px;
+    height: 350px;
     /* overflow:auto; */
     
 }
