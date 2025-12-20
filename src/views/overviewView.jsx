@@ -27,13 +27,15 @@ export function OverviewView(props) {
 
     return (
         <div>
-            <div>{topBar(props.newCourse)}</div>
+            <div>{addCourse(props.newCourse)}</div>
             <div className="flexParent">
-                <div> 
-                    {pieCharts(props.tasksData.filter(taskIsDueTodayCB), "Today")}
-                </div>
+                <div>
+                    <div style={{ backgroundColor: "#1e2939"}}>
+                        {pieCharts(props.tasksData.filter(taskIsDueTodayCB), "Today")}
 
-                {todaysOverview(props.tasksData, onTaskSelectACB)}
+                    </div> 
+                    {todaysOverview(props.tasksData, onTaskSelectACB)}
+                </div>
 
                 <div>
                     <div
@@ -93,34 +95,45 @@ function pieCharts(tasksData, label) {
     };
 
     return (
-        <div style={{ position: "relative" }}>
+        <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
             <div style={{ color: "white", marginBottom: "5px" }}>{label}</div>
-            <PieChart
-                series={[
-                    {
-                        innerRadius: 50,
-                        outerRadius: 55,
-                        data,
-                    },
-                ]}
-                // TODO: Understand how this works...
-                sx={{
-                    [`& .${pieArcClasses.root}`]: {
-                        stroke: "none",
-                    },
-                }}
-                {...settings}
-            />
-            <div className="textInDonut">{tasksData.length}</div>
+            <div style={{ position: "relative", width: "150px", height: "150px" }}>
+                <PieChart
+                    series={[
+                        {
+                            innerRadius: 50,
+                            outerRadius: 55,
+                            data,
+                        },
+                    ]}
+                    // TODO: Understand how this works...
+                    sx={{
+                        [`& .${pieArcClasses.root}`]: {
+                            stroke: "none",
+                        },
+                    }}
+                    {...settings}
+                />
+                <div style={{
+                    position: "absolute",
+                    top: "50%",
+                    left: "50%",
+                    transform: "translate(-50%, -50%)",
+                    color: "white",
+                    fontSize: "60px",
+                }}>
+                    {tasksData.length}
+                </div>
+            </div>
         </div>
     );
 }
 
-function topBar(newCourse) {
+function addCourse(newCourse) {
     const [showCourseModal, setShowCourseModal] = useState(false);
 
     return (
-        <div className="overviewTopBar">
+        <div >
             {/* This button is in the wrong position! It should be in the top bar! */}
 
             <button
