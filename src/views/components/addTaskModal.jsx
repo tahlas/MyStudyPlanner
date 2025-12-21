@@ -24,7 +24,8 @@ function AddTaskModal({ onClose, onNewTask, courseNames}) {
                     <IconButton  style={{ position: "absolute", top: 12, right: 12 }}><CloseIcon className="text-white hover:bg-red-700"  onClick={onClose}/></IconButton>
                     <h1 className= "text-3xl font-bold text-center mb-6">Add Task</h1>
                     <form className="w-full space-y-3" onSubmit={submitACB}>
-                        <div>
+                        <div className="text-right">
+                            <a href="#/settings" className="underline cursor-pointer font-thin">Add Course</a>
                             <select
                                 id="course"
                                 required
