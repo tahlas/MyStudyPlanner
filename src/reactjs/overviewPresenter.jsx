@@ -9,7 +9,9 @@ import { getCourseNames } from "../utilities.js";
 const Overview = observer(function OverviewRender(props) {
     useEffect(() => {
         if (
+            props.model.user &&
             props.model.accessToken &&
+            props.model.ready &&
             !props.model.currentTasksPromiseState.promise
         ) {
             props.model.getTasks();

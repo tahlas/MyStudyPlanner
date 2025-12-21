@@ -14,17 +14,15 @@ export function connectToAuthentication(model) {
             model.setUser(user);
         } else {
             // User logged out, complete cleanup
-            model.accessToken = null;
-            model.user = null;
-            model.isTokenFromLogin = false;
-            model.ready = false;
+            model.clearAccessToken();
+            model.completeCleanup()
         }
     });
 }
 
 export async function logout(model) {
     try {
-        model.accessToken = null;
+        model.clearAccessToken();
         model.clearData();
         await signOut(auth);
     } catch (error) {
