@@ -1,19 +1,21 @@
 import CloseIcon from '@mui/icons-material/Close';
 import { IconButton } from '@mui/material';
 
-function AddEventModal({ onClose, onNewEvent, courseNames,repeatOptions}) {
+function AddEventModal({ onClose, onNewEvent, courseNames,repeatOptions, eventTypeOptions}) {
 
     function submitACB(evt){
         evt.preventDefault();
 
         onNewEvent({
             course: evt.target.course.value,
-            eventType: evt.target.title.value,
             description: evt.target.description.value,
             duration: evt.target.duration.value,
             repeatOption: evt.target.repeat.value,
             date: evt.target.date.value,
             time: evt.target.time.value,
+
+            eventTitle: evt.target.title.value,
+            eventType: evt.target.eventType.value,
         });
         onClose();
     }
@@ -35,6 +37,19 @@ function AddEventModal({ onClose, onNewEvent, courseNames,repeatOptions}) {
                                 {courseNames.map((courseName) => (
                                     <option key={courseName} value={courseName}>
                                         {courseName}
+                                    </option>
+                                ))}
+                            </select>
+                            <select
+                                id="eventType"
+                                required
+                                className="w-full px-4 py-3 text-black rounded-md bg-white">
+                                <option value="">
+                                    Select Event Type
+                                </option>
+                                {eventTypeOptions.map((eventType) => (
+                                    <option key={eventType} value={eventType}>
+                                        {eventType}
                                     </option>
                                 ))}
                             </select>
