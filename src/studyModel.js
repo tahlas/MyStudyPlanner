@@ -208,6 +208,15 @@ export const model = {
         this.setPlayingStatus(false);
         this.setTimeLeftInSeconds(this.defaultPomodoroSessionTimeInSeconds);
     },
+
+    skipTimer(){
+        if (this.isBreak) {
+            this.startPomodoroSession();
+        } else {
+            this.startBreak();
+        }
+    },
+
     saveNewTask(taskInfo) {
         if (!this.accessToken) return;
 

@@ -21,6 +21,8 @@ const Timer = observer(function RenderTimer(props) {
             defaultBreakTime={props.model.defaultBreakTimeInSeconds}
             defaultPomodoroSessionTimeInSeconds={props.model.defaultPomodoroSessionTimeInSeconds}
             onStatusChange={setPlayingStatusCB}
+            onSkip={handleSkipCB}
+
             tasksData={flattenedTasks}  
 
             selectedTask={props.model.selectedTask}
@@ -29,6 +31,10 @@ const Timer = observer(function RenderTimer(props) {
 
         />
     );
+
+    function handleSkipCB() {
+        props.model.skipTimer();
+    }
 
     function setPlayingStatusCB(status) {
         props.model.setPlayingStatus(status);
