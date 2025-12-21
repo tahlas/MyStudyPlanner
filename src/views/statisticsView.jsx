@@ -103,7 +103,8 @@ export function WeeklyTimeView(props) {
                     {currentWeekOffset !== 0 && (
                         <button
                             onClick={() => setCurrentWeekOffset(0)}
-                            className="ml-auto bg-violet-600 text-white px-4 py-2 rounded-md font-bold hover:bg-indigo-700"
+                            style={{ backgroundColor: "#1565C0" }}
+                            className="text-white px-6 py-3 rounded-md font-bold hover:opacity-90 transition duration-300"
                         >
                             Go to Current Week
                         </button>

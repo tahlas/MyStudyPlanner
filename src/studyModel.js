@@ -332,7 +332,7 @@ export const model = {
 
         const prms = deleteTaskList(this.accessToken, courseName)
             .then(() => {
-                this.courses = this.courses.filter((course) => course.name !== courseName);
+                this.setCourses(this.courses.filter((course) => course.name !== courseName));
 
                 return getAllCourseTasks(this.accessToken, this.courses, {
                     showCompleted: false,
