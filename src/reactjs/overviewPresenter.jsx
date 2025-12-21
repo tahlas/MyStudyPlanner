@@ -1,3 +1,4 @@
+
 import { observer } from "mobx-react-lite";
 import { OverviewView } from "../views/overviewView.jsx";
 import { useEffect } from "react";
@@ -16,7 +17,7 @@ const Overview = observer(function OverviewRender(props) {
         ) {
             props.model.getTasks();
         }
-    }, [props.model.accessToken, props.model.user]);
+    }, [props.model.accessToken, props.model.user, props.model.ready]);
 
     useEffect(() => {
         if (
@@ -25,7 +26,7 @@ const Overview = observer(function OverviewRender(props) {
         ) {
             logout(props.model).then(() => (window.location.hash = "#/login"));
         }
-    }, [props.model.currentTasksPromiseState.error]);
+    }, [props.model.accessToken, props.model.user, props.model.ready]);
 
     useEffect(() => {
         if (

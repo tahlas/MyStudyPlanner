@@ -48,7 +48,7 @@ export function connectToPersistence(model, reaction) {
         return [
             model.accessToken,
             model.user,
-            model.courses.length,
+            JSON.stringify(model.courses),
             JSON.stringify(model.taskTimeTracking),
             JSON.stringify(model.taskTimeByDate),
         ];
