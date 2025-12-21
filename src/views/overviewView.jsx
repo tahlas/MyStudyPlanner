@@ -30,7 +30,7 @@ export function OverviewView(props) {
                     <div style={{ backgroundColor: "#1e2939" }}>
                         {pieCharts(
                             props.tasksData.filter(taskIsDueTodayCB),
-                            "Today",
+                            "Tasks",
                         )}
                     </div>
                     {todaysOverview(props.tasksData, onTaskSelectACB)}
@@ -44,7 +44,7 @@ export function OverviewView(props) {
                             backgroundColor: "#1e2939",
                         }}
                     >
-                        {pieCharts(props.tasksData, "All Tasks")}
+                        {pieCharts(props.tasksData, "Tasks")}
                         {addTaskButton(props.newTask, props.courseNames)}
                     </div>
                     {upcomingOverview(props.tasksData, onTaskSelectACB)}
@@ -103,7 +103,7 @@ function pieCharts(tasksData, label) {
                 alignItems: "center",
             }}
         >
-            <div style={{ color: "white", marginBottom: "5px" }}>{label}</div>
+            
             <div
                 style={{
                     position: "relative",
@@ -130,7 +130,7 @@ function pieCharts(tasksData, label) {
                 <div
                     style={{
                         position: "absolute",
-                        top: "50%",
+                        top: "45%",
                         left: "50%",
                         transform: "translate(-50%, -50%)",
                         color: "white",
@@ -139,6 +139,8 @@ function pieCharts(tasksData, label) {
                 >
                     {tasksData.length}
                 </div>
+                {/* TODO: Might be better to put this in the same div */}
+                <div style={{ color: "white", position: "absolute", top: "62%", left: "50%", transform: "translateX(-50%)", fontSize: "12px" }}>{label}</div>
             </div>
         </div>
     );
