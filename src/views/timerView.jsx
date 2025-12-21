@@ -8,7 +8,7 @@ import SkipNextIcon from '@mui/icons-material/SkipNext';
 
 export function TimerView(props) {
     return (
-        <div style={{ display: "flex", gap: "40px", padding: "20px", marginLeft: "50px" }}>
+        <div style={{ display: "flex", gap: "40px", padding: "20px", marginLeft: "110px" }}>
             <div>
                 {timerProgress()}
                 {timerControls()}
