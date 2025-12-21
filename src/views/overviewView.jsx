@@ -5,7 +5,7 @@ import "/src/utilities.js";
 import AddTaskModal from "./components/addTaskModal.jsx";
 import CompleteTaskModal from "./components/completeTaskModal.jsx";
 import { useState } from "react";
-import { numberOfTasksPerCourse } from "../utilities.js";
+import { extractSummaryWithoutCourseNameAndEventType, numberOfTasksPerCourse } from "../utilities.js";
 import { getWindowDimensions } from "../utilities.js";
 import { isToday } from "../utilities.js";
 
@@ -71,6 +71,9 @@ export function OverviewView(props) {
                 <div>
                     <div
                         style={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: "10px",
                             backgroundColor: "#1e2939",
                             width: windowWidth / 3,
                         }}
@@ -128,9 +131,9 @@ function renderLecturesTodayCB(lecture) {
         .padStart(2, "0");
     const endHours = lectureEndDate.getHours().toString().padStart(2, "0");
     const endMinutes = lectureEndDate.getMinutes().toString().padStart(2, "0");
-    const summaryWithoutCourseAndType = lecture.summary.substring(
-        lecture.summary.indexOf(": ") + 2,
-    );
+    // const summaryWithoutCourseAndType = lecture.summary.substring(
+    //     lecture.summary.indexOf(": ") + 2,
+    // );
     return (
         <div
             key={lecture.id}
@@ -146,7 +149,7 @@ function renderLecturesTodayCB(lecture) {
             <div>
                 <span className="font-bold">{lecture.courseName}</span> <br />
                 <span className="font-medium">
-                    {summaryWithoutCourseAndType}
+                    {extractSummaryWithoutCourseNameAndEventType(lecture)}
                 </span>
                 <br />
                 {lecture.description && <span>{lecture.description}</span>}
@@ -188,9 +191,9 @@ function renderExamEventCB(event) {
     const eventDay = eventDate.getDate();
     const eventMonth = eventDate.toLocaleString("default", { month: "short" });
     const indexOfCourseNameAndTypeEnd = event.summary.lastIndexOf(": ");
-    const summaryWithoutCourseAndType = event.summary.substring(
-        indexOfCourseNameAndTypeEnd + 2,
-    );
+    // const summaryWithoutCourseAndType = event.summary.substring(
+    //     indexOfCourseNameAndTypeEnd + 2,
+    // );
     return (
         <div
             key={event.id}
@@ -206,7 +209,7 @@ function renderExamEventCB(event) {
             <div>
                 <span className="font-bold">{event.courseName}</span> <br />
                 <span className="font-medium">
-                    {summaryWithoutCourseAndType}
+                    {extractSummaryWithoutCourseNameAndEventType(event)}
                 </span>
                 <br />
                 {event.description && <span>{event.description}</span>}
