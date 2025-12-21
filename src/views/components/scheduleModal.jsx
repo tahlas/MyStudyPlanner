@@ -2,7 +2,7 @@ import { useState } from 'react';
 import CloseIcon from '@mui/icons-material/Close';
 import { IconButton } from '@mui/material';
 import { formatTime } from "../../utilities.js";
-import DeleteEventModal from './DeleteEventModal';
+import DeleteEventModal from './deleteEventModal';
 
 function ScheduleModal({ onClose, tasks, events, onDeleteEvent, deleteOptions}) {
     const [eventToDelete, setEventToDelete] = useState(null);
