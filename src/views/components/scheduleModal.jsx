@@ -39,7 +39,7 @@ function ScheduleModal({ onClose, tasks, events, onDeleteEvent, deleteOptions}) 
                                     style={{ backgroundColor: event.color }}
                                 >
                                     <IconButton
-                                        style={{ position: "absolute", top: 8, right: 8 }}
+                                        style={{ position: "absolute", top: 1, right: 1 }}
                                         size="small"
                                         onClick={(e) => {
                                             e.stopPropagation();
