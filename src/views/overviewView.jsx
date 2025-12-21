@@ -5,10 +5,9 @@ import "/src/utilities.js";
 import AddTaskModal from "./components/addTaskModal.jsx";
 import CompleteTaskModal from "./components/completeTaskModal.jsx";
 import { useState } from "react";
-//TODO:
-//should not be used in final version
-import { taskConstants } from "../taskConstants";
 import { numberOfTasksPerCourse } from "../utilities.js";
+
+//TODO: Remove A LOT of code duplication!
 
 /**
  * Renders the Overview View component.
@@ -27,7 +26,7 @@ export function OverviewView(props) {
         <div>
             <div className="flexParent">
                 <div>
-                    <div style={{ backgroundColor: "#1e2939", width:"320px" }}>
+                    <div style={{ backgroundColor: "#1e2939", width: "320px" }}>
                         {renderPieChart(
                             props.tasksData.filter(taskIsDueTodayCB),
                             "Tasks",
@@ -42,7 +41,6 @@ export function OverviewView(props) {
                             alignItems: "center",
                             gap: "10px",
                             backgroundColor: "#1e2939",
-                            
                         }}
                     >
                         {renderPieChart(props.tasksData, "Tasks")}
@@ -50,6 +48,7 @@ export function OverviewView(props) {
                     </div>
                     {upcomingOverview(props.tasksData, onTaskSelectACB)}
                 </div>
+                <div>{examsOverview(props.eventsData)}</div>
             </div>
             {showCompleteTaskModal && (
                 <CompleteTaskModal
@@ -62,28 +61,58 @@ export function OverviewView(props) {
     );
 }
 
-function addTaskButton(newTask, courseNames) {
-    const [showTaskModal, setShowTaskModal] = useState(false);
+function todaysOverview(tasksData, onTaskSelect) {
+    function renderTaskWithSelectACB(task) {
+        return renderTaskCB(task, onTaskSelect);
+    }
 
     return (
-        <>
-            {/* <button
-                onClick={() => setShowTaskModal(true)}
-                className="bg-white text-black px-3 py-2 rounded-md font-bold filter hover:brightness-80  transition duration-300"
-            >
-                Add Task
-            </button> */}
-            <Button variant="contained" onClick={() => setShowTaskModal(true)}  >
-                Add Task
-            </Button>
-            {showTaskModal && (
-                <AddTaskModal
-                    onClose={() => setShowTaskModal(false)}
-                    onNewTask={newTask}
-                    courseNames={courseNames}
-                />
-            )}
-        </>
+        <div style={{ marginLeft: "10px" }}>
+            <div style={{ color: "white" }}>Today</div>
+            <div>
+                {tasksData
+                    .filter(taskIsDueTodayCB)
+                    .map(renderTaskWithSelectACB)}
+            </div>
+        </div>
+    );
+}
+
+function examsOverview(eventsData) {
+    return <div>{eventsData.filter(eventIsExamCB).map(renderExamEventCB)}</div>;
+
+    function eventIsExamCB(event) {
+        return event.eventType === "Exam";
+    }
+}
+
+function renderExamEventCB(event) {
+    const eventDate = new Date(event.start.dateTime);
+    const eventDay = eventDate.getDate();
+    const eventMonth = eventDate.toLocaleString("default", { month: "short" });
+    const indexOfCourseNameAndTypeEnd = event.summary.lastIndexOf(": ");
+    const summaryWithoutCourseAndType = event.summary.substring(indexOfCourseNameAndTypeEnd + 2);
+    console.log(event);
+    return (
+        <div
+            key={event.id}
+            className="overviewTask pl-1 pr-1 pb-1 pt-1 mb-2"
+            style={{
+                backgroundColor: event.color,
+                cursor: "pointer",
+                display: "flex",
+                flexDirection: "space-between",
+                justifyContent: "space-between",
+            }}
+        >
+            <div>
+                <span className="font-bold">{event.courseName}</span> <br />
+                <span className="font-medium">{summaryWithoutCourseAndType}</span>
+                <br />
+                <span>{event.description}</span> <br />
+            </div>
+            <div className="pr-1">{eventMonth + " " + eventDay}</div>
+        </div>
     );
 }
 
@@ -104,7 +133,6 @@ function renderPieChart(tasksData, label) {
                 alignItems: "center",
             }}
         >
-            
             <div
                 style={{
                     position: "relative",
@@ -112,7 +140,8 @@ function renderPieChart(tasksData, label) {
                     height: "150px",
                 }}
             >
-                <PieChart hidden={data.length === 0}
+                <PieChart
+                    hidden={data.length === 0}
                     series={[
                         {
                             innerRadius: 50,
@@ -141,26 +170,39 @@ function renderPieChart(tasksData, label) {
                     {tasksData.length}
                 </div>
                 {/* TODO: Might be better to put this in the same div */}
-                <div style={{ color: "white", position: "absolute", top: "62%", left: "50%", transform: "translateX(-50%)", fontSize: "12px" }}>{label}</div>
+                <div
+                    style={{
+                        color: "white",
+                        position: "absolute",
+                        top: "62%",
+                        left: "50%",
+                        transform: "translateX(-50%)",
+                        fontSize: "12px",
+                    }}
+                >
+                    {label}
+                </div>
             </div>
         </div>
     );
 }
 
-function todaysOverview(tasksData, onTaskSelect) {
-    function renderTaskWithSelectACB(task) {
-        return renderTaskCB(task, onTaskSelect);
-    }
+function addTaskButton(newTask, courseNames) {
+    const [showTaskModal, setShowTaskModal] = useState(false);
 
     return (
-        <div style={{ marginLeft: "10px" }}>
-            <div style={{ color: "white" }}>Today</div>
-            <div>
-                {tasksData
-                    .filter(taskIsDueTodayCB)
-                    .map(renderTaskWithSelectACB)}
-            </div>
-        </div>
+        <>
+            <Button variant="contained" onClick={() => setShowTaskModal(true)}>
+                Add Task
+            </Button>
+            {showTaskModal && (
+                <AddTaskModal
+                    onClose={() => setShowTaskModal(false)}
+                    onNewTask={newTask}
+                    courseNames={courseNames}
+                />
+            )}
+        </>
     );
 }
 
@@ -212,13 +254,18 @@ function renderTaskCB(task, onTaskSelect) {
     const dueDateMonth = new Date(task.due).toLocaleString("default", {
         month: "short",
     });
-    const notesExist = task.notes ? true : false;
 
     return (
         <div
             key={task.id}
             className="overviewTask pl-1 pr-1 pb-1 pt-1 mb-2"
-            style={{ backgroundColor: task.color, cursor: "pointer", display:"flex", flexDirection:"row", justifyContent:"space-between" }}
+            style={{
+                backgroundColor: task.color,
+                cursor: "pointer",
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "space-between",
+            }}
             onClick={function () {
                 onTaskSelect(task);
             }}
@@ -238,6 +285,7 @@ function renderTaskCB(task, onTaskSelect) {
     );
 }
 
+//TODO: Remove code duplication
 function taskIsOverdueCB(task) {
     const currentDate = new Date();
     const taskDueDate = new Date(task.due);

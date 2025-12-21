@@ -16,7 +16,7 @@ const Overview = observer(function OverviewRender(props) {
         ) {
             props.model.getTasks();
         }
-    }, [props.model.accessToken, props.model.user, props.model.ready]);
+    }, [props.model.accessToken, props.model.user]);
 
     useEffect(() => {
         if (
@@ -27,14 +27,22 @@ const Overview = observer(function OverviewRender(props) {
         }
     }, [props.model.currentTasksPromiseState.error]);
 
-    const state = props.model.currentTasksPromiseState;
+    useEffect(() => {
+        if (
+            props.model.accessToken &&
+            !props.model.currentCalendarEventsPromiseState.promise
+        ) {
+            props.model.getCalendarEvents();
+        }
+    }, [props.model.accessToken, props.model.user]);
 
-    if (!props.model.ready || (state.promise && !state.data && !state.error)) {
-        return <SuspenseView promise={state.promise || {}} error={state.error} />;
-    }
+    const taskState = props.model.currentTasksPromiseState;
+    const eventState = props.model.currentCalendarEventsPromiseState;
 
-    if (state.data) {
-        const flattenedTasks = state.data.flat();
+    if (taskState.data && eventState.data) {
+        // Flatten the array of arrays into a single array of tasks
+        const flattenedTasks = taskState.data.flat();
+        const flattenedEvents = eventState.data.flat();
 
         return (
             <OverviewView
@@ -43,11 +51,12 @@ const Overview = observer(function OverviewRender(props) {
                 completeTask={handleCompleteTaskACB}
                 newCourse={handleNewCourse}
                 courseNames={getCourseNames(props.model.courses)}
+                eventsData={flattenedEvents}
             />
         );
     }
-
-    return <SuspenseView promise={state.promise} error={state.error} />;
+    //TODO: There are two states here, we should show loading/error for both
+    return <SuspenseView promise={taskState.promise} error={taskState.error} />;
 
     function handleNewTaskACB(taskInfo) {
         props.model.saveNewTask(taskInfo);

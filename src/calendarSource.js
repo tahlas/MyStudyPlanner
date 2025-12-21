@@ -40,11 +40,13 @@ export function getCourseEvents(token, courses, searchParams) {
 
             const courseColor = course.color || null;
             const courseName = course.name || null;
+            const eventType = event.extendedProperties?.private?.eventType || null;
 
             return {
                 ...event,
                 color: courseColor,
-                courseName: courseName
+                courseName: courseName,
+                eventType: eventType,
             };
         }
 

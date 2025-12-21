@@ -9,7 +9,8 @@ import {
     getAllCourseTasks,
     addTask,
     completeTask,
-    updateTaskListName, deleteTaskList
+    updateTaskListName,
+    deleteTaskList,
 } from "./tasksSource";
 import {
     calculateEndTime,
@@ -82,8 +83,6 @@ export const model = {
         this.isBreak = false;
 
         this.selectedTask = null;
-        this.taskTimeTracking = {};
-        this.taskTimeByDate = {};
     },
 
     setUser(user) {
@@ -193,7 +192,6 @@ export const model = {
         return this.taskTimeTracking[taskId] || 0;
     },
 
-
     tickTimer() {
         const timeToDecreaseWithInSeconds = 0.1;
         const timeToIncreaseWithInSeconds = timeToDecreaseWithInSeconds;
@@ -217,7 +215,6 @@ export const model = {
             this.setTimeLeftInSeconds(newTime);
         }
     },
-
 
     setPlayingStatus(status) {
         this.playingStatus = status;
@@ -254,7 +251,7 @@ export const model = {
         this.setTimeLeftInSeconds(this.defaultPomodoroSessionTimeInSeconds);
     },
 
-    skipTimer(){
+    skipTimer() {
         if (this.isBreak) {
             this.startPomodoroSession();
         } else {
@@ -287,7 +284,12 @@ export const model = {
         if (!this.accessToken) return;
 
         const eventData = {
-            summary: eventInfo.course + " - " + eventInfo.eventType,
+            summary:
+                eventInfo.course +
+                " - " +
+                eventInfo.eventType +
+                ": " +
+                eventInfo.eventTitle,
             description: eventInfo.description,
             start: formatDateTime(eventInfo.date, eventInfo.time),
             end: calculateEndTime(
@@ -295,19 +297,26 @@ export const model = {
                 eventInfo.time,
                 eventInfo.duration,
             ),
+            extendedProperties: {
+                private: {
+                    course: eventInfo.course,
+                    eventType: eventInfo.eventType,
+                },
+            },
         };
 
         if (eventInfo.repeatOption) {
             eventData.recurrence = [mapRepeatToRRule(eventInfo.repeatOption)];
         }
 
-        const prms = addCalendarEvent(this.accessToken, eventData)
-            .then(() => this.getCalendarEvents());
+        const prms = addCalendarEvent(this.accessToken, eventData).then(() =>
+            this.getCalendarEvents(),
+        );
 
         resolvePromise(prms, this.currentCalendarEventsPromiseState);
     },
 
-        markTaskAsCompleted(task) {
+    markTaskAsCompleted(task) {
         if (!this.accessToken) return;
 
         const prms = completeTask(this.accessToken, task.listId, task.id).then(
@@ -345,21 +354,23 @@ export const model = {
     deleteCourse(courseName) {
         if (!this.accessToken) return;
 
-        const course = this.courses.find((course) => course.name === courseName);
+        const course = this.courses.find(
+            (course) => course.name === courseName,
+        );
         if (!course) return;
 
-        const prms = deleteTaskList(this.accessToken, courseName)
-            .then(() => {
-                this.setCourses(this.courses.filter((course) => course.name !== courseName));
+        const prms = deleteTaskList(this.accessToken, courseName).then(() => {
+            this.setCourses(
+                this.courses.filter((course) => course.name !== courseName),
+            );
 
-                return getAllCourseTasks(this.accessToken, this.courses, {
-                    showCompleted: false,
-                });
+            return getAllCourseTasks(this.accessToken, this.courses, {
+                showCompleted: false,
             });
+        });
 
         resolvePromise(prms, this.currentTasksPromiseState);
     },
-
 
     resetTimer() {
         this.setPlayingStatus(false);
