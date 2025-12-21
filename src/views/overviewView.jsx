@@ -48,7 +48,12 @@ export function OverviewView(props) {
                     </div>
                     {upcomingOverview(props.tasksData, onTaskSelectACB)}
                 </div>
-                <div>{examsOverview(props.eventsData)}</div>
+                <div>
+                    <div style={{ backgroundColor: "#1e2939", width: "320px" }}>
+                        {renderPieChart(props.eventsData.filter(eventIsExamCB))}
+                    </div>
+                    {examsOverview(props.eventsData)}
+                </div>
             </div>
             {showCompleteTaskModal && (
                 <CompleteTaskModal
@@ -79,11 +84,16 @@ function todaysOverview(tasksData, onTaskSelect) {
 }
 
 function examsOverview(eventsData) {
-    return <div>{eventsData.filter(eventIsExamCB).map(renderExamEventCB)}</div>;
+    return (
+        <div>
+            <div style={{ color: "white" }}>Placeholder</div>
+            <div>{eventsData.filter(eventIsExamCB).map(renderExamEventCB)}</div>
+        </div>
+    );
+}
 
-    function eventIsExamCB(event) {
-        return event.eventType === "Exam";
-    }
+function eventIsExamCB(event) {
+    return event.eventType === "Exam";
 }
 
 function renderExamEventCB(event) {
@@ -91,8 +101,9 @@ function renderExamEventCB(event) {
     const eventDay = eventDate.getDate();
     const eventMonth = eventDate.toLocaleString("default", { month: "short" });
     const indexOfCourseNameAndTypeEnd = event.summary.lastIndexOf(": ");
-    const summaryWithoutCourseAndType = event.summary.substring(indexOfCourseNameAndTypeEnd + 2);
-    console.log(event);
+    const summaryWithoutCourseAndType = event.summary.substring(
+        indexOfCourseNameAndTypeEnd + 2,
+    );
     return (
         <div
             key={event.id}
@@ -107,7 +118,9 @@ function renderExamEventCB(event) {
         >
             <div>
                 <span className="font-bold">{event.courseName}</span> <br />
-                <span className="font-medium">{summaryWithoutCourseAndType}</span>
+                <span className="font-medium">
+                    {summaryWithoutCourseAndType}
+                </span>
                 <br />
                 <span>{event.description}</span> <br />
             </div>
@@ -116,8 +129,8 @@ function renderExamEventCB(event) {
     );
 }
 
-function renderPieChart(tasksData, label) {
-    const data = numberOfTasksPerCourse(tasksData);
+function renderPieChart(dataArray, label) {
+    const data = numberOfTasksPerCourse(dataArray);
 
     const settings = {
         width: 150,
@@ -167,7 +180,7 @@ function renderPieChart(tasksData, label) {
                         fontSize: "60px",
                     }}
                 >
-                    {tasksData.length}
+                    {dataArray.length}
                 </div>
                 {/* TODO: Might be better to put this in the same div */}
                 <div
