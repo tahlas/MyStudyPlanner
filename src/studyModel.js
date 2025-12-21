@@ -179,6 +179,7 @@ export const model = {
                 if (newTime <= 0) {
                     if (!this.isBreak) {
                         this.startBreak();
+                        this.setPlayingStatus(false); //Pause timer when pomodoro session ends
                     } else {
                         this.startPomodoroSession();
                     }
@@ -214,6 +215,7 @@ export const model = {
             this.startPomodoroSession();
         } else {
             this.startBreak();
+            this.setPlayingStatus(false);
         }
     },
 
