@@ -163,6 +163,7 @@ export function TimerView(props) {
                         backgroundColor: isSelected ? "#2a9d8f" : "#4bbfe3",
                         border: isSelected ? "3px solid #f4a261" : "none",
                         padding: "5px",
+                        cursor: "pointer",
                     }}
                 >
                     {task.title} <br />
