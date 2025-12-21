@@ -179,43 +179,47 @@ export const model = {
         return this.taskTimeTracking[taskId] || 0;
     },
 
+
+    tickTimer() {
+        const timeToDecreaseWithInSeconds = 0.1;
+        const timeToIncreaseWithInSeconds = timeToDecreaseWithInSeconds;
+        const newTime = this.timeLeftInSeconds - timeToDecreaseWithInSeconds;
+
+        if (!this.isBreak && this.selectedTask) {
+            this.addTimeToSelectedTask(timeToIncreaseWithInSeconds);
+        }
+
+        if (newTime <= 0) {
+            this.alarmAudio = new Audio("/src/sounds/alarm.mp3");
+            this.alarmAudio.play();
+
+            if (!this.isBreak) {
+                this.startBreak();
+                this.setPlayingStatus(false);
+            } else {
+                this.startPomodoroSession();
+            }
+        } else {
+            this.setTimeLeftInSeconds(newTime);
+        }
+    },
+
+
     setPlayingStatus(status) {
         this.playingStatus = status;
         const timeBeforeCallingAgainInMilliseconds = 100;
         if (status) {
-            // Stop alarm sound when timer starts
             if (this.alarmAudio) {
                 this.alarmAudio.pause();
                 this.alarmAudio.currentTime = 0;
                 this.alarmAudio = null;
             }
             this.timerIntervalId = setInterval(() => {
-                const timeToDecreaseWithInSeconds = 0.1;
-                const timeToIncreaseWithInSeconds = timeToDecreaseWithInSeconds;
-                const newTime =
-                    this.timeLeftInSeconds - timeToDecreaseWithInSeconds;
-
-                if (!this.isBreak && this.selectedTask) {
-                    this.addTimeToSelectedTask(timeToIncreaseWithInSeconds);
-                }
-
-                if (newTime <= 0) {
-                    this.alarmAudio = new Audio("/src/sounds/alarm.mp3");
-                    this.alarmAudio.play();
-
-                    if (!this.isBreak) {
-                        this.startBreak();
-                        this.setPlayingStatus(false); //Pause timer when pomodoro session ends
-                    } else {
-                        this.startPomodoroSession();
-                    }
-                } else {
-                    this.setTimeLeftInSeconds(newTime);
-                }
+                this.tickTimer();
             }, timeBeforeCallingAgainInMilliseconds);
         } else {
             if (this.timerIntervalId) {
-                clearInterval(this.timerIntervalId); //stops the timer with this id
+                clearInterval(this.timerIntervalId);
                 this.timerIntervalId = null;
             }
         }

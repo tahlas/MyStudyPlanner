@@ -13,8 +13,6 @@ export function CalendarView(props) {
     const [selectedEvent, setSelectedEvent] = useState(null);
     const [showAddEventModal, setShowAddEventModal] = useState(false);
 
-
-
     const year = currentDate.getFullYear();
     const month = currentDate.getMonth();
 
