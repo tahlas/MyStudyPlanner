@@ -241,10 +241,13 @@ export const model = {
             eventData.recurrence = [mapRepeatToRRule(eventInfo.repeatOption)];
         }
 
-        addCalendarEvent(this.accessToken, eventData);
+        const prms = addCalendarEvent(this.accessToken, eventData)
+            .then(() => this.getCalendarEvents());
+
+        resolvePromise(prms, this.currentCalendarEventsPromiseState);
     },
 
-    markTaskAsCompleted(task) {
+        markTaskAsCompleted(task) {
         if (!this.accessToken) return;
 
         const prms = completeTask(this.accessToken, task.listId, task.id).then(
