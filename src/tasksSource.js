@@ -153,6 +153,11 @@ export async function updateTaskListName(token, oldName, newName) {
     const lists = await getAllLists(token);
     const foundList = findListByTitle(lists, oldName);
 
+    if (!foundList) {
+        return Promise.resolve({});
+    }
+
+
     return fetch(
         TASKS_URL + "/users/@me/lists/" + foundList.id,
         {
