@@ -1,4 +1,4 @@
-import { Typography, IconButton } from "@mui/material";
+import { Typography, IconButton, Tooltip } from "@mui/material";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { useState } from "react";
@@ -50,7 +50,8 @@ export function WeeklyTimeView(props) {
         const dateKey = `${year}-${month}-${day}`;
         const tasksForDay = [];
 
-        Object.entries(props.taskTimeByDate || {}).forEach(([taskId, dateData]) => {
+        Object.entries(props.taskTimeByDate || {}).forEach(
+            ([taskId, dateData]) => {
                 if (dateData[dateKey]) {
                     const task = props.tasksData.find((t) => t.id === taskId);
                     if (task) {
@@ -160,12 +161,15 @@ export function WeeklyTimeView(props) {
                                                             item.task.color,
                                                     }}
                                                 >
-                                                    <Typography
-                                                        variant="body2"
-                                                        className="font-semibold truncate"
-                                                    >
-                                                        {item.task.title}
-                                                    </Typography>
+                                                    <Tooltip title={item.task.title}>
+                                                        <Typography
+                                                            variant="body2"
+                                                            className="font-semibold truncate"
+                                                        >
+                                                            {item.task.title}
+                                                        </Typography>
+                                                    </Tooltip>
+
                                                     <Typography variant="caption">
                                                         {formatTime(
                                                             item.timeSpent,
