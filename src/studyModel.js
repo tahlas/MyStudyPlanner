@@ -167,7 +167,7 @@ export const model = {
         const timeBeforeCallingAgainInMilliseconds = 100;
         if (status) {
             this.timerIntervalId = setInterval(() => {
-                const timeToDecreaseWithInSeconds = 100;
+                const timeToDecreaseWithInSeconds = 0.1;
                 const timeToIncreaseWithInSeconds = timeToDecreaseWithInSeconds;
                 const newTime =
                     this.timeLeftInSeconds - timeToDecreaseWithInSeconds;
