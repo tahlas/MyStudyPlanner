@@ -1,11 +1,14 @@
 import "/src/style.css";
 import { Typography, Divider, Button } from "@mui/material";
+import { useState } from "react";
+import AddCourseModal from "./components/addCourseModal.jsx";
+import EditCourseModal from "./components/editCourseModal.jsx";
 
 export function SettingsView(props) {
     return (
         <div style={{ display: "flex", flexDirection: "row" }}>
             {accountInfo(props.user, props.onLogout)}
-            {boxWithCourses(props.courses)}
+            {boxWithCourses(props.courses, props.newCourse, props.editCourse)}
         </div>
     );
 }
@@ -56,7 +59,51 @@ function accountInfo(user, onLogout) {
     );
 }
 
-function boxWithCourses(courses) {
+function boxWithCourses(courses, newCourse,editCourse) {
+    const [showCourseModal, setShowCourseModal] = useState(false);
+    const [showEditCourseModal, setShowEditCourseModal] = useState(false);
+    const [selectedCourse, setSelectedCourse] = useState(null);
+
+
+    function renderCourseItemCB(course) {
+        return (
+            <div key={course.name}>
+                <Divider sx={{ backgroundColor: "white" }} variant="middle" />
+                <div
+                    style={{
+                        display: "flex",
+                        alignItems: "center",
+                        paddingLeft: "15px",
+                        paddingTop: "10px",
+                        paddingBottom: "10px",
+                    }}
+                >
+                    <div
+                        style={{
+                            width: "20px",
+                            height: "20px",
+                            borderRadius: "50%",
+                            backgroundColor: course.color,
+                            marginRight: "10px",
+                        }}
+                    />
+                    <Typography variant="h6" color="white">
+                        {course.name}
+                    </Typography>
+                    <Button
+                        onClick={() => {
+                            setSelectedCourse(course);
+                            setShowEditCourseModal(true);
+                        }}
+                        sx={{ marginLeft: "auto", marginRight: "10px" }}
+                    >
+                        Edit
+                    </Button>
+                </div>
+            </div>
+        );
+    }
+
     return (
         <div className="settingsBoxes">
             <div style={{ display: "flex", flexDirection: "row" }}>
@@ -70,50 +117,32 @@ function boxWithCourses(courses) {
                 >
                     Courses
                 </Typography>
-                {/* TODO: Add Course on click! */}
-                <Button onClick={() => console.log("TODO")} style={{ marginLeft: "auto", marginRight: "10px" }}>
+                <Button
+                    onClick={() => setShowCourseModal(true)}
+                    style={{ marginLeft: "auto", marginRight: "10px" }}
+                    className="bg-violet-600 text-white px-6 py-3 rounded-md font-bold hover:bg-indigo-700"
+                >
                     Add Course
                 </Button>
             </div>
 
             {courses.map(renderCourseItemCB)}
-        </div>
-    );
-}
 
-function renderCourseItemCB(course) {
-    return (
-        <div key={course.name}>
-            <Divider sx={{ backgroundColor: "white" }} variant="middle" />
-            <div
-                style={{
-                    display: "flex",
-                    alignItems: "center",
-                    paddingLeft: "15px",
-                    paddingTop: "10px",
-                    paddingBottom: "10px",
-                }}
-            >
-                <div
-                    style={{
-                        width: "20px",
-                        height: "20px",
-                        borderRadius: "50%",
-                        backgroundColor: course.color,
-                        marginRight: "10px",
-                    }}
+            {showCourseModal && (
+                <AddCourseModal
+                    onClose={() => setShowCourseModal(false)}
+                    onNewCourse={newCourse}
                 />
-                <Typography variant="h6" color="white">
-                    {course.name}
-                </Typography>
-                {/* TOOD UPDATE COURSE */}
-                <Button
-                    onClick={() => console.log("TODO")}
-                    sx={{ marginLeft: "auto", marginRight: "10px" }}
-                >
-                    Edit
-                </Button>
-            </div>
+            )}
+
+            {showEditCourseModal && (
+                <EditCourseModal
+                    course={selectedCourse}
+                    onClose={() => setShowEditCourseModal(false)}
+                    onEditCourse={editCourse}
+                />
+            )}
+
         </div>
     );
 }

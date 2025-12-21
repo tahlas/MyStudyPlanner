@@ -14,6 +14,8 @@ const Settings = observer(function SettingsRender(props) {
             user={props.model.user}
             courses={props.model.courses}
             onLogout={handleLogoutACB}
+            newCourse={handleNewCourse}
+            editCourse={handleEditCourse}
             // onUpdateCourseName={handleUpdateCourseNameACB}
         />
     );
@@ -22,6 +24,15 @@ const Settings = observer(function SettingsRender(props) {
         logout(props.model).then(() => {
             window.location.hash = "#/login";
         });
+    }
+
+    function handleNewCourse(course) {
+        props.model.newCourse(course);
+    }
+
+
+    function handleEditCourse(oldName, newName, newColor) {
+       props.model.updateCourse(oldName, newName, newColor);
     }
 
     // function handleUpdateCourseNameACB(oldName, newName) {
