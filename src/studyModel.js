@@ -38,6 +38,7 @@ export const model = {
     defaultBreakTimeInSeconds: DEFAULT_BREAK_TIME,
     timerIntervalId: null, //unique id of the interval timer to identify it later for clearing it
     isBreak: false,
+    alarmAudio: null,
 
     selectedTask: null,
     taskTimeTracking: {},
@@ -182,6 +183,12 @@ export const model = {
         this.playingStatus = status;
         const timeBeforeCallingAgainInMilliseconds = 100;
         if (status) {
+            // Stop alarm sound when timer starts
+            if (this.alarmAudio) {
+                this.alarmAudio.pause();
+                this.alarmAudio.currentTime = 0;
+                this.alarmAudio = null;
+            }
             this.timerIntervalId = setInterval(() => {
                 const timeToDecreaseWithInSeconds = 0.1;
                 const timeToIncreaseWithInSeconds = timeToDecreaseWithInSeconds;
@@ -193,6 +200,9 @@ export const model = {
                 }
 
                 if (newTime <= 0) {
+                    this.alarmAudio = new Audio("/src/sounds/alarm.mp3");
+                    this.alarmAudio.play();
+
                     if (!this.isBreak) {
                         this.startBreak();
                         this.setPlayingStatus(false); //Pause timer when pomodoro session ends

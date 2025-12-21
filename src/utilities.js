@@ -58,10 +58,6 @@ export function numberOfTasksPerCourse(taskData) {
       color: task.color
     };
   });
-
-
-
-
   return lists;
 }
 
