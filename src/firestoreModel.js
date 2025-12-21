@@ -35,9 +35,13 @@ export function connectToPersistence(model, reaction) {
             snapshot.data().taskTimeTracking
                 ? (model.taskTimeTracking = snapshot.data().taskTimeTracking)
                 : (model.taskTimeTracking = {});
+            snapshot.data().taskTimeByDate
+                ? (model.taskTimeByDate = snapshot.data().taskTimeByDate)
+                : (model.taskTimeByDate = {});
         } else {
             model.courses = [];
             model.taskTimeTracking = {};
+            model.taskTimeByDate = {};
         }
         model.ready = true;
     }
@@ -54,6 +58,7 @@ export function connectToPersistence(model, reaction) {
             model.user,
             model.courses.length,
             JSON.stringify(model.taskTimeTracking),
+            JSON.stringify(model.taskTimeByDate),
         ];
     }
 
@@ -63,8 +68,13 @@ export function connectToPersistence(model, reaction) {
                 const user_firestoreDoc = doc(db, COLLECTION, model.user.uid);
                 setDoc(
                     user_firestoreDoc,
-                    { accessToken: model.accessToken, courses: model.courses, taskTimeTracking: model.taskTimeTracking},
-                    { merge: true },    
+                    {
+                        accessToken: model.accessToken,
+                        courses: model.courses,
+                        taskTimeTracking: model.taskTimeTracking,
+                        taskTimeByDate: model.taskTimeByDate,
+                    },
+                    { merge: true },
                 );
             }
         }

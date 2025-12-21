@@ -1,5 +1,9 @@
 import { logout } from "./authModel";
-import { addCalendarEvent, getCalendarEvents, getCourseEvents } from "./calendarSource";
+import {
+    addCalendarEvent,
+    getCalendarEvents,
+    getCourseEvents,
+} from "./calendarSource";
 import { resolvePromise } from "./resolvePromise";
 import {
     getAllCourseTasks,
@@ -7,7 +11,13 @@ import {
     completeTask,
     updateTaskListName,
 } from "./tasksSource";
-import { calculateEndTime, formatDateTime, getCourseNames, googleDateFormat, mapRepeatToRRule } from "./utilities.js";
+import {
+    calculateEndTime,
+    formatDateTime,
+    getCourseNames,
+    googleDateFormat,
+    mapRepeatToRRule,
+} from "./utilities.js";
 
 const DEFAULT_POMODORO_TIME = 60 * 25;
 const DEFAULT_BREAK_TIME = 60 * 5;
@@ -31,6 +41,7 @@ export const model = {
 
     selectedTask: null,
     taskTimeTracking: {},
+    taskTimeByDate: {},
 
     setAccessToken(accessToken) {
         this.accessToken = accessToken;
@@ -57,6 +68,7 @@ export const model = {
 
         this.selectedTask = null;
         this.taskTimeTracking = {};
+        this.taskTimeByDate = {};
     },
 
     setUser(user) {
@@ -91,23 +103,23 @@ export const model = {
         resolvePromise(prms, this.currentTasksPromiseState);
     },
 
-        getCalendarEvents() {
-            if (!this.accessToken) return;
+    getCalendarEvents() {
+        if (!this.accessToken) return;
 
-            const searchParams = {
-                maxResults: 250,
-                singleEvents: true,
-                orderBy: 'startTime'
-            };
+        const searchParams = {
+            maxResults: 250,
+            singleEvents: true,
+            orderBy: "startTime",
+        };
 
-            const prms = getCourseEvents(
-                this.accessToken,
-                this.courses,
-                searchParams,
-            );
+        const prms = getCourseEvents(
+            this.accessToken,
+            this.courses,
+            searchParams,
+        );
 
-            resolvePromise(prms, this.currentCalendarEventsPromiseState);
-        },
+        resolvePromise(prms, this.currentCalendarEventsPromiseState);
+    },
 
     newCourse(course) {
         const courseNames = getCourseNames(this.courses);
@@ -125,8 +137,20 @@ export const model = {
 
     addTimeToSelectedTask(seconds) {
         if (this.selectedTask) {
+            const taskId = this.selectedTask.id;
+            //get today's date in yyyy-mm-dd format
+            const today = new Date().toISOString().split("T")[0];
+
+            //update total time spent on the task
             this.taskTimeTracking[this.selectedTask.id] =
                 (this.taskTimeTracking[this.selectedTask.id] || 0) + seconds;
+
+            //update time spent on the task for today
+            if (!this.taskTimeByDate[taskId]) {
+                this.taskTimeByDate[taskId] = {};
+            }
+            this.taskTimeByDate[taskId][today] =
+                (this.taskTimeByDate[taskId][today] || 0) + seconds;
         }
     },
 
@@ -206,7 +230,11 @@ export const model = {
             summary: eventInfo.course + " - " + eventInfo.eventType,
             description: eventInfo.description,
             start: formatDateTime(eventInfo.date, eventInfo.time),
-            end: calculateEndTime(eventInfo.date, eventInfo.time, eventInfo.duration)
+            end: calculateEndTime(
+                eventInfo.date,
+                eventInfo.time,
+                eventInfo.duration,
+            ),
         };
 
         if (eventInfo.repeatOption) {
