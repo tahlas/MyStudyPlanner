@@ -68,8 +68,6 @@ export const model = {
         this.isBreak = false;
 
         this.selectedTask = null;
-        this.taskTimeTracking = {};
-        this.taskTimeByDate = {};
     },
 
     setUser(user) {
@@ -273,7 +271,7 @@ export const model = {
         if (!this.accessToken) return;
 
         const eventData = {
-            summary: eventInfo.course + " - " + eventInfo.eventType,
+            summary: eventInfo.course + " - " + eventInfo.eventType + ": " + eventInfo.eventTitle,
             description: eventInfo.description,
             start: formatDateTime(eventInfo.date, eventInfo.time),
             end: calculateEndTime(
