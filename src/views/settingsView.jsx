@@ -134,6 +134,7 @@ function boxWithCourses(courses, newCourse,editCourse,deleteCourse) {
                     Add Course
                 </Button>
             </div>
+            {courses.length === 0 && <Divider sx={{ backgroundColor: "white" }} variant="middle" />}
 
             {courses.map(renderCourseItemCB)}
 
