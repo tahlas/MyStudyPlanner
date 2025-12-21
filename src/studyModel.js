@@ -75,6 +75,22 @@ export const model = {
         this.user = user;
     },
 
+    setCourses(courses) {
+        this.courses = courses;
+    },
+
+    setTaskTimeTracking(tracking) {
+        this.taskTimeTracking = tracking;
+    },
+
+    setTaskTimeByDate(timeByDate) {
+        this.taskTimeByDate = timeByDate;
+    },
+
+    setReady(ready) {
+        this.ready = ready;
+    },
+
     getFutureEvents() {
         if (!this.accessToken) return;
 

@@ -27,23 +27,17 @@ export function connectToPersistence(model, reaction) {
         if (snapshot.data()) {
             const firestoreToken = snapshot.data().accessToken;
             if (!model.isTokenFromLogin) {
-                model.accessToken = firestoreToken;
+                model.setAccessToken(firestoreToken);
             }
-            snapshot.data().courses
-                ? (model.courses = snapshot.data().courses)
-                : (model.courses = []);
-            snapshot.data().taskTimeTracking
-                ? (model.taskTimeTracking = snapshot.data().taskTimeTracking)
-                : (model.taskTimeTracking = {});
-            snapshot.data().taskTimeByDate
-                ? (model.taskTimeByDate = snapshot.data().taskTimeByDate)
-                : (model.taskTimeByDate = {});
+            model.setCourses(snapshot.data().courses || []);
+            model.setTaskTimeTracking(snapshot.data().taskTimeTracking || {});
+            model.setTaskTimeByDate(snapshot.data().taskTimeByDate || {});
         } else {
-            model.courses = [];
-            model.taskTimeTracking = {};
-            model.taskTimeByDate = {};
+            model.setCourses([]);
+            model.setTaskTimeTracking({});
+            model.setTaskTimeByDate({});
         }
-        model.ready = true;
+        model.setReady(true);
     }
 
     function errorACB(error) {

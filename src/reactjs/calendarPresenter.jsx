@@ -12,7 +12,6 @@ const Calendar = observer(function CalendarRender(props) {
 
     useEffect(() => {
        if (props.model.accessToken && !props.model.currentCalendarEventsPromiseState.promise) {
-           console.log("Calling getCalendarEvents");
             props.model.getCalendarEvents();
         }
     }, [props.model.accessToken, props.model.user ]);

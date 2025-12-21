@@ -147,31 +147,34 @@ export function CalendarView(props) {
         <div className="p-6 bg-gray-900 min-h-screen">
             <div className="max-w-6xl mx-auto">
                 {/* Header with navigation */}
-                <div className="flex items-center mb-6">
-                    <div className="ml-4">
-                        <IconButton onClick={goToPreviousMonth}>
-                            <ChevronLeftIcon
-                                sx={{ color: "white", fontSize: 20 }}
-                            />
-                        </IconButton>
+                <div className="flex items-center justify-between mb-6">
+                    <div className="flex items-center gap-4">
+                        <button
+                            onClick={() => setShowAddEventModal(true)}
+                            style={{ backgroundColor: "#1565C0" }}
+                            className="text-white px-6 py-3 rounded-md font-bold hover:opacity-90 transition duration-300"
+                        >
+                            Add Event
+                        </button>
 
-                        <IconButton onClick={goToNextMonth}>
-                            <ChevronRightIcon
-                                sx={{ color: "white", fontSize: 20 }}
-                            />
-                        </IconButton>
+                        <div className="flex items-center">
+                            <IconButton onClick={goToPreviousMonth}>
+                                <ChevronLeftIcon
+                                    sx={{ color: "white", fontSize: 20 }}
+                                />
+                            </IconButton>
+
+                            <IconButton onClick={goToNextMonth}>
+                                <ChevronRightIcon
+                                    sx={{ color: "white", fontSize: 20 }}
+                                />
+                            </IconButton>
+
+                            <Typography variant="h6" color="white" fontWeight="bold" sx={{ ml: 2 }}>
+                                {monthNames[month]} {year}
+                            </Typography>
+                        </div>
                     </div>
-
-                    <Typography variant="h6" color="white" fontWeight="bold">
-                        {monthNames[month]} {year}
-                    </Typography>
-
-                    <button
-                        onClick={() => setShowAddEventModal(true)}
-                        className="bg-violet-600 text-white px-6 py-3 rounded-md font-bold hover:bg-indigo-700 transition duration-300"
-                    >
-                        Add Event
-                    </button>
                 </div>
 
                 {/* Weekday headers */}
