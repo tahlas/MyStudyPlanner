@@ -194,6 +194,8 @@ export function CalendarView(props) {
                 <ScheduleModal
                     tasks={selectedTask}
                     events={selectedEvent}
+                    deleteOptions={props.deleteOptions}
+                    onDeleteEvent={props.deleteEvent}
                     onClose={() => setShowScheduleModal(false)}
                     onCompleteTask={props.completeTask}
                 />

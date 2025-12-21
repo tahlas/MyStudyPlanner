@@ -3,10 +3,18 @@ import { getCourseNames } from "./utilities.js";
 
 function responseACB(response) {
     if(response.status === 401){
-        throw new Error("unauthorized token"); // TODO refresh token so that this doesnt happen so often!!
+        throw  {
+            status:401,
+        };
     }
-    if (response.status !== 200 && response.status !== 201)
+
+    if (response.status === 204) {
+        return {};
+    }
+
+    if (response.status !== 200)
         throw new Error("non-200 http response");
+
     return response.json();
 }
 
@@ -68,6 +76,18 @@ export function addCalendarEvent(token, eventData) {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify(eventData)
+        }
+    ).then(responseACB);
+}
+
+export function deleteCalendarEvent(token, eventId, searchParams) {
+    return fetch(
+        CALENDAR_URL + "/primary/events/" + eventId + "?" + new URLSearchParams(searchParams),
+        {
+            method: "DELETE",
+            headers: {
+                "Authorization": `Bearer ${token}`
+            }
         }
     ).then(responseACB);
 }

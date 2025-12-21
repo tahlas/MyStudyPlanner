@@ -1,8 +1,8 @@
 import { logout } from "./authModel";
 import {
-    addCalendarEvent,
+    addCalendarEvent, deleteCalendarEvent,
     getCalendarEvents,
-    getCourseEvents,
+    getCourseEvents
 } from "./calendarSource";
 import { resolvePromise } from "./resolvePromise";
 import {
@@ -312,6 +312,25 @@ export const model = {
         const prms = addCalendarEvent(this.accessToken, eventData).then(() =>
             this.getCalendarEvents(),
         );
+
+        resolvePromise(prms, this.currentCalendarEventsPromiseState);
+    },
+
+    deleteEvent(event, deleteOption) {
+        if (!this.accessToken) return;
+
+        let eventId = event.id;
+
+        if (deleteOption === "All events" && event.recurringEventId) {
+            eventId = event.recurringEventId;
+        }
+
+        const searchParams = {
+            sendUpdates: "all"
+        };
+
+        const prms = deleteCalendarEvent(this.accessToken, eventId, searchParams)
+            .then(() => this.getCalendarEvents());
 
         resolvePromise(prms, this.currentCalendarEventsPromiseState);
     },

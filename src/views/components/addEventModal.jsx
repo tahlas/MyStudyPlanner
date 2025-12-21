@@ -13,7 +13,6 @@ function AddEventModal({ onClose, onNewEvent, courseNames,repeatOptions, eventTy
             repeatOption: evt.target.repeat.value,
             date: evt.target.date.value,
             time: evt.target.time.value,
-
             eventTitle: evt.target.title.value,
             eventType: evt.target.eventType.value,
         });
@@ -40,6 +39,8 @@ function AddEventModal({ onClose, onNewEvent, courseNames,repeatOptions, eventTy
                                     </option>
                                 ))}
                             </select>
+                        </div>
+                        <div>
                             <select
                                 id="eventType"
                                 required
@@ -54,7 +55,6 @@ function AddEventModal({ onClose, onNewEvent, courseNames,repeatOptions, eventTy
                                 ))}
                             </select>
                         </div>
-
                         <div>
                             <input
                                 id="title"
