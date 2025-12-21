@@ -30,10 +30,12 @@ export function OverviewView(props) {
             <div>{addCourse(props.newCourse)}</div>
             <div className="flexParent">
                 <div>
-                    <div style={{ backgroundColor: "#1e2939"}}>
-                        {pieCharts(props.tasksData.filter(taskIsDueTodayCB), "Today")}
-
-                    </div> 
+                    <div style={{ backgroundColor: "#1e2939" }}>
+                        {pieCharts(
+                            props.tasksData.filter(taskIsDueTodayCB),
+                            "Today",
+                        )}
+                    </div>
                     {todaysOverview(props.tasksData, onTaskSelectACB)}
                 </div>
 
@@ -95,9 +97,21 @@ function pieCharts(tasksData, label) {
     };
 
     return (
-        <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+        <div
+            style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+            }}
+        >
             <div style={{ color: "white", marginBottom: "5px" }}>{label}</div>
-            <div style={{ position: "relative", width: "150px", height: "150px" }}>
+            <div
+                style={{
+                    position: "relative",
+                    width: "150px",
+                    height: "150px",
+                }}
+            >
                 <PieChart
                     series={[
                         {
@@ -114,14 +128,16 @@ function pieCharts(tasksData, label) {
                     }}
                     {...settings}
                 />
-                <div style={{
-                    position: "absolute",
-                    top: "50%",
-                    left: "50%",
-                    transform: "translate(-50%, -50%)",
-                    color: "white",
-                    fontSize: "60px",
-                }}>
+                <div
+                    style={{
+                        position: "absolute",
+                        top: "50%",
+                        left: "50%",
+                        transform: "translate(-50%, -50%)",
+                        color: "white",
+                        fontSize: "60px",
+                    }}
+                >
                     {tasksData.length}
                 </div>
             </div>
@@ -133,7 +149,7 @@ function addCourse(newCourse) {
     const [showCourseModal, setShowCourseModal] = useState(false);
 
     return (
-        <div >
+        <div>
             {/* This button is in the wrong position! It should be in the top bar! */}
 
             <button
@@ -222,20 +238,23 @@ function renderTaskCB(task, onTaskSelect) {
     return (
         <div
             key={task.id}
-            className="overviewTask  font-semibold"
-            style={{ backgroundColor: task.color, cursor: "pointer" }}
+            className="overviewTask pl-1 pr-1 pb-1 pt-1 mb-2"
+            style={{ backgroundColor: task.color, cursor: "pointer", display:"flex", flexDirection:"row", justifyContent:"space-between" }}
             onClick={function () {
                 onTaskSelect(task);
             }}
         >
-            {task.listTitle} <br />
-            {task.title} <br />
-            {task.notes && (
-                <>
-                    {task.notes} <br />
-                </>
-            )}
-            {dueDateMonth + " " + dueDateDay}
+            <div>
+                <span className="font-semibold">{task.listTitle}</span>
+                <br />
+                <span className="font-medium">{task.title}</span> <br />
+                {task.notes && (
+                    <>
+                        <span>{task.notes}</span> <br />
+                    </>
+                )}
+            </div>
+            <div className="pr-1">{dueDateMonth + " " + dueDateDay}</div>
         </div>
     );
 }

@@ -158,9 +158,10 @@ export function TimerView(props) {
                 <div
                     key={task.id}
                     onClick={() => props.onTaskSelect(task)}
-                    className="overviewTask font-semibold"
+                    className="overviewTask"
                     style={{
-                        backgroundColor: isSelected ? "filter:brightness(110%)" : task.color,
+                        backgroundColor: task.color,
+                        filter: isSelected ? "brightness(110%)" : "none",
                         border: isSelected ? "3px solid #f4a261" : "none",
                         padding: "5px",
                         cursor: "pointer",
