@@ -2,7 +2,7 @@ import { useState } from 'react';
 import CloseIcon from '@mui/icons-material/Close';
 import { IconButton } from '@mui/material';
 import { formatTime } from "../../utilities.js";
-import DeleteEventModal from './DeleteEventModal';
+import DeleteEventModal from './deleteEventModal';
 
 function ScheduleModal({ onClose, tasks, events, onDeleteEvent, deleteOptions}) {
     const [eventToDelete, setEventToDelete] = useState(null);
@@ -39,7 +39,7 @@ function ScheduleModal({ onClose, tasks, events, onDeleteEvent, deleteOptions}) 
                                     style={{ backgroundColor: event.color }}
                                 >
                                     <IconButton
-                                        style={{ position: "absolute", top: 8, right: 8 }}
+                                        style={{ position: "absolute", top: 1, right: 1 }}
                                         size="small"
                                         onClick={(e) => {
                                             e.stopPropagation();
