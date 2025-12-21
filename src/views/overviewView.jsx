@@ -27,7 +27,6 @@ export function OverviewView(props) {
 
     return (
         <div>
-            <div>{addCourse(props.newCourse)}</div>
             <div className="flexParent">
                 <div>
                     <div style={{ backgroundColor: "#1e2939" }}>
@@ -141,29 +140,6 @@ function pieCharts(tasksData, label) {
                     {tasksData.length}
                 </div>
             </div>
-        </div>
-    );
-}
-
-function addCourse(newCourse) {
-    const [showCourseModal, setShowCourseModal] = useState(false);
-
-    return (
-        <div>
-            {/* This button is in the wrong position! It should be in the top bar! */}
-
-            <button
-                onClick={() => setShowCourseModal(true)}
-                className="bg-violet-600 text-white px-6 py-3 rounded-md font-bold hover:bg-indigo-700"
-            >
-                Add Course
-            </button>
-            {showCourseModal && (
-                <AddCourseModal
-                    onClose={() => setShowCourseModal(false)}
-                    onNewCourse={newCourse}
-                />
-            )}
         </div>
     );
 }
