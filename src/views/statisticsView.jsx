@@ -2,6 +2,7 @@ import { Typography, IconButton } from "@mui/material";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { useState } from "react";
+import "../utilities.js";
 
 export function WeeklyTimeView(props) {
     const [currentWeekOffset, setCurrentWeekOffset] = useState(0);
@@ -10,9 +11,9 @@ export function WeeklyTimeView(props) {
         const now = new Date();
         const currentDay = now.getDay();
         const diff = currentDay === 0 ? -6 : 1 - currentDay;
-        
+
         const monday = new Date(now);
-        monday.setDate(now.getDate() + diff + (offset * 7));
+        monday.setDate(now.getDate() + diff + offset * 7);
         monday.setHours(0, 0, 0, 0);
 
         const dates = [];
@@ -26,7 +27,15 @@ export function WeeklyTimeView(props) {
 
     const weekDates = getWeekDates(currentWeekOffset);
     const weekNumber = weekDates[0].getEuropeanWeek();
-    const weekDays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+    const weekDays = [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+        "Sunday",
+    ];
 
     function formatTime(seconds) {
         const hours = Math.floor(seconds / 3600);
@@ -35,21 +44,24 @@ export function WeeklyTimeView(props) {
     }
 
     function getTasksForDay(date) {
-        const dateKey = date.toISOString().split('T')[0];
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, "0");
+        const day = String(date.getDate()).padStart(2, "0");
+        const dateKey = `${year}-${month}-${day}`;
         const tasksForDay = [];
 
         Object.entries(props.taskTimeByDate || {}).forEach(([taskId, dateData]) => {
-            if (dateData[dateKey]) {
-                const task = props.tasksData.find(t => t.id === taskId);
-                if (task) {
-                    tasksForDay.push({
-                        task: task,
-                        timeSpent: dateData[dateKey]
-                    });
+                if (dateData[dateKey]) {
+                    const task = props.tasksData.find((t) => t.id === taskId);
+                    if (task) {
+                        tasksForDay.push({
+                            task: task,
+                            timeSpent: dateData[dateKey],
+                        });
+                    }
                 }
-            }
-        });
-
+            },
+        );
         return tasksForDay;
     }
 
@@ -63,16 +75,28 @@ export function WeeklyTimeView(props) {
             <div className="max-w-6xl mx-auto">
                 {/* Header */}
                 <div className="flex items-center gap-4 mb-6">
-                    <IconButton onClick={() => setCurrentWeekOffset(currentWeekOffset - 1)}>
-                        <ChevronLeftIcon sx={{ color: "white", fontSize: 32 }} />
+                    <IconButton
+                        onClick={() =>
+                            setCurrentWeekOffset(currentWeekOffset - 1)
+                        }
+                    >
+                        <ChevronLeftIcon
+                            sx={{ color: "white", fontSize: 32 }}
+                        />
                     </IconButton>
-                    
+
                     <Typography variant="h4" color="white" fontWeight="bold">
                         Week {weekNumber}
                     </Typography>
 
-                    <IconButton onClick={() => setCurrentWeekOffset(currentWeekOffset + 1)}>
-                        <ChevronRightIcon sx={{ color: "white", fontSize: 32 }} />
+                    <IconButton
+                        onClick={() =>
+                            setCurrentWeekOffset(currentWeekOffset + 1)
+                        }
+                    >
+                        <ChevronRightIcon
+                            sx={{ color: "white", fontSize: 32 }}
+                        />
                     </IconButton>
 
                     {currentWeekOffset !== 0 && (
@@ -90,7 +114,8 @@ export function WeeklyTimeView(props) {
                     {weekDates.map((date, index) => {
                         const tasksForDay = getTasksForDay(date);
                         const totalTime = getTotalTimeForDay(date);
-                        const isToday = date.toDateString() === new Date().toDateString();
+                        const isToday =
+                            date.toDateString() === new Date().toDateString();
 
                         return (
                             <div
@@ -130,7 +155,10 @@ export function WeeklyTimeView(props) {
                                                 <div
                                                     key={item.task.id}
                                                     className="p-2 rounded"
-                                                    style={{ backgroundColor: item.task.color }}
+                                                    style={{
+                                                        backgroundColor:
+                                                            item.task.color,
+                                                    }}
                                                 >
                                                     <Typography
                                                         variant="body2"
@@ -139,14 +167,20 @@ export function WeeklyTimeView(props) {
                                                         {item.task.title}
                                                     </Typography>
                                                     <Typography variant="caption">
-                                                        {formatTime(item.timeSpent)}
+                                                        {formatTime(
+                                                            item.timeSpent,
+                                                        )}
                                                     </Typography>
                                                 </div>
                                             ))}
                                         </div>
                                     </>
                                 ) : (
-                                    <Typography variant="body2" color="white" className="opacity-50">
+                                    <Typography
+                                        variant="body2"
+                                        color="white"
+                                        className="opacity-50"
+                                    >
                                         No tasks
                                     </Typography>
                                 )}

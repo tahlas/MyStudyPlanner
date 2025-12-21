@@ -32,7 +32,6 @@ const Timer = observer(function RenderTimer(props) {
 
     function setPlayingStatusCB(status) {
         props.model.setPlayingStatus(status);
-        console.log("Playing status set to: " + status);
     }
 
     function handleTaskSelectCB(task) {
