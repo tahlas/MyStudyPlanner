@@ -4,6 +4,7 @@ import TimerIcon from "@mui/icons-material/Timer";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import LogoutIcon from "@mui/icons-material/Logout";
 import SettingsIcon from "@mui/icons-material/Settings";
+import AnalyticsIcon from '@mui/icons-material/Analytics';
 
 export function SidebarView(props) {
     return (
@@ -38,6 +39,12 @@ export function SidebarView(props) {
                     }}
                 >
                     <CalendarMonthIcon sx={{ color: "white" }} />
+                </IconButton>
+
+                <IconButton onClick={() => {
+                    window.location.hash = "#/statistics";
+                }}>
+                    <AnalyticsIcon sx={{ color: "white" }} />
                 </IconButton>
             </Stack>
 
