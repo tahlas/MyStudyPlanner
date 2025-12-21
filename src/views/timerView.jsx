@@ -8,9 +8,8 @@ import SkipNextIcon from '@mui/icons-material/SkipNext';
 
 export function TimerView(props) {
     return (
-        <div style={{ display: "flex", gap: "40px", padding: "20px" }}>
+        <div style={{ display: "flex", gap: "40px", padding: "20px", marginLeft: "50px" }}>
             <div>
-                {selectedTaskDisplay()}
                 {timerProgress()}
                 {timerControls()}
             </div>
@@ -19,44 +18,13 @@ export function TimerView(props) {
                     display: "flex",
                     flexDirection: "column",
                     gap: "10px",
+                    marginLeft: "auto",
                 }}
             >
                 {tasksList()}
             </div>
         </div>
     );
-
-    function selectedTaskDisplay() {
-        if (!props.selectedTask) {
-            return (
-                <Typography
-                    variant="h5"
-                    color="white"
-                    style={{ marginBottom: "10px" }}
-                >
-                    No task selected
-                </Typography>
-            );
-        }
-
-        const timeSpent = props.getTaskTimeSpent(props.selectedTask.id);
-        const hours = Math.floor(timeSpent / 3600);
-        const minutes = Math.floor((timeSpent % 3600) / 60);
-
-        return (
-            <div>
-                <Typography variant="h6" color="white">
-                    Current Task:
-                </Typography>
-                <Typography variant="h5" color="#4bbfe3" fontWeight="bold">
-                    {props.selectedTask.title}
-                </Typography>
-                <Typography variant="body1" color="white">
-                    Time spent: {hours}h {minutes}m
-                </Typography>
-            </div>
-        );
-    }
 
     function timerProgress() {
         return (
@@ -78,7 +46,7 @@ export function TimerView(props) {
                                   props.defaultPomodoroSessionTimeInSeconds) *
                               100
                     }
-                    size={250}
+                    size={400}
                 />
                 <Typography
                     variant="h2"
@@ -87,6 +55,7 @@ export function TimerView(props) {
                         top: "50%",
                         left: "50%",
                         transform: "translate(-50%, -50%)",
+                        fontSize: "100px",
                     }}
                 >
                     {convertSecondsToTimeString(props.timeLeftInSeconds)}
@@ -108,7 +77,7 @@ export function TimerView(props) {
 
     function timerControls() {
         return (
-            <div>
+            <div style={{ display: "flex", justifyContent: "center" }}>
                 <Stack direction="row" spacing={1}>
                     {showPlayOrPause()}
                     <IconButton
@@ -146,6 +115,13 @@ export function TimerView(props) {
             return <Typography color="white">No tasks available!</Typography>;
         }
 
+        // Sort tasks to put selected task at the top
+        const sortedTasks = [...props.tasksData].sort((a, b) => {
+            if (props.selectedTask?.id === a.id) return -1;
+            if (props.selectedTask?.id === b.id) return 1;
+            return 0;
+        });
+
         return (
             <>
                 <Typography
@@ -155,7 +131,7 @@ export function TimerView(props) {
                 >
                     Tasks
                 </Typography>
-                {props.tasksData.map(renderTaskCB)}
+                {sortedTasks.map(renderTaskCB)}
             </>
         );
 
@@ -170,7 +146,7 @@ export function TimerView(props) {
                 // TODO: REMOVE DUPLICATE CODE (also in overviewView.jsx)
                     key={task.id}
                     onClick={() => props.onTaskSelect(task)}
-                    className="overviewTask"
+                    className={"overviewTask" + (isSelected ? ' task-pop-in' : "")}
                     style={{
                         backgroundColor: task.color,
                         filter: isSelected ? "brightness(110%)" : "none",
