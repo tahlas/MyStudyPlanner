@@ -111,7 +111,7 @@ function pieCharts(tasksData, label) {
                     height: "150px",
                 }}
             >
-                <PieChart
+                <PieChart hidden={data.length === 0}
                     series={[
                         {
                             innerRadius: 50,
