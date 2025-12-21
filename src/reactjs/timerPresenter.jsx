@@ -20,31 +20,31 @@ const Timer = observer(function RenderTimer(props) {
             timeLeftInSeconds={props.model.timeLeftInSeconds}
             defaultBreakTime={props.model.defaultBreakTimeInSeconds}
             defaultPomodoroSessionTimeInSeconds={props.model.defaultPomodoroSessionTimeInSeconds}
-            onStatusChange={setPlayingStatusCB}
-            onSkip={handleSkipCB}
+            onStatusChange={setPlayingStatusACB}
+            onSkip={handleSkipACB}
 
             tasksData={flattenedTasks}  
 
             selectedTask={props.model.selectedTask}
-            onTaskSelect={handleTaskSelectCB}
-            getTaskTimeSpent={getTaskTimeSpentCB}
+            onTaskSelect={handleTaskSelectACB}
+            getTaskTimeSpent={getTaskTimeSpentACB}
 
         />
     );
 
-    function handleSkipCB() {
+    function handleSkipACB() {
         props.model.skipTimer();
     }
 
-    function setPlayingStatusCB(status) {
+    function setPlayingStatusACB(status) {
         props.model.setPlayingStatus(status);
     }
 
-    function handleTaskSelectCB(task) {
+    function handleTaskSelectACB(task) {
         props.model.selectTask(task);
     }
 
-    function getTaskTimeSpentCB(taskId) {
+    function getTaskTimeSpentACB(taskId) {
         return props.model.getTaskTimeSpent(taskId);
     }
 });
