@@ -27,8 +27,8 @@ export function OverviewView(props) {
         <div>
             <div className="flexParent">
                 <div>
-                    <div style={{ backgroundColor: "#1e2939" }}>
-                        {pieCharts(
+                    <div style={{ backgroundColor: "#1e2939", width:"320px" }}>
+                        {renderPieChart(
                             props.tasksData.filter(taskIsDueTodayCB),
                             "Tasks",
                         )}
@@ -42,9 +42,10 @@ export function OverviewView(props) {
                             alignItems: "center",
                             gap: "10px",
                             backgroundColor: "#1e2939",
+                            
                         }}
                     >
-                        {pieCharts(props.tasksData, "Tasks")}
+                        {renderPieChart(props.tasksData, "Tasks")}
                         {addTaskButton(props.newTask, props.courseNames)}
                     </div>
                     {upcomingOverview(props.tasksData, onTaskSelectACB)}
@@ -86,7 +87,7 @@ function addTaskButton(newTask, courseNames) {
     );
 }
 
-function pieCharts(tasksData, label) {
+function renderPieChart(tasksData, label) {
     const data = numberOfTasksPerCourse(tasksData);
 
     const settings = {
