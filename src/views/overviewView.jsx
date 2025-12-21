@@ -6,6 +6,8 @@ import AddTaskModal from "./components/addTaskModal.jsx";
 import CompleteTaskModal from "./components/completeTaskModal.jsx";
 import { useState } from "react";
 import { numberOfTasksPerCourse } from "../utilities.js";
+import { getWindowDimensions } from "../utilities.js";
+import { isToday } from "../utilities.js";
 
 //TODO: Remove A LOT of code duplication!
 
@@ -21,18 +23,35 @@ export function OverviewView(props) {
         setSelectedTask(task);
         setShowCompleteTaskModal(true);
     }
+    const windowWidth = getWindowDimensions().width;
 
     return (
         <div>
             <div className="flexParent">
                 <div>
-                    <div style={{ backgroundColor: "#1e2939", width: "320px" }}>
+                    <div
+                        style={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: "10px",
+                            backgroundColor: "#1e2939",
+                            width: windowWidth / 3,
+                        }}
+                    >
+                        {renderPieChart(
+                            props.eventsData.filter(lectureIsTodayCB),
+                            "Events",
+                        )}
                         {renderPieChart(
                             props.tasksData.filter(taskIsDueTodayCB),
                             "Tasks",
                         )}
                     </div>
-                    {todaysOverview(props.tasksData, onTaskSelectACB)}
+                    {todaysOverview(
+                        props.tasksData,
+                        props.eventsData,
+                        onTaskSelectACB,
+                    )}
                 </div>
                 <div>
                     <div
@@ -41,6 +60,7 @@ export function OverviewView(props) {
                             alignItems: "center",
                             gap: "10px",
                             backgroundColor: "#1e2939",
+                            width: windowWidth / 3,
                         }}
                     >
                         {renderPieChart(props.tasksData, "Tasks")}
@@ -49,8 +69,18 @@ export function OverviewView(props) {
                     {upcomingOverview(props.tasksData, onTaskSelectACB)}
                 </div>
                 <div>
-                    <div style={{ backgroundColor: "#1e2939", width: "320px" }}>
-                        {renderPieChart(props.eventsData.filter(eventIsExamCB))}
+                    <div
+                        style={{
+                            backgroundColor: "#1e2939",
+                            width: windowWidth / 3,
+                        }}
+                    >
+                        {renderPieChart(
+                            props.eventsData.filter(eventIsExamCB),
+                            "Exams",
+                        )}
+                        {/* TODO: Fix so adding exam from overview works */}
+                        {/* {addExamButton()} */}
                     </div>
                     {examsOverview(props.eventsData)}
                 </div>
@@ -66,21 +96,78 @@ export function OverviewView(props) {
     );
 }
 
-function todaysOverview(tasksData, onTaskSelect) {
+function todaysOverview(tasksData, eventsData, onTaskSelect) {
+    //TODO: Should this be called ACB or CB?
     function renderTaskWithSelectACB(task) {
         return renderTaskCB(task, onTaskSelect);
     }
+    const lecturesToday = eventsData.filter(lectureIsTodayCB);
 
     return (
         <div style={{ marginLeft: "10px" }}>
             <div style={{ color: "white" }}>Today</div>
             <div>
+                {lecturesToday.map(renderLecturesTodayCB)}
                 {tasksData
                     .filter(taskIsDueTodayCB)
                     .map(renderTaskWithSelectACB)}
             </div>
         </div>
     );
+}
+
+function renderLecturesTodayCB(lecture) {
+    const lectureStartDate = new Date(
+        lecture.start.dateTime || lecture.start.date,
+    );
+    const lectureEndDate = new Date(lecture.end.dateTime || lecture.end.date);
+    const startHours = lectureStartDate.getHours().toString().padStart(2, "0");
+    const startMinutes = lectureStartDate
+        .getMinutes()
+        .toString()
+        .padStart(2, "0");
+    const endHours = lectureEndDate.getHours().toString().padStart(2, "0");
+    const endMinutes = lectureEndDate.getMinutes().toString().padStart(2, "0");
+    const summaryWithoutCourseAndType = lecture.summary.substring(
+        lecture.summary.indexOf(": ") + 2,
+    );
+    return (
+        <div
+            key={lecture.id}
+            className="overviewTask pl-1 pr-1 pb-1 pt-1 mb-2"
+            style={{
+                backgroundColor: lecture.color,
+                cursor: "pointer",
+                display: "flex",
+                flexDirection: "space-between",
+                justifyContent: "space-between",
+            }}
+        >
+            <div>
+                <span className="font-bold">{lecture.courseName}</span> <br />
+                <span className="font-medium">
+                    {summaryWithoutCourseAndType}
+                </span>
+                <br />
+                {lecture.description && <span>{lecture.description}</span>}
+            </div>
+            <div className="pr-1">
+                {startHours +
+                    ":" +
+                    startMinutes +
+                    " - " +
+                    endHours +
+                    ":" +
+                    endMinutes}
+            </div>
+        </div>
+    );
+}
+
+function lectureIsTodayCB(lecture) {
+    //start.date is for all-day events, dateTime is for timed events
+    const lectureStartDate = new Date(lecture.start.dateTime);
+    return isToday(lectureStartDate);
 }
 
 function examsOverview(eventsData) {
@@ -122,7 +209,7 @@ function renderExamEventCB(event) {
                     {summaryWithoutCourseAndType}
                 </span>
                 <br />
-                {event.description && <span>{event.description}</span>} 
+                {event.description && <span>{event.description}</span>}
             </div>
             <div className="pr-1">{eventMonth + " " + eventDay}</div>
         </div>
@@ -309,13 +396,8 @@ function taskIsOverdueCB(task) {
 }
 
 function taskIsDueTodayCB(task) {
-    const currentDate = new Date();
     const taskDueDate = new Date(task.due);
-    return (
-        taskDueDate.getFullYear() === currentDate.getFullYear() &&
-        taskDueDate.getMonth() === currentDate.getMonth() &&
-        taskDueDate.getDate() === currentDate.getDate()
-    );
+    return isToday(taskDueDate);
 }
 
 function taskIsDueTomorrowCB(task) {
