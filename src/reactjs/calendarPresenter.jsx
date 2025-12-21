@@ -26,7 +26,7 @@ const Calendar = observer(function CalendarRender(props) {
 
     return (
         <CalendarView tasksData={flattenedTasks}  eventsData={props.model.currentCalendarEventsPromiseState} courseNames = {getCourseNames(props.model.courses)} newEvent = {handleNewEventACB}  repeatOptions = {[ "Daily", "Weekly", "Monthly"]}
-                      eventTypeOptions = {["Lecture", "Seminar", "Exam", "Lab", "Tutorial", "Presentation", "Study Session", "Group Work"] }   eventsTrigger={Array.from(props.model.currentCalendarEventsPromiseState?.data ?? [])}
+                      eventsTrigger={Array.from(props.model.currentCalendarEventsPromiseState?.data ?? [])}
         />
     );
 

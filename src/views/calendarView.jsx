@@ -204,7 +204,6 @@ export function CalendarView(props) {
                     onNewEvent={props.newEvent}
                     courseNames={props.courseNames}
                     repeatOptions = {props.repeatOptions}
-                    eventTypeOptions={props.eventTypeOptions}
                 />
             )}
         </div>
