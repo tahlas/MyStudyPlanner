@@ -138,8 +138,12 @@ export const model = {
     addTimeToSelectedTask(seconds) {
         if (this.selectedTask) {
             const taskId = this.selectedTask.id;
-            //get today's date in yyyy-mm-dd format
-            const today = new Date().toISOString().split("T")[0];
+            //get today's date in yyyy-mm-dd format (local timezone)
+            const today = new Date();
+            const year = today.getFullYear();
+            const month = String(today.getMonth() + 1).padStart(2, "0");
+            const day = String(today.getDate()).padStart(2, "0");
+            const todayStr = `${year}-${month}-${day}`;
 
             //update total time spent on the task
             this.taskTimeTracking[this.selectedTask.id] =
@@ -149,8 +153,8 @@ export const model = {
             if (!this.taskTimeByDate[taskId]) {
                 this.taskTimeByDate[taskId] = {};
             }
-            this.taskTimeByDate[taskId][today] =
-                (this.taskTimeByDate[taskId][today] || 0) + seconds;
+            this.taskTimeByDate[taskId][todayStr] =
+                (this.taskTimeByDate[taskId][todayStr] || 0) + seconds;
         }
     },
 
@@ -163,12 +167,13 @@ export const model = {
         const timeBeforeCallingAgainInMilliseconds = 100;
         if (status) {
             this.timerIntervalId = setInterval(() => {
-                const timeToDecreaseWithInSeconds = 0.1;
+                const timeToDecreaseWithInSeconds = 100;
+                const timeToIncreaseWithInSeconds = timeToDecreaseWithInSeconds;
                 const newTime =
                     this.timeLeftInSeconds - timeToDecreaseWithInSeconds;
 
                 if (!this.isBreak && this.selectedTask) {
-                    this.addTimeToSelectedTask(timeToDecreaseWithInSeconds);
+                    this.addTimeToSelectedTask(timeToIncreaseWithInSeconds);
                 }
 
                 if (newTime <= 0) {
