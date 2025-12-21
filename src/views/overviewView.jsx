@@ -4,9 +4,7 @@ import "/src/style.css";
 import "/src/utilities.js";
 import AddTaskModal from "./components/addTaskModal.jsx";
 import CompleteTaskModal from "./components/completeTaskModal.jsx";
-import AddCourseModal from "./components/addCourseModal.jsx";
 import { useState } from "react";
-
 //TODO:
 //should not be used in final version
 import { taskConstants } from "../taskConstants";
@@ -37,7 +35,6 @@ export function OverviewView(props) {
                     </div>
                     {todaysOverview(props.tasksData, onTaskSelectACB)}
                 </div>
-
                 <div>
                     <div
                         style={{
@@ -69,12 +66,15 @@ function addTaskButton(newTask, courseNames) {
 
     return (
         <>
-            <button
+            {/* <button
                 onClick={() => setShowTaskModal(true)}
                 className="bg-white text-black px-3 py-2 rounded-md font-bold filter hover:brightness-80  transition duration-300"
             >
                 Add Task
-            </button>
+            </button> */}
+            <Button variant="contained" onClick={() => setShowTaskModal(true)}  >
+                Add Task
+            </Button>
             {showTaskModal && (
                 <AddTaskModal
                     onClose={() => setShowTaskModal(false)}
