@@ -9,7 +9,7 @@ import {
     getAllCourseTasks,
     addTask,
     completeTask,
-    updateTaskListName,
+    updateTaskListName, deleteTaskList
 } from "./tasksSource";
 import {
     calculateEndTime,
@@ -295,6 +295,25 @@ export const model = {
 
         resolvePromise(prms, this.currentTasksPromiseState);
     },
+
+    deleteCourse(courseName) {
+        if (!this.accessToken) return;
+
+        const course = this.courses.find((course) => course.name === courseName);
+        if (!course) return;
+
+        const prms = deleteTaskList(this.accessToken, courseName)
+            .then(() => {
+                this.courses = this.courses.filter((course) => course.name !== courseName);
+
+                return getAllCourseTasks(this.accessToken, this.courses, {
+                    showCompleted: false,
+                });
+            });
+
+        resolvePromise(prms, this.currentTasksPromiseState);
+    },
+
 
     resetTimer() {
         this.setPlayingStatus(false);

@@ -16,6 +16,7 @@ const Settings = observer(function SettingsRender(props) {
             onLogout={handleLogoutACB}
             newCourse={handleNewCourse}
             editCourse={handleEditCourse}
+            deleteCourse={handleDeleteCourse}
             // onUpdateCourseName={handleUpdateCourseNameACB}
         />
     );
@@ -30,14 +31,13 @@ const Settings = observer(function SettingsRender(props) {
         props.model.newCourse(course);
     }
 
-
     function handleEditCourse(oldName, newName, newColor) {
        props.model.updateCourse(oldName, newName, newColor);
     }
 
-    // function handleUpdateCourseNameACB(oldName, newName) {
-    //     props.model.updateCourseName(oldName, newName);
-    // }
+    function handleDeleteCourse(courseName) {
+        props.model.deleteCourse(courseName);
+    }
 });
 
 export { Settings };

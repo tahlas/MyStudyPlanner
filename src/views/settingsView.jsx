@@ -1,14 +1,17 @@
 import "/src/style.css";
-import { Typography, Divider, Button } from "@mui/material";
+import { Typography, Divider, Button, IconButton } from "@mui/material";
+import CloseIcon from '@mui/icons-material/Close';
 import { useState } from "react";
 import AddCourseModal from "./components/addCourseModal.jsx";
 import EditCourseModal from "./components/editCourseModal.jsx";
+
+
 
 export function SettingsView(props) {
     return (
         <div style={{ display: "flex", flexDirection: "row" }}>
             {accountInfo(props.user, props.onLogout)}
-            {boxWithCourses(props.courses, props.newCourse, props.editCourse)}
+            {boxWithCourses(props.courses, props.newCourse, props.editCourse, props.deleteCourse)}
         </div>
     );
 }
@@ -59,7 +62,7 @@ function accountInfo(user, onLogout) {
     );
 }
 
-function boxWithCourses(courses, newCourse,editCourse) {
+function boxWithCourses(courses, newCourse,editCourse,deleteCourse) {
     const [showCourseModal, setShowCourseModal] = useState(false);
     const [showEditCourseModal, setShowEditCourseModal] = useState(false);
     const [selectedCourse, setSelectedCourse] = useState(null);
@@ -99,6 +102,12 @@ function boxWithCourses(courses, newCourse,editCourse) {
                     >
                         Edit
                     </Button>
+
+                    <IconButton
+                        onClick={() =>deleteCourse(course.name)}
+                        sx={{ color: "white" }}
+                    ><CloseIcon />
+                    </IconButton>
                 </div>
             </div>
         );

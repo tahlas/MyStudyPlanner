@@ -6,11 +6,16 @@ function responseACB(response) {
     if(response.status === 401){
         throw  {
             status:401,
-        }; // TODO refresh token so that this doesnt happen so often!!
+        };
+    }
+
+    if (response.status === 204) {
+        return {};
     }
 
     if (response.status !== 200)
         throw new Error("non-200 http response");
+
     return response.json();
 }
 
@@ -18,10 +23,12 @@ function returnItemsACB(data) {
     return data.items || [];
 }
 
+function findListByTitle(lists, title) {
+    return lists.find(list => list.title === title);
+}
+
 
 export function getAllLists(token) {
-
-
     return fetch(
         TASKS_URL + "/users/@me/lists",
         {
@@ -31,48 +38,6 @@ export function getAllLists(token) {
         }
     ).then(responseACB).then(returnItemsACB);
 }
-
-
-// export function getAllTasks(token, searchParams) {
-//
-//     function getTaskFromListACB(list) {
-//
-//         function addTasklistIdToTaskACB(task) {
-//             return {
-//                 ...task,
-//                 listId: list.id,
-//                 listTitle: list.title
-//             };
-//         }
-//
-//         function addTasklistIdACB(tasks) {
-//             return tasks.map(addTasklistIdToTaskACB);
-//         }
-//
-//         return fetch(
-//             TASKS_URL + "/lists/" + list.id + "/tasks" + "?" + new URLSearchParams(searchParams),
-//             {
-//                 headers: {
-//                     "Authorization": `Bearer ${token}`
-//                 }
-//             }
-//         ).then(responseACB)
-//             .then(returnItemsACB)
-//             .then(addTasklistIdACB);
-//     }
-//
-//
-//
-//     function getAllTasksFromListsACB(lists){
-//         return Promise.all(lists.map(getTaskFromListACB)); // using Promise.all to return a single promise, instead of an array of promises. Will make model code easier.
-//
-//     }
-//
-//
-//
-//     return getAllLists(token).then(getAllTasksFromListsACB);
-//
-// }
 
 
 export function getAllCourseTasks(token, courses, searchParams) {
@@ -159,15 +124,10 @@ export function createNewList(token, listTitle) {
 
 
 export async function addTask(token, taskInfo, listTitle) {
-    let listId;
-
     const lists = await getAllLists(token);
+    const existingList = findListByTitle(lists, listTitle);
 
-    function findListByTitleACB(list) {
-        return list.title === listTitle;
-    }
-
-    const existingList = lists.find(findListByTitleACB);
+    let listId;
 
     if (existingList) {
         listId = existingList.id;
@@ -191,13 +151,8 @@ export async function addTask(token, taskInfo, listTitle) {
 
 export async function updateTaskListName(token, oldName, newName) {
     const lists = await getAllLists(token);
-    
-    const foundList = lists.find(findListByTitleCB);
-    
-    function findListByTitleCB(list) {
-        return list.title === oldName;
-    }
-    
+    const foundList = findListByTitle(lists, oldName);
+
     return fetch(
         TASKS_URL + "/users/@me/lists/" + foundList.id,
         {
@@ -211,6 +166,24 @@ export async function updateTaskListName(token, oldName, newName) {
     ).then(responseACB);
 }
 
+export async function deleteTaskList(token, listTitle) {
+    const lists = await getAllLists(token);
+    const foundList = findListByTitle(lists, listTitle);
+
+    if (!foundList) {
+        return Promise.resolve({});
+    }
+
+    return fetch(
+        TASKS_URL + "/users/@me/lists/" + foundList.id,
+        {
+            method: "DELETE",
+            headers: {
+                "Authorization": `Bearer ${token}`
+            }
+        }
+    ).then(responseACB);
+}
 
 export function completeTask(token, tasklistId, taskId) {
     return fetch(
