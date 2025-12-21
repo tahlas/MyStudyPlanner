@@ -265,17 +265,13 @@ export const model = {
         resolvePromise(prms, this.currentTasksPromiseState);
     },
 
-    updateCourseName(oldName, newName) {
+    updateCourse(oldName, newName, newColor) {
         if (!this.accessToken) return;
 
-        const courseIndex = this.courses.findIndex(
-            (course) => course.name === oldName,
-        );
-        if (courseIndex !== -1) {
-            this.courses[courseIndex] = {
-                ...this.courses[courseIndex],
-                name: newName,
-            };
+        const course = this.courses.find((course) => course.name === oldName);
+        if (course) {
+            course.name = newName;
+            course.color = newColor;
         }
 
         const prms = updateTaskListName(
