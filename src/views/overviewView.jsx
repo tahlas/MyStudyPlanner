@@ -122,7 +122,7 @@ function renderExamEventCB(event) {
                     {summaryWithoutCourseAndType}
                 </span>
                 <br />
-                <span>{event.description}</span> <br />
+                {event.description && <span>{event.description}</span>} 
             </div>
             <div className="pr-1">{eventMonth + " " + eventDay}</div>
         </div>
