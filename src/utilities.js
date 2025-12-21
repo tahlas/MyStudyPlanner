@@ -112,3 +112,22 @@ export function formatTime(dateTime) {
 
   return hours + ':' + minutes;
 }
+
+export function getWindowDimensions() {
+  const { innerWidth: width, innerHeight: height } = window;
+  return {
+    width,
+    height
+  };
+}
+
+export function isToday(date){
+  const today = new Date();
+  return date.getDate() === today.getDate() &&
+         date.getMonth() === today.getMonth() &&
+         date.getFullYear() === today.getFullYear();
+}
+
+export function extractSummaryWithoutCourseNameAndEventType(summary, courseNames) {
+  return;
+}
