@@ -1,10 +1,10 @@
 import CircularProgress from "@mui/material/CircularProgress";
-import PlayCircleFilledWhiteIcon from "@mui/icons-material/PlayCircleFilledWhite";
+import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import Stack from "@mui/material/Stack";
 import IconButton from "@mui/material/IconButton";
-import PauseCircleIcon from "@mui/icons-material/PauseCircle";
+import PauseIcon from "@mui/icons-material/Pause";
 import { Typography } from "@mui/material";
-import AddTaskModal from "./components/addTaskModal.jsx";
+import SkipNextIcon from '@mui/icons-material/SkipNext';
 
 export function TimerView(props) {
     return (
@@ -60,10 +60,15 @@ export function TimerView(props) {
 
     function timerProgress() {
         return (
-            <div style={{ position: "relative", display: "inline-flex", color:"white" }}>
+            <div
+                style={{
+                    position: "relative",
+                    display: "inline-flex",
+                    color: "white",
+                }}
+            >
                 <CircularProgress
                     variant="determinate"
-                    // value={100}
                     value={
                         props.breakStatus
                             ? (props.timeLeftInSeconds /
@@ -106,6 +111,12 @@ export function TimerView(props) {
             <div>
                 <Stack direction="row" spacing={1}>
                     {showPlayOrPause()}
+                    <IconButton
+                        color="primary"
+                        onClick={props.onSkip}
+                    >
+                        <SkipNextIcon sx={{ fontSize: 100 }} />
+                    </IconButton>
                 </Stack>
             </div>
         );
@@ -115,13 +126,13 @@ export function TimerView(props) {
         if (props.playingStatus) {
             return (
                 <IconButton color="primary" onClick={userChangesStatus}>
-                    <PauseCircleIcon sx={{ fontSize: 100 }} />
+                    <PauseIcon sx={{ fontSize: 100 }} />
                 </IconButton>
             );
         }
         return (
             <IconButton color="primary" onClick={userChangesStatus}>
-                <PlayCircleFilledWhiteIcon sx={{ fontSize: 100 }} />
+                <PlayArrowIcon sx={{ fontSize: 100 }} />
             </IconButton>
         );
     }
@@ -151,11 +162,12 @@ export function TimerView(props) {
         function renderTaskCB(task) {
             const timeSpent = props.getTaskTimeSpent(task.id);
             const hours = Math.floor(timeSpent / 3600);
-            const minutes = Math.floor((timeSpent % 3600) / 60);    
+            const minutes = Math.floor((timeSpent % 3600) / 60);
             const isSelected = props.selectedTask?.id === task.id;
 
             return (
                 <div
+                // TODO: REMOVE DUPLICATE CODE (also in overviewView.jsx)
                     key={task.id}
                     onClick={() => props.onTaskSelect(task)}
                     className="overviewTask"
@@ -167,7 +179,9 @@ export function TimerView(props) {
                         cursor: "pointer",
                     }}
                 >
-                    {task.title} <br />
+                    <span className="font-semibold">{task.listTitle}</span>
+                    <br />
+                    <span className="font-medium">{task.title}</span> <br />
                     {task.notes && (
                         <>
                             {task.notes} <br />
