@@ -6,16 +6,17 @@ import { SuspenseView } from "../views/suspenseView.jsx";
 import { getCourseColor } from "../utilities.js";
 import { getCourseNames } from "../utilities.js";
 
-
 const Overview = observer(function OverviewRender(props) {
     useEffect(() => {
         if (
+            props.model.user &&
             props.model.accessToken &&
+            props.model.ready &&
             !props.model.currentTasksPromiseState.promise
         ) {
             props.model.getTasks();
         }
-    }, [props.model.accessToken, props.model.user]);
+    }, [props.model.accessToken, props.model.user, props.model.ready]);
 
     useEffect(() => {
         if (
@@ -28,10 +29,13 @@ const Overview = observer(function OverviewRender(props) {
 
     const state = props.model.currentTasksPromiseState;
 
+    if (!props.model.ready || (state.promise && !state.data && !state.error)) {
+        return <SuspenseView promise={state.promise || {}} error={state.error} />;
+    }
+
     if (state.data) {
-        // Flatten the array of arrays into a single array of tasks
         const flattenedTasks = state.data.flat();
-        
+
         return (
             <OverviewView
                 tasksData={flattenedTasks}

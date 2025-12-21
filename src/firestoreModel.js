@@ -3,10 +3,6 @@ import { app } from "/src/firebaseConfig.js";
 
 const db = getFirestore(app);
 
-window.db = db;
-window.doc = doc;
-window.setDoc = setDoc;
-
 const COLLECTION = "users";
 
 export function connectToPersistence(model, reaction) {
@@ -25,13 +21,15 @@ export function connectToPersistence(model, reaction) {
 
     function readDataACB(snapshot) {
         if (snapshot.data()) {
-            const firestoreToken = snapshot.data().accessToken;
-            if (!model.isTokenFromLogin) {
-                model.setAccessToken(firestoreToken);
+            const data = snapshot.data();
+
+            if (!model.isTokenFromLogin && data.accessToken) {
+                model.setAccessTokenFromFirestore(data.accessToken);
             }
-            model.setCourses(snapshot.data().courses || []);
-            model.setTaskTimeTracking(snapshot.data().taskTimeTracking || {});
-            model.setTaskTimeByDate(snapshot.data().taskTimeByDate || {});
+
+            model.setCourses(data.courses || []);
+            model.setTaskTimeTracking(data.taskTimeTracking || {});
+            model.setTaskTimeByDate(data.taskTimeByDate || {});
         } else {
             model.setCourses([]);
             model.setTaskTimeTracking({});
@@ -41,7 +39,7 @@ export function connectToPersistence(model, reaction) {
     }
 
     function errorACB(error) {
-        console.log(error);
+        console.error("Firestore error:", error);
     }
 
     reaction(modelChangeACB, writeToPersistenceACB);
@@ -50,7 +48,7 @@ export function connectToPersistence(model, reaction) {
         return [
             model.accessToken,
             model.user,
-            JSON.stringify(model.courses),
+            model.courses.length,
             JSON.stringify(model.taskTimeTracking),
             JSON.stringify(model.taskTimeByDate),
         ];
@@ -58,8 +56,9 @@ export function connectToPersistence(model, reaction) {
 
     function writeToPersistenceACB() {
         if (model.user && model.accessToken) {
-            if (model.isTokenFromLogin || model.ready) {
-                const user_firestoreDoc = doc(db, COLLECTION, model.user.uid);
+            const user_firestoreDoc = doc(db, COLLECTION, model.user.uid);
+
+            if (model.ready) {
                 setDoc(
                     user_firestoreDoc,
                     {
@@ -68,6 +67,12 @@ export function connectToPersistence(model, reaction) {
                         taskTimeTracking: model.taskTimeTracking,
                         taskTimeByDate: model.taskTimeByDate,
                     },
+                    { merge: true },
+                );
+            } else if (model.isTokenFromLogin) {
+                setDoc(
+                    user_firestoreDoc,
+                    { accessToken: model.accessToken },
                     { merge: true },
                 );
             }

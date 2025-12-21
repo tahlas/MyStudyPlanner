@@ -47,7 +47,20 @@ export const model = {
     setAccessToken(accessToken) {
         this.accessToken = accessToken;
         this.isTokenFromLogin = true;
-        this.ready = true;
+    },
+
+    setAccessTokenFromFirestore(accessToken) {
+        this.accessToken = accessToken;
+        this.isTokenFromLogin = false;
+    },
+
+    clearAccessToken() {
+        this.accessToken = null;
+    },
+    completeCleanup(){
+        this.user = null;
+        this.isTokenFromLogin = false;
+        this.ready = false;
     },
 
     clearData() {
@@ -55,6 +68,7 @@ export const model = {
         this.isTokenFromLogin = false;
         this.tasks = [];
         this.events = [];
+        this.courses = [];
         this.currentCalendarEventsPromiseState = {};
         this.currentTasksPromiseState = {};
         this.playingStatus = false;
