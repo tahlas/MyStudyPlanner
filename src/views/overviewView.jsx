@@ -7,6 +7,8 @@ import CompleteTaskModal from "./components/completeTaskModal.jsx";
 import { useState } from "react";
 import { numberOfTasksPerCourse } from "../utilities.js";
 
+//TODO: Remove A LOT of code duplication!
+
 /**
  * Renders the Overview View component.
  * @returns the Overview View JSX element
@@ -46,9 +48,7 @@ export function OverviewView(props) {
                     </div>
                     {upcomingOverview(props.tasksData, onTaskSelectACB)}
                 </div>
-                <div>
-
-                </div>
+                <div>{examsOverview(props.eventsData)}</div>
             </div>
             {showCompleteTaskModal && (
                 <CompleteTaskModal
@@ -78,12 +78,42 @@ function todaysOverview(tasksData, onTaskSelect) {
     );
 }
 
-function examsOverview(){
-    return(
-        <div>
-            
+function examsOverview(eventsData) {
+    return <div>{eventsData.filter(eventIsExamCB).map(renderExamEventCB)}</div>;
+
+    function eventIsExamCB(event) {
+        return event.eventType === "Exam";
+    }
+}
+
+function renderExamEventCB(event) {
+    const eventDate = new Date(event.start.dateTime);
+    const eventDay = eventDate.getDate();
+    const eventMonth = eventDate.toLocaleString("default", { month: "short" });
+    const indexOfCourseNameAndTypeEnd = event.summary.lastIndexOf(": ");
+    const summaryWithoutCourseAndType = event.summary.substring(indexOfCourseNameAndTypeEnd + 2);
+    console.log(event);
+    return (
+        <div
+            key={event.id}
+            className="overviewTask pl-1 pr-1 pb-1 pt-1 mb-2"
+            style={{
+                backgroundColor: event.color,
+                cursor: "pointer",
+                display: "flex",
+                flexDirection: "space-between",
+                justifyContent: "space-between",
+            }}
+        >
+            <div>
+                <span className="font-bold">{event.courseName}</span> <br />
+                <span className="font-medium">{summaryWithoutCourseAndType}</span>
+                <br />
+                <span>{event.description}</span> <br />
+            </div>
+            <div className="pr-1">{eventMonth + " " + eventDay}</div>
         </div>
-    )
+    );
 }
 
 function renderPieChart(tasksData, label) {
@@ -224,7 +254,6 @@ function renderTaskCB(task, onTaskSelect) {
     const dueDateMonth = new Date(task.due).toLocaleString("default", {
         month: "short",
     });
-    const notesExist = task.notes ? true : false;
 
     return (
         <div
