@@ -44,6 +44,11 @@ const Overview = observer(function OverviewRender(props) {
                 newCourse={handleNewCourse}
                 courseNames={getCourseNames(props.model.courses)}
                 eventsData={eventState.data}
+                newEvent={handleNewEventACB}
+                deleteEvent={handleDeleteEvent}
+                repeatOptions={props.model.repeatOptions}
+                eventTypeOptions={props.model.eventTypeOptions}
+                deleteOptions={props.model.deleteOptions}
             />
         );
     }
@@ -69,6 +74,16 @@ const Overview = observer(function OverviewRender(props) {
     function handleNewCourse(course) {
         props.model.newCourse(course);
     }
+
+    function handleNewEventACB(event) {
+        props.model.saveNewEvent(event);
+    }
+
+    function handleDeleteEvent(event, deleteOption) {
+        props.model.deleteEvent(event, deleteOption);
+    }
+
+
 });
 
 export { Overview };

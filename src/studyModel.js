@@ -28,6 +28,10 @@ export const model = {
     taskTimeTracking: {},
     taskTimeByDate: {},
 
+    eventTypeOptions: ["Class", "Exam"],
+    repeatOptions: ["Daily", "Weekly", "Monthly"],
+    deleteOptions: ["This Event", "All events"],
+
     setAccessToken(accessToken) {
         this.accessToken = accessToken;
         this.isTokenFromLogin = true;

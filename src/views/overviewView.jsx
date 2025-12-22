@@ -4,6 +4,7 @@ import "/src/style.css";
 import "/src/utilities.js";
 import AddTaskModal from "./components/addTaskModal.jsx";
 import CompleteTaskModal from "./components/completeTaskModal.jsx";
+import DeleteEventModal from "./components/deleteEventModal.jsx";
 import { useState } from "react";
 import {
     isAfterNextWeekAndLater,
@@ -17,6 +18,7 @@ import {
     numberOfTasksPerCourse,
 } from "../utilities.js";
 import ItemCard from "./components/itemCard.jsx";
+import AddEventModal from "./components/addEventModal.jsx";
 
 //TODO: Remove A LOT of code duplication!
 
@@ -27,10 +29,18 @@ import ItemCard from "./components/itemCard.jsx";
 export function OverviewView(props) {
     const [showCompleteTaskModal, setShowCompleteTaskModal] = useState(false);
     const [selectedTask, setSelectedTask] = useState(null);
+    const [showAddEventModal, setShowAddEventModal] = useState(false);
+    const [showDeleteEventModal, setShowDeleteEventModal] = useState(false);
+    const [selectedEvent, setSelectedEvent] = useState(null);
 
     function onTaskSelectACB(task) {
         setSelectedTask(task);
         setShowCompleteTaskModal(true);
+    }
+
+    function onEventSelectACB(event) {
+        setSelectedEvent(event);
+        setShowDeleteEventModal(true);
     }
 
     const windowWidth = getWindowDimensions().width;
@@ -54,6 +64,7 @@ export function OverviewView(props) {
                         props.tasksData,
                         props.eventsData,
                         onTaskSelectACB,
+                        onEventSelectACB,
                     )}
                 </div>
                 <div className="min-w-[280] flex-1">
@@ -69,11 +80,14 @@ export function OverviewView(props) {
                             props.eventsData.filter(eventIsExamCB),
                             "Exams",
                         )}
-                        {/* TODO: Fix so adding event from overview works */}
+                        {  <Button variant="contained" color="primary" onClick={() => setShowAddEventModal(true)}>
+                            Add Event
+                        </Button>
+                        }
                         {}
                     </div>
                     {/* {examsOverview(props.eventsData)} */}
-                    {upcomingExamsOverview(props.eventsData)}
+                    {upcomingExamsOverview(props.eventsData, onEventSelectACB)}
                 </div>
             </div>
             {showCompleteTaskModal && (
@@ -83,14 +97,36 @@ export function OverviewView(props) {
                     onCompleteTask={props.completeTask}
                 />
             )}
+            {showAddEventModal && (
+                <AddEventModal
+                    onClose={() => setShowAddEventModal(false)}
+                    onNewEvent={props.newEvent}
+                    courseNames={props.courseNames}
+                    repeatOptions={props.repeatOptions}
+                    eventTypeOptions={props.eventTypeOptions}
+                />
+            )}
+            {showDeleteEventModal && (
+                <DeleteEventModal
+                    event={selectedEvent}
+                    onClose={() => setShowDeleteEventModal(false)}
+                    onDelete={props.deleteEvent}
+                    deleteOptions={props.deleteOptions}
+                />
+            )}
+
         </div>
     );
 }
 
-function todaysOverview(tasksData, eventsData, onTaskSelect) {
+function todaysOverview(tasksData, eventsData, onTaskSelect, onEventSelect) {
     //TODO: Should this be called ACB or CB?
     function renderTaskWithSelectACB(task) {
         return renderTaskCB(task, onTaskSelect);
+    }
+
+    function renderEventWithSelectACB(event) {
+        return renderClassCB(event, onEventSelect);
     }
 
     const classesToday = eventsData.filter(classIsTodayCB);
@@ -99,7 +135,7 @@ function todaysOverview(tasksData, eventsData, onTaskSelect) {
         <div style={{ marginLeft: "10px" }}>
             <div style={{ color: "white" }}>Today</div>
             <div>
-                {classesToday.map(renderClassCB)}
+                {classesToday.map(renderEventWithSelectACB)}
                 {tasksData
                     .filter(taskIsDueTodayCB)
                     .map(renderTaskWithSelectACB)}
@@ -108,7 +144,7 @@ function todaysOverview(tasksData, eventsData, onTaskSelect) {
     );
 }
 
-function renderClassCB(classItem) {
+function renderClassCB(classItem, onEventSelect) {
     const classStartDate = new Date(
         classItem.start.dateTime || classItem.start.date,
     );
@@ -137,6 +173,9 @@ function renderClassCB(classItem) {
                 ":" +
                 endMinutes
             }
+            onClick={function () {
+                onEventSelect(classItem);
+            }}
         />
     );
 }
@@ -326,7 +365,7 @@ function renderTaskCB(task, onTaskSelect) {
 //     );
 // }
 
-function upcomingExamsOverview(eventsData) {
+function upcomingExamsOverview(eventsData, onEventSelect) {
     const exams = eventsData.filter(eventIsExamCB);
     const examsToday = exams.filter(eventIsTodayCB);
     const examsTomorrow = exams.filter(eventIsTomorrowCB);
@@ -338,35 +377,39 @@ function upcomingExamsOverview(eventsData) {
             <div hidden={examsToday.length === 0} style={{ color: "orange" }}>
                 Today
             </div>
-            {examsToday.map(renderExamEventCB)}
+            {examsToday.map(renderExamWithSelectACB)}
             <div
                 hidden={examsTomorrow.length === 0}
                 style={{ color: "yellow" }}
             >
                 Tomorrow
             </div>
-            {examsTomorrow.map(renderExamEventCB)}
+            {examsTomorrow.map(renderExamWithSelectACB)}
             <div style={{ color: "white" }} hidden={examsThisWeek.length === 0}>
                 This Week
             </div>
-            {examsThisWeek.map(renderExamEventCB)}
+            {examsThisWeek.map(renderExamWithSelectACB)}
             <div style={{ color: "white" }} hidden={examsNextWeek.length === 0}>
                 Next Week
             </div>
-            {examsNextWeek.map(renderExamEventCB)}
+            {examsNextWeek.map(renderExamWithSelectACB)}
             <div style={{ color: "white" }} hidden={examsLater.length === 0}>
                 Later
             </div>
-            {examsLater.map(renderExamEventCB)}
+            {examsLater.map(renderExamWithSelectACB)}
         </div>
     );
+
+    function renderExamWithSelectACB(event) {
+        return renderExamEventCB(event, onEventSelect);
+    }
 }
 
 function eventIsExamCB(event) {
     return event.eventType === "Exam";
 }
 
-function renderExamEventCB(event) {
+function renderExamEventCB(event, onEventSelect) {
     const eventDate = new Date(event.start.dateTime);
     const eventDay = eventDate.getDate();
     const eventMonth = eventDate.toLocaleString("default", { month: "short" });
@@ -379,6 +422,9 @@ function renderExamEventCB(event) {
             subtitle={extractSummaryWithoutCourseNameAndEventType(event)}
             description={event.description}
             rightContent={eventMonth + " " + eventDay}
+            onClick={function () {
+                onEventSelect(event);
+            }}
         />
     );
 }

@@ -26,12 +26,12 @@ const Calendar = observer(function CalendarRender(props) {
                 courseNames={getCourseNames(props.model.courses)}
                 newEvent={handleNewEventACB}
                 deleteEvent={handleDeleteEvent}
-                repeatOptions={["Daily", "Weekly", "Monthly"]}
+                repeatOptions={props.model.repeatOptions}
                 eventsTrigger={Array.from(
                     props.model.currentCalendarEventsPromiseState?.data ?? []
                 )}
-                eventTypeOptions={["Class", "Exam"]}
-                deleteOptions={["This Event", "All events"]}
+                eventTypeOptions={props.model.eventTypeOptions}
+                deleteOptions={props.model.deleteOptions}
             />
         );
     }
