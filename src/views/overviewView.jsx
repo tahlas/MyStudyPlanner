@@ -36,9 +36,6 @@ export function OverviewView(props) {
                 <div className="w-1/3">
                     <div
                         className="overviewHeader"
-                        // style={{
-                        //     minWidth: windowWidth / 3,
-                        // }}
                     >
                         {renderPieChart(
                             props.eventsData.filter(classIsTodayCB),
@@ -58,9 +55,6 @@ export function OverviewView(props) {
                 <div className="w-1/3">
                     <div
                         className="overviewHeader"
-                        // style={{
-                        //     minWidth: windowWidth / 3,
-                        // }}
                     >
                         {renderPieChart(props.tasksData, "Tasks")}
                         {addTaskButton(props.newTask, props.courseNames)}
@@ -70,9 +64,6 @@ export function OverviewView(props) {
                 <div className="w-1/3">
                     <div
                         className="overviewHeader"
-                        // style={{
-                        //     minWidth: windowWidth / 3,
-                        // }}
                     >
                         {renderPieChart(
                             props.eventsData.filter(eventIsExamCB),

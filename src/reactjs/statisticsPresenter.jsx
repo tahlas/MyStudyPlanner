@@ -2,13 +2,13 @@ import { observer } from "mobx-react-lite";
 import { WeeklyTimeView } from "../views/statisticsView.jsx";
 import { useEffect } from "react";
 import { SuspenseView } from "../views/suspenseView.jsx";
+import { use401Redirect, useFetchTasks } from "../modelEffects.js";
 
 const Statistics = observer(function StatisticsRender(props) {
-    useEffect(() => {
-        if (props.model.accessToken && !props.model.currentTasksPromiseState.promise) {
-            props.model.getTasks();
-        }
-    }, [props.model.accessToken, props.model.user]);
+
+    use401Redirect(props.model);
+
+    useFetchTasks(props.model);
 
     const state = props.model.currentTasksPromiseState;
 
