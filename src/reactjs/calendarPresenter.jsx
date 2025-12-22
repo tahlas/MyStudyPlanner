@@ -2,28 +2,24 @@ import { observer } from "mobx-react-lite";
 import { CalendarView } from "../views/calendarView.jsx";
 import { useEffect } from "react";
 import { getCourseNames } from "../utilities.js";
+import { SuspenseView } from "../views/suspenseView.jsx";
+import { logout } from "../authModel.js";
+import { use401Redirect, useFetchCalendarEvents, useFetchTasks } from "../modelEffects.js";
+
 
 const Calendar = observer(function CalendarRender(props) {
-    useEffect(() => {
-        if (
-            props.model.accessToken &&
-            !props.model.currentTasksPromiseState.promise
-        ) {
-            props.model.getTasks();
-        }
-    }, [props.model.accessToken, props.model.user]);
 
-    useEffect(() => {
-        if (
-            props.model.accessToken &&
-            !props.model.currentCalendarEventsPromiseState.promise
-        ) {
-            props.model.getCalendarEvents();
-        }
-    }, [props.model.accessToken, props.model.user]);
+    use401Redirect(props.model);
+
+    useFetchTasks(props.model);
+
+    useFetchCalendarEvents(props.model);
 
     const state = props.model.currentTasksPromiseState;
     const flattenedTasks = state.data ? state.data.flat() : [];
+
+
+    if(state.data && props.model.currentCalendarEventsPromiseState.data) {
 
     return (
         <CalendarView
@@ -40,6 +36,17 @@ const Calendar = observer(function CalendarRender(props) {
             deleteOptions={["This Event", "All events"]}
         />
     );
+    }
+
+   return  <SuspenseView
+        taskPromise={state.promise}
+        taskError={state.error}
+        taskData={state.data}
+        eventPromise={props.model.currentCalendarEventsPromiseState.promise}
+        eventError={props.model.currentCalendarEventsPromiseState.error}
+        eventData={props.model.currentCalendarEventsPromiseState.data}
+    />
+
 
     function handleNewEventACB(event) {
         props.model.saveNewEvent(event);

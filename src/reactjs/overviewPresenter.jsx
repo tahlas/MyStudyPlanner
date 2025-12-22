@@ -4,20 +4,18 @@ import { OverviewView } from "../views/overviewView.jsx";
 import { useEffect } from "react";
 import { logout } from "../authModel.js";
 import { SuspenseView } from "../views/suspenseView.jsx";
-import { getCourseColor } from "../utilities.js";
 import { getCourseNames } from "../utilities.js";
+import { use401Redirect, useFetchCalendarEvents, useFetchTasks } from "../modelEffects.js";
 
 const Overview = observer(function OverviewRender(props) {
-    useEffect(() => {
-        if (
-            props.model.user &&
-            props.model.accessToken &&
-            props.model.ready &&
-            !props.model.currentTasksPromiseState.promise
-        ) {
-            props.model.getTasks();
-        }
-    }, [props.model.accessToken, props.model.user, props.model.ready]);
+
+   use401Redirect(props.model);
+
+   useFetchTasks(props.model);
+
+   useFetchCalendarEvents(props.model);
+
+
 
     useEffect(() => {
         if (
@@ -28,14 +26,7 @@ const Overview = observer(function OverviewRender(props) {
         }
     }, [props.model.accessToken, props.model.user, props.model.ready]);
 
-    useEffect(() => {
-        if (
-            props.model.accessToken &&
-            !props.model.currentCalendarEventsPromiseState.promise
-        ) {
-            props.model.getCalendarEvents();
-        }
-    }, [props.model.accessToken, props.model.user]);
+
 
     const taskState = props.model.currentTasksPromiseState;
     const eventState = props.model.currentCalendarEventsPromiseState;
@@ -55,8 +46,16 @@ const Overview = observer(function OverviewRender(props) {
             />
         );
     }
-    //TODO: There are two states here, we should show loading/error for both
-    return <SuspenseView promise={taskState.promise} error={taskState.error} />;
+
+
+    return  <SuspenseView
+        taskPromise={taskState.promise}
+        taskError={taskState.error}
+        taskData={taskState.data}
+        eventPromise={eventState.promise}
+        eventError={eventState.error}
+        eventData={eventState.data}
+    />
 
     function handleNewTaskACB(taskInfo) {
         props.model.saveNewTask(taskInfo);

@@ -1,16 +1,23 @@
 import CircularProgress from "@mui/material/CircularProgress";
 
 export function SuspenseView(props) {
-    if (!props.promise) {
-        // return <span>no data</span>;
+    if (!props.taskPromise && !props.eventPromise) {
         return loading();
     }
-    if (props.promise && props.error) {
-        return <span>{props.error.toString()}</span>;
+
+    if (props.taskError) {
+        return <span>{props.taskError.toString()}</span>;
     }
-    if (props.promise && !props.data && !props.error) {
+    if (props.eventError) {
+        return <span>{props.eventError.toString()}</span>;
+    }
+
+    if ((props.taskPromise && !props.taskData && !props.taskError) ||
+        (props.eventPromise && !props.eventData && !props.eventError)) {
         return loading();
     }
+
+    return props.children || null;
 }
 
 function loading() {

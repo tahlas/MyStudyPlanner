@@ -1,18 +1,20 @@
 import { observer } from "mobx-react-lite";
 import { TimerView } from "../views/timerView.jsx";
 import { useEffect } from "react";
+import { SuspenseView } from "../views/suspenseView.jsx";
+import { use401Redirect, useFetchTasks } from "../modelEffects.js";
 
 const Timer = observer(function RenderTimer(props) {
-    useEffect(() => {
-            if (props.model.accessToken && !props.model.currentTasksPromiseState.promise) {
-                props.model.getTasks();
-            }
-    }, [props.model.accessToken,props.model.user]);
-    
+
+    use401Redirect(props.model);
+
+    useFetchTasks(props.model);
+
     const state = props.model.currentTasksPromiseState;
     const flattenedTasks = state.data ? state.data.flat() : [];
-    
 
+
+if(state.data) {
     return (
         <TimerView
             playingStatus={props.model.playingStatus}
@@ -23,7 +25,7 @@ const Timer = observer(function RenderTimer(props) {
             onStatusChange={setPlayingStatusACB}
             onSkip={handleSkipACB}
 
-            tasksData={flattenedTasks}  
+            tasksData={flattenedTasks}
 
             selectedTask={props.model.selectedTask}
             onTaskSelect={handleTaskSelectACB}
@@ -31,6 +33,18 @@ const Timer = observer(function RenderTimer(props) {
 
         />
     );
+}
+
+
+    return <SuspenseView
+        taskPromise={state.promise}
+        taskError={state.error}
+        taskData={state.data}
+        // no events are used here
+        eventPromise={true}
+        eventError={false}
+        eventData={true}
+    />
 
     function handleSkipACB() {
         props.model.skipTimer();
