@@ -9,7 +9,7 @@ import EditCourseModal from "./components/editCourseModal.jsx";
 
 export function SettingsView(props) {
     return (
-        <div style={{ display: "flex", flexDirection: "row" }}>
+        <div className="flex flex-row max-[1200px]:flex-col">
             {accountInfo(props.user, props.onLogout)}
             {boxWithCourses(props.courses, props.newCourse, props.editCourse, props.deleteCourse)}
         </div>
