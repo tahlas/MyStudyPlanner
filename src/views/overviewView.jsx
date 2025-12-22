@@ -337,26 +337,30 @@ function upcomingTasksOverview(tasksData, onTaskSelect) {
         return renderTaskCB(task, onTaskSelect);
     }
 }
-
-function renderTaskCB(task, onTaskSelect) {
-    const dueDateDay = new Date(task.due).getDate();
-    const dueDateMonth = new Date(task.due).toLocaleString("default", {
-        month: "short",
-    });
+function renderItemCard(item, onSelect, isTask = true) {
+    const date = isTask ? new Date(item.due) : new Date(item.start.dateTime);
+    const day = date.getDate();
+    const month = date.toLocaleString("default", { month: "short" });
 
     return (
         <ItemCard
-            key={task.id}
-            item={task}
-            title={task.listTitle}
-            subtitle={task.title}
-            description={task.notes}
-            rightContent={dueDateMonth + " " + dueDateDay}
-            onClick={function () {
-                onTaskSelect(task);
-            }}
+            key={item.id}
+            item={item}
+            title={isTask ? item.listTitle : item.courseName}
+            subtitle={isTask ? item.title : extractSummaryWithoutCourseNameAndEventType(item)}
+            description={item.notes || item.description}
+            rightContent={`${month} ${day}`}
+            onClick={() => onSelect(item)}
         />
     );
+}
+
+function renderTaskCB(task, onTaskSelect) {
+    return renderItemCard(task, onTaskSelect, true);
+}
+
+function renderExamEventCB(event, onEventSelect) {
+    return renderItemCard(event, onEventSelect, false);
 }
 
 function upcomingExamsOverview(eventsData, onEventSelect) {
@@ -403,25 +407,7 @@ function eventIsExamCB(event) {
     return event.eventType === "Exam";
 }
 
-function renderExamEventCB(event, onEventSelect) {
-    const eventDate = new Date(event.start.dateTime);
-    const eventDay = eventDate.getDate();
-    const eventMonth = eventDate.toLocaleString("default", { month: "short" });
 
-    return (
-        <ItemCard
-            key={event.id}
-            item={event}
-            title={event.courseName}
-            subtitle={extractSummaryWithoutCourseNameAndEventType(event)}
-            description={event.description}
-            rightContent={eventMonth + " " + eventDay}
-            onClick={function () {
-                onEventSelect(event);
-            }}
-        />
-    );
-}
 
 function taskIsOverdueCB(task) {
     return isBeforeToday(new Date(task.due));
