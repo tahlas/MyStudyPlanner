@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { IconButton, Typography } from "@mui/material";
+import { IconButton, Typography, Button } from "@mui/material";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import ScheduleModal from "./components/scheduleModal.jsx";
@@ -147,13 +147,9 @@ export function CalendarView(props) {
                 {/* Header with navigation */}
                 <div className="flex items-center justify-between mb-6">
                     <div className="flex items-center gap-4">
-                        <button
-                            onClick={() => setShowAddEventModal(true)}
-                            style={{ backgroundColor: "#1565C0" }}
-                            className="text-white px-6 py-3 rounded-md font-bold hover:opacity-90 transition duration-300"
-                        >
+                        <Button variant="contained" color="primary" onClick={() => setShowAddEventModal(true)}>
                             Add Event
-                        </button>
+                        </Button>
 
                         <div className="flex items-center">
                             <IconButton onClick={goToPreviousMonth}>
