@@ -5,6 +5,7 @@ import IconButton from "@mui/material/IconButton";
 import PauseIcon from "@mui/icons-material/Pause";
 import { Typography } from "@mui/material";
 import SkipNextIcon from '@mui/icons-material/SkipNext';
+import ItemCard from "./components/itemCard.jsx";
 
 export function TimerView(props) {
     return (
@@ -13,7 +14,7 @@ export function TimerView(props) {
                 {timerProgress()}
                 {timerControls()}
             </div>
-            <div
+            <div className="w-1/3"
                 style={{
                     display: "flex",
                     flexDirection: "column",
@@ -141,32 +142,49 @@ export function TimerView(props) {
             const minutes = Math.floor((timeSpent % 3600) / 60);
             const isSelected = props.selectedTask?.id === task.id;
 
-            return (
-                <div
-                // TODO: REMOVE DUPLICATE CODE (also in overviewView.jsx)
+            return(
+                <ItemCard
                     key={task.id}
+                    item={task}
+                    title={task.listTitle}
+                    subtitle={task.title}
+                    description={task.notes}
                     onClick={() => props.onTaskSelect(task)}
-                    className={"overviewTask" + (isSelected ? ' task-pop-in' : "")}
-                    style={{
-                        backgroundColor: task.color,
-                        filter: isSelected ? "brightness(110%)" : "none",
-                        border: isSelected ? "3px solid #f4a261" : "none",
-                        padding: "5px",
-                        cursor: "pointer",
-                    }}
-                >
-                    <span className="font-semibold">{task.listTitle}</span>
-                    <br />
-                    <span className="font-medium">{task.title}</span> <br />
-                    {task.notes && (
-                        <>
-                            {task.notes} <br />
-                        </>
-                    )}
-                    Time spent: {hours}h {minutes}m <br />
-                    {/* {task.due && <>{new Date(task.due).toLocaleDateString()}</>} */}
-                </div>
-            );
+                    rightContent={
+                        <div>
+                            {hours}h {minutes}m
+                        </div>
+                    }
+                    isSelected={isSelected}
+                />   
+            )
+
+            // return (
+            //     <div
+            //     // TODO: REMOVE DUPLICATE CODE (also in overviewView.jsx)
+            //         key={task.id}
+            //         onClick={() => props.onTaskSelect(task)}
+            //         className={"overviewTask" + (isSelected ? ' task-pop-in' : "")}
+            //         style={{
+            //             backgroundColor: task.color,
+            //             filter: isSelected ? "brightness(110%)" : "none",
+            //             border: isSelected ? "3px solid #f4a261" : "none",
+            //             padding: "5px",
+            //             cursor: "pointer",
+            //         }}
+            //     >
+            //         <span className="font-semibold">{task.listTitle}</span>
+            //         <br />
+            //         <span className="font-medium">{task.title}</span> <br />
+            //         {task.notes && (
+            //             <>
+            //                 {task.notes} <br />
+            //             </>
+            //         )}
+            //         Time spent: {hours}h {minutes}m <br />
+            //         {/* {task.due && <>{new Date(task.due).toLocaleDateString()}</>} */}
+            //     </div>
+            // );
         }
     }
 }
