@@ -8,7 +8,6 @@ import SkipNextIcon from '@mui/icons-material/SkipNext';
 import ItemCard from "./components/itemCard.jsx";
 
 export function TimerView(props) {
-
     return (
         <div className="flex flex-row max-[1100px]:flex-col gap-10 p-5 ml-28 max-[1100px]:ml-5">
             <div className="flex flex-col items-center">
