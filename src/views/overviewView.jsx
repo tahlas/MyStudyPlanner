@@ -69,10 +69,11 @@ export function OverviewView(props) {
                             props.eventsData.filter(eventIsExamCB),
                             "Exams",
                         )}
-                        {/* TODO: Fix so adding exam from overview works */}
-                        {/* {addExamButton()} */}
+                        {/* TODO: Fix so adding event from overview works */}
+                        {}
                     </div>
-                    {examsOverview(props.eventsData)}
+                    {/* {examsOverview(props.eventsData)} */}
+                    {upcomingExamsOverview(props.eventsData)}
                 </div>
             </div>
             {showCompleteTaskModal && (
@@ -144,36 +145,6 @@ function classIsTodayCB(classItem) {
     //start.date is for all-day events, dateTime is for timed events
     const classStartDate = new Date(classItem.start.dateTime);
     return isToday(classStartDate);
-}
-
-function examsOverview(eventsData) {
-    return (
-        <div>
-            <div style={{ color: "white" }}>Placeholder</div>
-            <div>{eventsData.filter(eventIsExamCB).map(renderExamEventCB)}</div>
-        </div>
-    );
-}
-
-function eventIsExamCB(event) {
-    return event.eventType === "Exam";
-}
-
-function renderExamEventCB(event) {
-    const eventDate = new Date(event.start.dateTime);
-    const eventDay = eventDate.getDate();
-    const eventMonth = eventDate.toLocaleString("default", { month: "short" });
-
-    return (
-        <ItemCard
-            key={event.id}
-            item={event}
-            title={event.courseName}
-            subtitle={extractSummaryWithoutCourseNameAndEventType(event)}
-            description={event.description}
-            rightContent={eventMonth + " " + eventDay}
-        />
-    );
 }
 
 function renderPieChart(dataArray, label) {
@@ -302,7 +273,10 @@ function upcomingTasksOverview(tasksData, onTaskSelect) {
                 Due Tomorrow
             </div>
             {dueTomorrowTasks.map(renderTaskWithSelectACB)}
-            <div style={{ color: "white" }} hidden={dueLaterThisWeek.length === 0}>
+            <div
+                style={{ color: "white" }}
+                hidden={dueLaterThisWeek.length === 0}
+            >
                 Due This Week
             </div>
             {dueLaterThisWeek.map(renderTaskWithSelectACB)}
@@ -343,6 +317,72 @@ function renderTaskCB(task, onTaskSelect) {
     );
 }
 
+// function examsOverview(eventsData) {
+//     return (
+//         <div>
+//             <div style={{ color: "white" }}>Placeholder</div>
+//             <div>{eventsData.filter(eventIsExamCB).map(renderExamEventCB)}</div>
+//         </div>
+//     );
+// }
+
+function upcomingExamsOverview(eventsData) {
+    const exams = eventsData.filter(eventIsExamCB);
+    const examsToday = exams.filter(eventIsTodayCB);
+    const examsTomorrow = exams.filter(eventIsTomorrowCB);
+    const examsThisWeek = exams.filter(eventIsLaterThisWeekCB);
+    const examsNextWeek = exams.filter(eventIsDueNextWeekCB);
+    const examsLater = exams.filter(eventIsDueAfterNextWeekAndLaterCB);
+    return (
+        <div>
+            <div hidden={examsToday.length === 0} style={{ color: "orange" }}>
+                Today
+            </div>
+            {examsToday.map(renderExamEventCB)}
+            <div
+                hidden={examsTomorrow.length === 0}
+                style={{ color: "yellow" }}
+            >
+                Tomorrow
+            </div>
+            {examsTomorrow.map(renderExamEventCB)}
+            <div style={{ color: "white" }} hidden={examsThisWeek.length === 0}>
+                This Week
+            </div>
+            {examsThisWeek.map(renderExamEventCB)}
+            <div style={{ color: "white" }} hidden={examsNextWeek.length === 0}>
+                Next Week
+            </div>
+            {examsNextWeek.map(renderExamEventCB)}
+            <div style={{ color: "white" }} hidden={examsLater.length === 0}>
+                Later
+            </div>
+            {examsLater.map(renderExamEventCB)}
+        </div>
+    );
+}
+
+function eventIsExamCB(event) {
+    return event.eventType === "Exam";
+}
+
+function renderExamEventCB(event) {
+    const eventDate = new Date(event.start.dateTime);
+    const eventDay = eventDate.getDate();
+    const eventMonth = eventDate.toLocaleString("default", { month: "short" });
+
+    return (
+        <ItemCard
+            key={event.id}
+            item={event}
+            title={event.courseName}
+            subtitle={extractSummaryWithoutCourseNameAndEventType(event)}
+            description={event.description}
+            rightContent={eventMonth + " " + eventDay}
+        />
+    );
+}
+
 function taskIsOverdueCB(task) {
     return isBeforeToday(new Date(task.due));
 }
@@ -376,10 +416,14 @@ function eventIsTomorrowCB(event) {
     return isTomorrow(new Date(event.start.dateTime));
 }
 
-function eventIsThisWeekAndNotTomorrowCB(event) {
+function eventIsLaterThisWeekCB(event) {
     return isLaterThisWeek(new Date(event.start.dateTime));
 }
 
+function eventIsDueNextWeekCB(event) {
+    return isNextWeek(new Date(event.start.dateTime));
+}
+
 function eventIsDueAfterNextWeekAndLaterCB(event) {
-   return isAfterNextWeekAndLater(new Date(event.start.dateTime));
+    return isAfterNextWeekAndLater(new Date(event.start.dateTime));
 }
