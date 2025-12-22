@@ -19,16 +19,6 @@ const Overview = observer(function OverviewRender(props) {
     useFetchCalendarEvents(props.model);
 
 
-    useEffect(() => {
-        if (
-            props.model.currentTasksPromiseState.error &&
-            props.model.currentTasksPromiseState.error.status === 401
-        ) {
-            logout(props.model).then(() => (window.location.hash = "#/login"));
-        }
-    }, [props.model.accessToken, props.model.user, props.model.ready]);
-
-
     const taskState = props.model.currentTasksPromiseState;
     const eventState = props.model.currentCalendarEventsPromiseState;
 
