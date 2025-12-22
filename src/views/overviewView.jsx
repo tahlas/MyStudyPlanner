@@ -173,7 +173,6 @@ function renderExamEventCB(event) {
 
 function renderPieChart(dataArray, label) {
     const data = numberOfTasksPerCourse(dataArray);
-    console.log(data);
 
     const settings = {
         width: 150,
