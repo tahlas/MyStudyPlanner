@@ -31,13 +31,14 @@ export function OverviewView(props) {
 
     return (
         <div>
-            <div className="flexParent">
-                <div>
+            {/* <div className="flexParent"> */}
+            <div className="flex w-full">
+                <div className="w-1/3">
                     <div
                         className="overviewHeader"
-                        style={{
-                            minWidth: windowWidth / 3,
-                        }}
+                        // style={{
+                        //     minWidth: windowWidth / 3,
+                        // }}
                     >
                         {renderPieChart(
                             props.eventsData.filter(classIsTodayCB),
@@ -54,24 +55,24 @@ export function OverviewView(props) {
                         onTaskSelectACB,
                     )}
                 </div>
-                <div>
+                <div className="w-1/3">
                     <div
                         className="overviewHeader"
-                        style={{
-                            minWidth: windowWidth / 3,
-                        }}
+                        // style={{
+                        //     minWidth: windowWidth / 3,
+                        // }}
                     >
                         {renderPieChart(props.tasksData, "Tasks")}
                         {addTaskButton(props.newTask, props.courseNames)}
                     </div>
                     {upcomingOverview(props.tasksData, onTaskSelectACB)}
                 </div>
-                <div>
+                <div className="w-1/3">
                     <div
                         className="overviewHeader"
-                        style={{
-                            minWidth: windowWidth / 3,
-                        }}
+                        // style={{
+                        //     minWidth: windowWidth / 3,
+                        // }}
                     >
                         {renderPieChart(
                             props.eventsData.filter(eventIsExamCB),
