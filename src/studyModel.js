@@ -1,24 +1,7 @@
-import { logout } from "./authModel";
-import {
-    addCalendarEvent, deleteCalendarEvent,
-    getCalendarEvents,
-    getCourseEvents
-} from "./calendarSource";
+import { addCalendarEvent, deleteCalendarEvent, getCalendarEvents, getCourseEvents } from "./calendarSource";
 import { resolvePromise } from "./resolvePromise";
-import {
-    getAllCourseTasks,
-    addTask,
-    completeTask,
-    updateTaskListName,
-    deleteTaskList,
-} from "./tasksSource";
-import {
-    calculateEndTime,
-    formatDateTime,
-    getCourseNames,
-    googleDateFormat,
-    mapRepeatToRRule,
-} from "./utilities.js";
+import { addTask, completeTask, deleteTaskList, getAllCourseTasks, updateTaskListName } from "./tasksSource";
+import { calculateEndTime, formatDateTime, getCourseNames, googleDateFormat, mapRepeatToRRule } from "./utilities.js";
 
 const DEFAULT_POMODORO_TIME = 60 * 25;
 const DEFAULT_BREAK_TIME = 60 * 5;
@@ -58,7 +41,7 @@ export const model = {
     clearAccessToken() {
         this.accessToken = null;
     },
-    completeCleanup(){
+    completeCleanup() {
         this.user = null;
         this.isTokenFromLogin = false;
         this.ready = false;
@@ -112,7 +95,7 @@ export const model = {
             timeMin: new Date().toISOString(),
             orderBy: "startTime",
             singleEvents: true,
-            maxResults: 250,
+            maxResults: 250
         };
         const prms = getCalendarEvents(this.accessToken, searchParams);
         resolvePromise(prms, this.currentCalendarEventsPromiseState);
@@ -122,12 +105,12 @@ export const model = {
 
         const searchParams = {
             showCompleted: false,
-            maxResults: 250,
+            maxResults: 250
         };
         const prms = getAllCourseTasks(
             this.accessToken,
             this.courses,
-            searchParams,
+            searchParams
         );
 
         resolvePromise(prms, this.currentTasksPromiseState);
@@ -139,13 +122,13 @@ export const model = {
         const searchParams = {
             maxResults: 250,
             singleEvents: true,
-            orderBy: "startTime",
+            orderBy: "startTime"
         };
 
         const prms = getCourseEvents(
             this.accessToken,
             this.courses,
-            searchParams,
+            searchParams
         );
 
         resolvePromise(prms, this.currentCalendarEventsPromiseState);
@@ -268,13 +251,13 @@ export const model = {
             {
                 title: taskInfo.title,
                 notes: taskInfo.description,
-                due: googleDateFormat(taskInfo.date),
+                due: googleDateFormat(taskInfo.date)
             },
-            taskInfo.listTitle,
+            taskInfo.listTitle
         ).then(() =>
             getAllCourseTasks(this.accessToken, this.courses, {
-                showCompleted: false,
-            }),
+                showCompleted: false
+            })
         );
 
         resolvePromise(prms, this.currentTasksPromiseState);
@@ -295,14 +278,14 @@ export const model = {
             end: calculateEndTime(
                 eventInfo.date,
                 eventInfo.time,
-                eventInfo.duration,
+                eventInfo.duration
             ),
             extendedProperties: {
                 private: {
                     course: eventInfo.course,
-                    eventType: eventInfo.eventType,
-                },
-            },
+                    eventType: eventInfo.eventType
+                }
+            }
         };
 
         if (eventInfo.repeatOption) {
@@ -310,7 +293,7 @@ export const model = {
         }
 
         const prms = addCalendarEvent(this.accessToken, eventData).then(() =>
-            this.getCalendarEvents(),
+            this.getCalendarEvents()
         );
 
         resolvePromise(prms, this.currentCalendarEventsPromiseState);
@@ -341,8 +324,8 @@ export const model = {
         const prms = completeTask(this.accessToken, task.listId, task.id).then(
             () =>
                 getAllCourseTasks(this.accessToken, this.courses, {
-                    showCompleted: false,
-                }),
+                    showCompleted: false
+                })
         );
 
         resolvePromise(prms, this.currentTasksPromiseState);
@@ -360,11 +343,11 @@ export const model = {
         const prms = updateTaskListName(
             this.accessToken,
             oldName,
-            newName,
+            newName
         ).then(() =>
             getAllCourseTasks(this.accessToken, this.courses, {
-                showCompleted: false,
-            }),
+                showCompleted: false
+            })
         );
 
         resolvePromise(prms, this.currentTasksPromiseState);
@@ -374,17 +357,17 @@ export const model = {
         if (!this.accessToken) return;
 
         const course = this.courses.find(
-            (course) => course.name === courseName,
+            (course) => course.name === courseName
         );
         if (!course) return;
 
         const prms = deleteTaskList(this.accessToken, courseName).then(() => {
             this.setCourses(
-                this.courses.filter((course) => course.name !== courseName),
+                this.courses.filter((course) => course.name !== courseName)
             );
 
             return getAllCourseTasks(this.accessToken, this.courses, {
-                showCompleted: false,
+                showCompleted: false
             });
         });
 
@@ -395,12 +378,8 @@ export const model = {
         this.setPlayingStatus(false);
         this.setTimeLeftInSeconds(this.defaultPomodoroSessionTimeInSeconds);
         this.isBreak = false;
-    },
+    }
 
-    //This function is only for testing, remove later
-    testLogOut() {
-        logout(this).then(() => (window.location.hash = "#/login"));
-    },
 };
 // Remove later this is for debugging
 window.model = model;

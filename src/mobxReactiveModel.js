@@ -1,18 +1,17 @@
-import { observable, configure } from "mobx";
-import { reaction } from "mobx";
-import {model} from "/src/studyModel.js";
+import { configure, observable, reaction } from "mobx";
+import { model } from "/src/studyModel.js";
 import { connectToPersistence } from "./firestoreModel.js";
-import {connectToAuthentication} from "./authModel.js";
+import { connectToAuthentication } from "./authModel.js";
 
 
-configure({ enforceActions: "always", });
+configure({ enforceActions: "always" });
 
-export const reactiveModel= observable(model);
+export const reactiveModel = observable(model);
 
 // window.myModel = reactiveModel;
 
 
-connectToPersistence(reactiveModel,reaction);
+connectToPersistence(reactiveModel, reaction);
 connectToAuthentication(reactiveModel);
 
 

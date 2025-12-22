@@ -11,11 +11,13 @@ import {
 } from "../modelEffects.js";
 
 const Overview = observer(function OverviewRender(props) {
+
     use401Redirect(props.model);
 
     useFetchTasks(props.model);
 
     useFetchCalendarEvents(props.model);
+
 
     useEffect(() => {
         if (
@@ -25,6 +27,7 @@ const Overview = observer(function OverviewRender(props) {
             logout(props.model).then(() => (window.location.hash = "#/login"));
         }
     }, [props.model.accessToken, props.model.user, props.model.ready]);
+
 
     const taskState = props.model.currentTasksPromiseState;
     const eventState = props.model.currentCalendarEventsPromiseState;
@@ -45,16 +48,15 @@ const Overview = observer(function OverviewRender(props) {
         );
     }
 
-    return (
-        <SuspenseView
-            taskPromise={taskState.promise}
-            taskError={taskState.error}
-            taskData={taskState.data}
-            eventPromise={eventState.promise}
-            eventError={eventState.error}
-            eventData={eventState.data}
-        />
-    );
+
+    return <SuspenseView
+        taskPromise={taskState.promise}
+        taskError={taskState.error}
+        taskData={taskState.data}
+        eventPromise={eventState.promise}
+        eventError={eventState.error}
+        eventData={eventState.data}
+    />;
 
     function handleNewTaskACB(taskInfo) {
         props.model.saveNewTask(taskInfo);

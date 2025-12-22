@@ -6,7 +6,7 @@
     min-height: 50px;
     border: 2px solid black;
     transition: 0.3s;
-    display:flex;
+    display: flex;
     flex-direction: row;
     justify-content: space-between;
 }
@@ -122,22 +122,22 @@ body {
 }
 
 .card {
-  transition: transform 0.3s ease;
-  transform-style: preserve-3d;
-  perspective: 1000px;
+    transition: transform 0.3s ease;
+    transform-style: preserve-3d;
+    perspective: 1000px;
 }
 
 .card:hover {
-  transform: rotateY(20deg) rotateX(15deg);
+    transform: rotateY(20deg) rotateX(15deg);
 }
 
 
 .calendar-day-hover {
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .calendar-day-hover:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+    transform: translateY(-4px);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
 }
 

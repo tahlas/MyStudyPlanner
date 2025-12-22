@@ -1,6 +1,5 @@
 import { observer } from "mobx-react-lite";
 import { WeeklyTimeView } from "../views/statisticsView.jsx";
-import { useEffect } from "react";
 import { SuspenseView } from "../views/suspenseView.jsx";
 import { use401Redirect, useFetchTasks } from "../modelEffects.js";
 

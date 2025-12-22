@@ -1,4 +1,4 @@
-import { PieChart, pieArcClasses } from "@mui/x-charts/PieChart";
+import { pieArcClasses, PieChart } from "@mui/x-charts/PieChart";
 import { Button } from "@mui/material";
 import "/src/style.css";
 import "/src/utilities.js";
@@ -7,10 +7,10 @@ import CompleteTaskModal from "./components/completeTaskModal.jsx";
 import { useState } from "react";
 import {
     extractSummaryWithoutCourseNameAndEventType,
-    numberOfTasksPerCourse,
+    getWindowDimensions,
+    isToday,
+    numberOfTasksPerCourse
 } from "../utilities.js";
-import { getWindowDimensions } from "../utilities.js";
-import { isToday } from "../utilities.js";
 import ItemCard from "./components/itemCard.jsx";
 
 //TODO: Remove A LOT of code duplication!
@@ -27,6 +27,7 @@ export function OverviewView(props) {
         setSelectedTask(task);
         setShowCompleteTaskModal(true);
     }
+
     const windowWidth = getWindowDimensions().width;
 
     return (
@@ -37,17 +38,17 @@ export function OverviewView(props) {
                     <div className="overviewHeader">
                         {renderPieChart(
                             props.eventsData.filter(classIsTodayCB),
-                            "Classes",
+                            "Classes"
                         )}
                         {renderPieChart(
                             props.tasksData.filter(taskIsDueTodayCB),
-                            "Tasks",
+                            "Tasks"
                         )}
                     </div>
                     {todaysOverview(
                         props.tasksData,
                         props.eventsData,
-                        onTaskSelectACB,
+                        onTaskSelectACB
                     )}
                 </div>
                 <div className="min-w-[280] flex-1">
@@ -61,7 +62,7 @@ export function OverviewView(props) {
                     <div className="overviewHeader">
                         {renderPieChart(
                             props.eventsData.filter(eventIsExamCB),
-                            "Exams",
+                            "Exams"
                         )}
                         {/* TODO: Fix so adding exam from overview works */}
                         {/* {addExamButton()} */}
@@ -85,6 +86,7 @@ function todaysOverview(tasksData, eventsData, onTaskSelect) {
     function renderTaskWithSelectACB(task) {
         return renderTaskCB(task, onTaskSelect);
     }
+
     const classesToday = eventsData.filter(classIsTodayCB);
 
     return (
@@ -102,7 +104,7 @@ function todaysOverview(tasksData, eventsData, onTaskSelect) {
 
 function renderClassCB(classItem) {
     const classStartDate = new Date(
-        classItem.start.dateTime || classItem.start.date,
+        classItem.start.dateTime || classItem.start.date
     );
     const classEndDate = new Date(classItem.end.dateTime || classItem.end.date);
     const startHours = classStartDate.getHours().toString().padStart(2, "0");
@@ -176,7 +178,7 @@ function renderPieChart(dataArray, label) {
     const settings = {
         width: 150,
         height: 150,
-        hideLegend: true,
+        hideLegend: true
     };
     //TODO: Use PieChartWithCenterLabel function?
     //https://mui.com/x/react-charts/pie-demo/#piechartwithcenterlabel
@@ -185,14 +187,14 @@ function renderPieChart(dataArray, label) {
             style={{
                 display: "flex",
                 flexDirection: "column",
-                alignItems: "center",
+                alignItems: "center"
             }}
         >
             <div
                 style={{
                     position: "relative",
                     width: "150px",
-                    height: "150px",
+                    height: "150px"
                 }}
             >
                 <PieChart
@@ -204,17 +206,17 @@ function renderPieChart(dataArray, label) {
                             data:
                                 data.length > 0
                                     ? data
-                                    : [{ value: 1, color: "#797474ff" }],
-                        },
+                                    : [{ value: 1, color: "#797474ff" }]
+                        }
                     ]}
                     // TODO: Understand how this works...
                     slotProps={{
-                        tooltip: data.length > 0 ? undefined : { trigger: "none" },
+                        tooltip: data.length > 0 ? undefined : { trigger: "none" }
                     }}
                     sx={{
                         [`& .${pieArcClasses.root}`]: {
-                            stroke: "none",
-                        },
+                            stroke: "none"
+                        }
                     }}
                     {...settings}
                 />
@@ -225,7 +227,7 @@ function renderPieChart(dataArray, label) {
                         left: "50%",
                         transform: "translate(-50%, -50%)",
                         color: "white",
-                        fontSize: "60px",
+                        fontSize: "60px"
                     }}
                 >
                     {dataArray.length}
@@ -238,7 +240,7 @@ function renderPieChart(dataArray, label) {
                         top: "62%",
                         left: "50%",
                         transform: "translateX(-50%)",
-                        fontSize: "12px",
+                        fontSize: "12px"
                     }}
                 >
                     {label}
@@ -313,7 +315,7 @@ function upcomingTasksOverview(tasksData, onTaskSelect) {
 function renderTaskCB(task, onTaskSelect) {
     const dueDateDay = new Date(task.due).getDate();
     const dueDateMonth = new Date(task.due).toLocaleString("default", {
-        month: "short",
+        month: "short"
     });
 
     return (
@@ -324,7 +326,7 @@ function renderTaskCB(task, onTaskSelect) {
             subtitle={task.title}
             description={task.notes}
             rightContent={dueDateMonth + " " + dueDateDay}
-            onClick={function () {
+            onClick={function() {
                 onTaskSelect(task);
             }}
         />
@@ -370,13 +372,9 @@ function taskIsDueNextWeekAndNotTomorrowCB(task) {
 }
 
 function taskIsDueAfterNextWeekAndLaterCB(task) {
-    if (
-        taskIsDueTomorrowCB(task) ||
+    return !(taskIsDueTomorrowCB(task) ||
         taskIsDueNextWeekAndNotTomorrowCB(task) ||
         taskIsDueTodayCB(task) ||
-        taskIsOverdueCB(task)
-    ) {
-        return false;
-    }
-    return true;
+        taskIsOverdueCB(task));
+
 }

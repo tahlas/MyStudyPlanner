@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import {logout} from "./authModel.js";
+import { logout } from "./authModel.js";
 
 export function use401Redirect(model) {
     useEffect(() => {
@@ -16,9 +16,10 @@ export function use401Redirect(model) {
         }
     }, [
         model.currentTasksPromiseState.error,
-        model.currentCalendarEventsPromiseState.error,
+        model.currentCalendarEventsPromiseState.error
     ]);
 }
+
 export function useFetchTasks(model) {
     useEffect(() => {
         if (

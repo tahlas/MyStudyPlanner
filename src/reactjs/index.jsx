@@ -1,9 +1,9 @@
 import { createElement, Fragment } from "react";
-window.React = { createElement: createElement, Fragment: Fragment }; // needed in the lab because it works with both React and Vue
-
 import { createRoot } from "react-dom/client";
 import { reactiveModel } from "../mobxReactiveModel";
 import { ReactRoot } from "./ReactRoot";
+
+window.React = { createElement: createElement, Fragment: Fragment }; // needed in the lab because it works with both React and Vue
 
 <ReactRoot>model= {reactiveModel}</ReactRoot>;
 

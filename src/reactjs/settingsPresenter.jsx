@@ -31,7 +31,7 @@ const Settings = observer(function SettingsRender(props) {
     }
 
     function handleEditCourse(oldName, newName, newColor) {
-       props.model.updateCourse(oldName, newName, newColor);
+        props.model.updateCourse(oldName, newName, newColor);
     }
 
     function handleDeleteCourse(courseName) {

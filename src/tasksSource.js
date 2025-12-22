@@ -3,9 +3,9 @@ import { getCourseNames } from "./utilities.js";
 
 
 function responseACB(response) {
-    if(response.status === 401){
-        throw  {
-            status:401,
+    if (response.status === 401) {
+        throw {
+            status: 401
         };
     }
 
@@ -69,7 +69,7 @@ export function getAllCourseTasks(token, courses, searchParams) {
             .then(addTasklistIdACB);
     }
 
-    function getAllTasksFromListsACB(lists){
+    function getAllTasksFromListsACB(lists) {
         return Promise.all(lists.map(getTaskFromListACB));
     }
 
@@ -81,10 +81,11 @@ export function getCourseLists(token, courses) {
 
     const courseNames = getCourseNames(courses);
 
-    function filterACB(lists){
-        function isCourseListACB(list){
+    function filterACB(lists) {
+        function isCourseListACB(list) {
             return courseNames.includes(list.title);
         }
+
         return lists.filter(isCourseListACB);
     }
 
@@ -93,6 +94,7 @@ export function getCourseLists(token, courses) {
             function findCourseACB(course) {
                 return course.name === list.title;
             }
+
             const course = courses.find(findCourseACB);
 
             return {
@@ -100,12 +102,12 @@ export function getCourseLists(token, courses) {
                 color: course ? course.color : null
             };
         }
+
         return lists.map(addColorToListACB);
     }
 
     return getAllLists(token).then(filterACB).then(addColorToListsACB);
 }
-
 
 
 export function createNewList(token, listTitle) {

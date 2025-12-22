@@ -1,6 +1,5 @@
 import { observer } from "mobx-react-lite";
 import { TimerView } from "../views/timerView.jsx";
-import { useEffect } from "react";
 import { SuspenseView } from "../views/suspenseView.jsx";
 import { use401Redirect, useFetchTasks } from "../modelEffects.js";
 
@@ -14,26 +13,26 @@ const Timer = observer(function RenderTimer(props) {
     const flattenedTasks = state.data ? state.data.flat() : [];
 
 
-if(state.data) {
-    return (
-        <TimerView
-            playingStatus={props.model.playingStatus}
-            breakStatus={props.model.isBreak}
-            timeLeftInSeconds={props.model.timeLeftInSeconds}
-            defaultBreakTime={props.model.defaultBreakTimeInSeconds}
-            defaultPomodoroSessionTimeInSeconds={props.model.defaultPomodoroSessionTimeInSeconds}
-            onStatusChange={setPlayingStatusACB}
-            onSkip={handleSkipACB}
+    if (state.data) {
+        return (
+            <TimerView
+                playingStatus={props.model.playingStatus}
+                breakStatus={props.model.isBreak}
+                timeLeftInSeconds={props.model.timeLeftInSeconds}
+                defaultBreakTime={props.model.defaultBreakTimeInSeconds}
+                defaultPomodoroSessionTimeInSeconds={props.model.defaultPomodoroSessionTimeInSeconds}
+                onStatusChange={setPlayingStatusACB}
+                onSkip={handleSkipACB}
 
-            tasksData={flattenedTasks}
+                tasksData={flattenedTasks}
 
-            selectedTask={props.model.selectedTask}
-            onTaskSelect={handleTaskSelectACB}
-            getTaskTimeSpent={getTaskTimeSpentACB}
+                selectedTask={props.model.selectedTask}
+                onTaskSelect={handleTaskSelectACB}
+                getTaskTimeSpent={getTaskTimeSpentACB}
 
-        />
-    );
-}
+            />
+        );
+    }
 
 
     return <SuspenseView
@@ -44,7 +43,7 @@ if(state.data) {
         eventPromise={true}
         eventError={false}
         eventData={true}
-    />
+    />;
 
     function handleSkipACB() {
         props.model.skipTimer();

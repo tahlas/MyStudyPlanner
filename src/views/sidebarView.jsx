@@ -1,10 +1,9 @@
-import { Typography, Button, Stack, IconButton } from "@mui/material";
+import { IconButton, Stack } from "@mui/material";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import TimerIcon from "@mui/icons-material/Timer";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
-import LogoutIcon from "@mui/icons-material/Logout";
 import SettingsIcon from "@mui/icons-material/Settings";
-import AnalyticsIcon from '@mui/icons-material/Analytics';
+import AnalyticsIcon from "@mui/icons-material/Analytics";
 
 export function SidebarView(props) {
     return (
@@ -12,7 +11,7 @@ export function SidebarView(props) {
             sx={{
                 backgroundColor: "#2a2b2b",
                 height: "100vh",
-                flexDirection: "column",
+                flexDirection: "column"
             }}
             justifyContent="space-between"
         >

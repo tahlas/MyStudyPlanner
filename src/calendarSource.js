@@ -1,9 +1,9 @@
 import { CALENDAR_URL } from "./apiConfig";
 
 function responseACB(response) {
-    if(response.status === 401){
-        throw  {
-            status:401,
+    if (response.status === 401) {
+        throw {
+            status: 401
         };
     }
 
@@ -53,7 +53,7 @@ export function getCourseEvents(token, courses, searchParams) {
                 ...event,
                 color: courseColor,
                 courseName: courseName,
-                eventType: eventType,
+                eventType: eventType
             };
         }
 
@@ -65,6 +65,7 @@ export function getCourseEvents(token, courses, searchParams) {
     return getCalendarEvents(token, searchParams)
         .then(filterAndAddColorToEventsACB);
 }
+
 export function addCalendarEvent(token, eventData) {
     return fetch(
         CALENDAR_URL + "/primary/events",
