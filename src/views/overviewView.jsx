@@ -294,36 +294,6 @@ function upcomingTasksOverview(tasksData, onTaskSelect) {
     }
 }
 
-function renderTaskCB(task, onTaskSelect) {
-    const dueDateDay = new Date(task.due).getDate();
-    const dueDateMonth = new Date(task.due).toLocaleString("default", {
-        month: "short",
-    });
-
-    return (
-        <ItemCard
-            key={task.id}
-            item={task}
-            title={task.listTitle}
-            subtitle={task.title}
-            description={task.notes}
-            rightContent={dueDateMonth + " " + dueDateDay}
-            onClick={function () {
-                onTaskSelect(task);
-            }}
-        />
-    );
-}
-
-// function examsOverview(eventsData) {
-//     return (
-//         <div>
-//             <div style={{ color: "white" }}>Placeholder</div>
-//             <div>{eventsData.filter(eventIsExamCB).map(renderExamEventCB)}</div>
-//         </div>
-//     );
-// }
-
 function upcomingExamsOverview(eventsData) {
     const exams = eventsData.filter(eventIsExamCB);
     const examsToday = exams.filter(eventIsTodayCB);
@@ -362,6 +332,27 @@ function upcomingExamsOverview(eventsData) {
 
 function eventIsExamCB(event) {
     return event.eventType === "Exam";
+}
+
+function renderTaskCB(task, onTaskSelect) {
+    const dueDateDay = new Date(task.due).getDate();
+    const dueDateMonth = new Date(task.due).toLocaleString("default", {
+        month: "short",
+    });
+
+    return (
+        <ItemCard
+            key={task.id}
+            item={task}
+            title={task.listTitle}
+            subtitle={task.title}
+            description={task.notes}
+            rightContent={dueDateMonth + " " + dueDateDay}
+            onClick={function () {
+                onTaskSelect(task);
+            }}
+        />
+    );
 }
 
 function renderExamEventCB(event) {
