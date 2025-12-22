@@ -124,7 +124,7 @@ body {
 }
 
 .task-pop-in {
-    animation: taskPopIn 0.8s ease-out;
+    animation: taskPopIn 0.4s ease-out;
 }
 
 
