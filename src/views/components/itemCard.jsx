@@ -3,15 +3,11 @@ import "/src/style.css";
 function ItemCard({item, title, subtitle, description, rightContent, onClick}){
     return (
         <div
-            key={item.id}
-            className="overviewTask pl-1 pr-1 pb-1 pt-1 mb-2"
+            className="itemCard pl-1 pr-1 pb-1 pt-1 mb-2 text-sm md:text-base lg:text-lg"
             style={{
-                backgroundColor: item.color,
-                // not sure if cursor code is correct
+                // TODO: Should change this when/if we implement click functionality for all cards 
                 cursor: onClick ? "pointer" : "default",
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "space-between",
+                backgroundColor: item.color,
             }}
             onClick={onClick}
         >

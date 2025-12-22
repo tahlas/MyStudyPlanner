@@ -1,19 +1,21 @@
 @import "tailwindcss";
 
 
-.overviewTask {
-    display: block;
+.itemCard {
+    /* display: block; */
     border-radius: 10px;
     width: 300px;
     min-height: 50px;
     border: 2px solid black;
-    font-size: 16px;
-    margin-bottom: 5px;
+    /* font-size: 16px; */
     transition: 0.3s;
-    margin-right: 10px;
+    display:flex;
+    flex-direction: row;
+    justify-content: space-between;
+    
 }
 
-.overviewTask:hover {
+.itemCard:hover {
     /* opacity: 0.8; */
     filter: brightness(110%);
     /* transform: translateY(-3px); */
