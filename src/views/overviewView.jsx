@@ -6,9 +6,14 @@ import AddTaskModal from "./components/addTaskModal.jsx";
 import CompleteTaskModal from "./components/completeTaskModal.jsx";
 import { useState } from "react";
 import {
+    isAfterNextWeekAndLater,
     extractSummaryWithoutCourseNameAndEventType,
     getWindowDimensions,
+    isBeforeToday,
+    isNextWeek,
+    isLaterThisWeek,
     isToday,
+    isTomorrow,
     numberOfTasksPerCourse,
 } from "../utilities.js";
 import ItemCard from "./components/itemCard.jsx";
@@ -339,12 +344,7 @@ function renderTaskCB(task, onTaskSelect) {
 }
 
 function taskIsOverdueCB(task) {
-    const currentDate = new Date();
-    const taskDueDate = new Date(task.due);
-    currentDate.setHours(0, 0, 0, 0);
-    taskDueDate.setHours(0, 0, 0, 0);
-
-    return taskDueDate < currentDate;
+    return isBeforeToday(new Date(task.due));
 }
 
 function taskIsDueTodayCB(task) {
@@ -353,78 +353,33 @@ function taskIsDueTodayCB(task) {
 }
 
 function taskIsDueTomorrowCB(task) {
-    const currentDate = new Date();
-    const taskDueDate = new Date(task.due);
-    const tomorrowDate = new Date(currentDate);
-    tomorrowDate.setDate(currentDate.getDate() + 1);
-    return (
-        taskDueDate.getFullYear() === tomorrowDate.getFullYear() &&
-        taskDueDate.getMonth() === tomorrowDate.getMonth() &&
-        taskDueDate.getDate() === tomorrowDate.getDate()
-    );
+    return isTomorrow(new Date(task.due));
 }
 
 function taskIsDueLaterThisWeek(task) {
-    if (taskIsOverdueCB(task) ||taskIsDueTodayCB(task) || taskIsDueTomorrowCB(task)) {
-        return false;
-    }
-    const currentWeek = new Date().getEuropeanWeek();
-    const taskDueWeek = new Date(task.due).getEuropeanWeek();
-    return taskDueWeek === currentWeek;
+    return isLaterThisWeek(new Date(task.due));
 }
 
-//TODO: Might not work if the next week is in the next year.
 function taskIsDueNextWeek(task) {
-    if (taskIsDueLaterThisWeek(task)) {
-        return false;
-    }
-    const currentWeek = new Date().getEuropeanWeek();
-    const taskDueWeek = new Date(task.due).getEuropeanWeek();
-    return taskDueWeek === currentWeek + 1;
+    return isNextWeek(new Date(task.due));
 }
 
 function taskIsDueAfterNextWeekAndLaterCB(task) {
-    return !(
-        taskIsDueTomorrowCB(task) ||
-        taskIsDueLaterThisWeek(task) ||
-        taskIsDueNextWeek(task) ||
-        taskIsDueTodayCB(task) ||
-        taskIsOverdueCB(task)
-    );
+    return isAfterNextWeekAndLater(new Date(task.due));
 }
 
 function eventIsTodayCB(event) {
-    const eventStartDate = new Date(event.start.dateTime);
-    return isToday(eventStartDate);
+    return isToday(new Date(event.start.dateTime));
 }
 
 function eventIsTomorrowCB(event) {
-    const currentDate = new Date();
-    const eventStartDate = new Date(event.start.dateTime);
-    const tomorrowDate = new Date(currentDate);
-    tomorrowDate.setDate(currentDate.getDate() + 1);
-    return (
-        eventStartDate.getFullYear() === tomorrowDate.getFullYear() &&
-        eventStartDate.getMonth() === tomorrowDate.getMonth() &&
-        eventStartDate.getDate() === tomorrowDate.getDate()
-    );
+    return isTomorrow(new Date(event.start.dateTime));
 }
 
 function eventIsThisWeekAndNotTomorrowCB(event) {
-    const currentDate = new Date();
-    const eventStartDate = new Date(event.start.dateTime);
-    const currentWeek = currentDate.getEuropeanWeek();
-    const eventWeek = eventStartDate.getEuropeanWeek();
-    if (eventIsTomorrowCB(event)) {
-        return false;
-    }
-    return eventWeek === currentWeek;
+    return isLaterThisWeek(new Date(event.start.dateTime));
 }
 
 function eventIsDueAfterNextWeekAndLaterCB(event) {
-    return !(
-        eventIsTomorrowCB(event) ||
-        eventIsThisWeekAndNotTomorrowCB(event) ||
-        eventIsTodayCB(event)
-    );
+   return isAfterNextWeekAndLater(new Date(event.start.dateTime));
 }
