@@ -359,15 +359,6 @@ function renderTaskCB(task, onTaskSelect) {
     );
 }
 
-// function examsOverview(eventsData) {
-//     return (
-//         <div>
-//             <div style={{ color: "white" }}>Placeholder</div>
-//             <div>{eventsData.filter(eventIsExamCB).map(renderExamEventCB)}</div>
-//         </div>
-//     );
-// }
-
 function upcomingExamsOverview(eventsData, onEventSelect) {
     const exams = eventsData.filter(eventIsExamCB);
     const examsToday = exams.filter(eventIsTodayCB);
