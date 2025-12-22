@@ -34,9 +34,7 @@ export function OverviewView(props) {
             {/* <div className="flexParent"> */}
             <div className="flex w-full">
                 <div className="w-1/3">
-                    <div
-                        className="overviewHeader"
-                    >
+                    <div className="overviewHeader">
                         {renderPieChart(
                             props.eventsData.filter(classIsTodayCB),
                             "Events",
@@ -53,18 +51,14 @@ export function OverviewView(props) {
                     )}
                 </div>
                 <div className="w-1/3">
-                    <div
-                        className="overviewHeader"
-                    >
+                    <div className="overviewHeader">
                         {renderPieChart(props.tasksData, "Tasks")}
                         {addTaskButton(props.newTask, props.courseNames)}
                     </div>
                     {upcomingOverview(props.tasksData, onTaskSelectACB)}
                 </div>
                 <div className="w-1/3">
-                    <div
-                        className="overviewHeader"
-                    >
+                    <div className="overviewHeader">
                         {renderPieChart(
                             props.eventsData.filter(eventIsExamCB),
                             "Exams",
@@ -177,13 +171,15 @@ function renderExamEventCB(event) {
 
 function renderPieChart(dataArray, label) {
     const data = numberOfTasksPerCourse(dataArray);
+    console.log(data);
 
     const settings = {
         width: 150,
         height: 150,
         hideLegend: true,
     };
-
+    //TODO: Use PieChartWithCenterLabel function?
+    //https://mui.com/x/react-charts/pie-demo/#piechartwithcenterlabel
     return (
         <div
             style={{
@@ -200,15 +196,21 @@ function renderPieChart(dataArray, label) {
                 }}
             >
                 <PieChart
-                    hidden={data.length === 0}
+                    // hidden={data.length === 0}
                     series={[
                         {
                             innerRadius: 50,
                             outerRadius: 55,
-                            data,
+                            data:
+                                data.length > 0
+                                    ? data
+                                    : [{ value: 1, color: "#797474ff" }],
                         },
                     ]}
                     // TODO: Understand how this works...
+                    slotProps={{
+                        tooltip: data.length > 0 ? undefined : { trigger: "none" },
+                    }}
                     sx={{
                         [`& .${pieArcClasses.root}`]: {
                             stroke: "none",
