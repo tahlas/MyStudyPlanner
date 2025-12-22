@@ -112,7 +112,7 @@ export function WeeklyTimeView(props) {
                 </div>
 
                 {/* Week Overview */}
-                <div className="grid grid-cols-7 gap-4">
+                <div className="grid grid-cols-7 max-[1400px]:grid-cols-1 gap-4">
                     {weekDates.map((date, index) => {
                         const tasksForDay = getTasksForDay(date);
                         const totalTime = getTotalTimeForDay(date);

@@ -19,7 +19,7 @@ function ScheduleModal({ onClose, tasks, events, onDeleteEvent, deleteOptions}) 
                 className="fixed top-0 left-0 right-0 bottom-0 bg-black/30 backdrop-blur-sm flex justify-center items-center z-50"
                 onClick={onClose}>
                 <div className="mt-10 flex flex-col gap-5 text-white">
-                    <div className="bg-gray-600 rounded-xl px-20 py-25 flex flex-col gap-5 items-center mx-4 relative" onClick={(e) => e.stopPropagation()}>
+                    <div style={{backgroundColor: "#1e2939"}}  className= "rounded-xl px-20 py-25 flex flex-col gap-5 items-center mx-4 relative" onClick={(e) => e.stopPropagation()}>
                         <IconButton style={{ position: "absolute", top: 12, right: 12 }}>
                             <CloseIcon className="text-white hover:bg-red-700" onClick={onClose}/>
                         </IconButton>
