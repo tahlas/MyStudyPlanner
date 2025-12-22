@@ -30,12 +30,9 @@ export function OverviewView(props) {
             <div className="flexParent">
                 <div>
                     <div
+                        className="overviewHeader"
                         style={{
-                            display: "flex",
-                            alignItems: "center",
-                            gap: "10px",
-                            backgroundColor: "#1e2939",
-                            width: windowWidth / 3,
+                            minWidth: windowWidth / 3,
                         }}
                     >
                         {renderPieChart(
@@ -55,12 +52,9 @@ export function OverviewView(props) {
                 </div>
                 <div>
                     <div
+                        className="overviewHeader"
                         style={{
-                            display: "flex",
-                            alignItems: "center",
-                            gap: "10px",
-                            backgroundColor: "#1e2939",
-                            width: windowWidth / 3,
+                            minWidth: windowWidth / 3,
                         }}
                     >
                         {renderPieChart(props.tasksData, "Tasks")}
@@ -70,12 +64,9 @@ export function OverviewView(props) {
                 </div>
                 <div>
                     <div
+                        className="overviewHeader"
                         style={{
-                            display: "flex",
-                            alignItems: "center",
-                            gap: "10px",
-                            backgroundColor: "#1e2939",
-                            width: windowWidth / 3,
+                            minWidth: windowWidth / 3,
                         }}
                     >
                         {renderPieChart(
