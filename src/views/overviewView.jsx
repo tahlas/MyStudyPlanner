@@ -29,6 +29,9 @@ import AddEventModal from "./components/addEventModal.jsx";
 export function OverviewView(props) {
     const [showCompleteTaskModal, setShowCompleteTaskModal] = useState(false);
     const [selectedTask, setSelectedTask] = useState(null);
+    const [showAddEventModal, setShowAddEventModal] = useState(false);
+    const [showDeleteEventModal, setShowDeleteEventModal] = useState(false);
+    const [selectedEvent, setSelectedEvent] = useState(null);
 
     function onTaskSelectACB(task) {
         setSelectedTask(task);
@@ -107,7 +110,10 @@ export function OverviewView(props) {
                 <DeleteEventModal
                     event={selectedEvent}
                     onClose={() => setShowDeleteEventModal(false)}
-                    onDelete={props.deleteEvent}
+                    onDelete={(event, deleteType) => {
+                        props.deleteEvent(event, deleteType);
+                        setShowDeleteEventModal(false);
+                    }}
                     deleteOptions={props.deleteOptions}
                 />
             )}
