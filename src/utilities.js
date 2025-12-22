@@ -1,4 +1,4 @@
-Date.prototype.getEuropeanWeek = function () {
+Date.prototype.getEuropeanWeek = function() {
     var date = new Date(this.getTime());
     date.setHours(0, 0, 0, 0); // reset time
 
@@ -28,25 +28,14 @@ export function getCourseNames(courses) {
 
 export function getCourseColor(coursesName) {
     const course = this.courses.find((c) => c.name === coursesName);
-    const defaultColor = "#5c5252ff";
     return course ? course.color : null;
 }
 
-//   export function numberOfTasksPerList(taskData){
-//
-//     const everyList = taskData.map((task) => task.listTitle); //gets every list, can include duplicates.
-//     let lists = everyList.filter((list, index) => everyList.indexOf(list) === index); // remove the duplicates.
-//     lists = lists.map((listTitle) => {
-//       return { listTitle: listTitle, taskCount: taskData.filter((task) => task.listTitle === listTitle).length };
-//     });
-//
-//     return lists;
-// }
 
 export function numberOfTasksPerCourse(taskData) {
     const everyList = taskData.map((task) => task.listTitle); //gets every course, can include duplicates.
     let lists = everyList.filter(
-        (list, index) => everyList.indexOf(list) === index,
+        (list, index) => everyList.indexOf(list) === index
     ); // remove the duplicates.
     lists = lists.map((listTitle) => {
         const task = taskData.find((task) => task.listTitle === listTitle); // find a task with this listTitle to get color.
@@ -54,7 +43,7 @@ export function numberOfTasksPerCourse(taskData) {
             label: listTitle,
             value: taskData.filter((task) => task.listTitle === listTitle)
                 .length, // count tasks with this listTitle.
-            color: task.color,
+            color: task.color
         };
     });
     return lists;
@@ -64,7 +53,7 @@ export function mapRepeatToRRule(repeatOption) {
     const repeatMap = {
         Daily: "RRULE:FREQ=DAILY",
         Weekly: "RRULE:FREQ=WEEKLY",
-        Monthly: "RRULE:FREQ=MONTHLY",
+        Monthly: "RRULE:FREQ=MONTHLY"
     };
 
     return repeatMap[repeatOption] || "";
@@ -79,7 +68,7 @@ export function formatDateTime(date, time = "00:00") {
 
     return {
         dateTime: date + "T" + time + ":00",
-        timeZone: timeZone,
+        timeZone: timeZone
     };
 }
 
@@ -91,7 +80,7 @@ export function calculateEndTime(date, time, durationMinutes) {
 
     const startDateTime = new Date(date + "T" + time);
     startDateTime.setMinutes(
-        startDateTime.getMinutes() + parseInt(durationMinutes),
+        startDateTime.getMinutes() + parseInt(durationMinutes)
     );
 
     const endDate = startDateTime.toISOString().split("T")[0];
@@ -115,7 +104,7 @@ export function getWindowDimensions() {
     const { innerWidth: width, innerHeight: height } = window;
     return {
         width,
-        height,
+        height
     };
 }
 

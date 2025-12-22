@@ -1,10 +1,9 @@
 import "/src/style.css";
-import { Typography, Divider, Button, IconButton } from "@mui/material";
-import CloseIcon from '@mui/icons-material/Close';
+import { Button, Divider, IconButton, Typography } from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
 import { useState } from "react";
 import AddCourseModal from "./components/addCourseModal.jsx";
 import EditCourseModal from "./components/editCourseModal.jsx";
-
 
 
 export function SettingsView(props) {
@@ -62,7 +61,7 @@ function accountInfo(user, onLogout) {
     );
 }
 
-function boxWithCourses(courses, newCourse,editCourse,deleteCourse) {
+function boxWithCourses(courses, newCourse, editCourse, deleteCourse) {
     const [showCourseModal, setShowCourseModal] = useState(false);
     const [showEditCourseModal, setShowEditCourseModal] = useState(false);
     const [selectedCourse, setSelectedCourse] = useState(null);
@@ -78,7 +77,7 @@ function boxWithCourses(courses, newCourse,editCourse,deleteCourse) {
                         alignItems: "center",
                         paddingLeft: "15px",
                         paddingTop: "10px",
-                        paddingBottom: "10px",
+                        paddingBottom: "10px"
                     }}
                 >
                     <div
@@ -87,7 +86,7 @@ function boxWithCourses(courses, newCourse,editCourse,deleteCourse) {
                             height: "20px",
                             borderRadius: "50%",
                             backgroundColor: course.color,
-                            marginRight: "10px",
+                            marginRight: "10px"
                         }}
                     />
                     <Typography variant="h6" color="white">
@@ -104,7 +103,7 @@ function boxWithCourses(courses, newCourse,editCourse,deleteCourse) {
                     </Button>
 
                     <IconButton
-                        onClick={() =>deleteCourse(course.name)}
+                        onClick={() => deleteCourse(course.name)}
                         sx={{ color: "white" }}
                     ><CloseIcon />
                     </IconButton>

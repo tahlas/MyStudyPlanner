@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { IconButton, Typography, Button } from "@mui/material";
+import { Button, IconButton, Typography } from "@mui/material";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import ScheduleModal from "./components/scheduleModal.jsx";
@@ -55,7 +55,7 @@ export function CalendarView(props) {
                 <div
                     key={"empty" + i}
                     className="aspect-square border border-gray-600"
-                />,
+                />
             );
         }
 
@@ -79,17 +79,19 @@ export function CalendarView(props) {
                     <span className="text-white font-semibold">{day}</span>
                     <div className="text-xs text-white mt-1 overflow-y-auto flex-1 min-h-0">
                         {eventsForDay.map((event) => (
-                            <div key={event.id} className="truncate rounded-xl px-2 mb-1" style={{backgroundColor: event.color}}>
+                            <div key={event.id} className="truncate rounded-xl px-2 mb-1"
+                                 style={{ backgroundColor: event.color }}>
                                 {event.summary}
                             </div>
                         ))}
                         {tasksForDay.map((task) => (
-                            <div key={task.id} className="truncate rounded-xl px-2 mb-1" style={{backgroundColor: task.color}}>
+                            <div key={task.id} className="truncate rounded-xl px-2 mb-1"
+                                 style={{ backgroundColor: task.color }}>
                                 {task.title}
                             </div>
                         ))}
                     </div>
-                </div>,
+                </div>
             );
 
             if ((startingDay + day) % 7 === 0) {
@@ -99,7 +101,7 @@ export function CalendarView(props) {
                         className="grid grid-cols-7"
                     >
                         {days}
-                    </div>,
+                    </div>
                 );
                 days = [];
             }
@@ -111,13 +113,13 @@ export function CalendarView(props) {
                     <div
                         key={`empty-end-${days.length}`}
                         className="aspect-square border border-gray-600"
-                    />,
+                    />
                 );
             }
             weeks.push(
                 <div key={`week-${weeks.length}`} className="grid grid-cols-7">
                     {days}
-                </div>,
+                </div>
             );
         }
 
@@ -136,7 +138,7 @@ export function CalendarView(props) {
         "September",
         "October",
         "November",
-        "December",
+        "December"
     ];
 
     const weekDays = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
@@ -202,8 +204,8 @@ export function CalendarView(props) {
                     onClose={() => setShowAddEventModal(false)}
                     onNewEvent={props.newEvent}
                     courseNames={props.courseNames}
-                    repeatOptions = {props.repeatOptions}
-                    eventTypeOptions = {props.eventTypeOptions}
+                    repeatOptions={props.repeatOptions}
+                    eventTypeOptions={props.eventTypeOptions}
                 />
             )}
         </div>

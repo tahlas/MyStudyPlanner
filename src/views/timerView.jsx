@@ -4,7 +4,7 @@ import Stack from "@mui/material/Stack";
 import IconButton from "@mui/material/IconButton";
 import PauseIcon from "@mui/icons-material/Pause";
 import { Typography } from "@mui/material";
-import SkipNextIcon from '@mui/icons-material/SkipNext';
+import SkipNextIcon from "@mui/icons-material/SkipNext";
 import ItemCard from "./components/itemCard.jsx";
 
 export function TimerView(props) {
@@ -27,7 +27,7 @@ export function TimerView(props) {
                 style={{
                     position: "relative",
                     display: "inline-flex",
-                    color: "white",
+                    color: "white"
                 }}
             >
                 <CircularProgress
@@ -35,16 +35,16 @@ export function TimerView(props) {
                     value={
                         props.breakStatus
                             ? (props.timeLeftInSeconds /
-                                  props.defaultBreakTime) *
-                              100
+                                props.defaultBreakTime) *
+                            100
                             : (props.timeLeftInSeconds /
-                                  props.defaultPomodoroSessionTimeInSeconds) *
-                              100
+                                props.defaultPomodoroSessionTimeInSeconds) *
+                            100
                     }
                     size={400}
                     sx={{
-                        color: props.breakStatus ? '#10b981' : '#3b82f6',
-                        transition: 'color 0.3s ease'
+                        color: props.breakStatus ? "#10b981" : "#3b82f6",
+                        transition: "color 0.3s ease"
                     }}
                 />
                 <Typography
@@ -54,7 +54,7 @@ export function TimerView(props) {
                         top: "50%",
                         left: "50%",
                         transform: "translate(-50%, -50%)",
-                        fontSize: "100px",
+                        fontSize: "100px"
                     }}
                 >
                     {convertSecondsToTimeString(props.timeLeftInSeconds)}
@@ -140,7 +140,7 @@ export function TimerView(props) {
             const minutes = Math.floor((timeSpent % 3600) / 60);
             const isSelected = props.selectedTask?.id === task.id;
 
-            return(
+            return (
                 <ItemCard
                     key={task.id}
                     item={task}
@@ -154,8 +154,8 @@ export function TimerView(props) {
                         </div>
                     }
                     isSelected={isSelected}
-                />   
-            )
+                />
+            );
 
             // return (
             //     <div

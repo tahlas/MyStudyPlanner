@@ -1,4 +1,4 @@
-import { getFirestore, doc, setDoc, getDoc } from "firebase/firestore";
+import { doc, getDoc, getFirestore, setDoc } from "firebase/firestore";
 import { app } from "/src/firebaseConfig.js";
 
 const db = getFirestore(app);
@@ -50,7 +50,7 @@ export function connectToPersistence(model, reaction) {
             model.user,
             JSON.stringify(model.courses),
             JSON.stringify(model.taskTimeTracking),
-            JSON.stringify(model.taskTimeByDate),
+            JSON.stringify(model.taskTimeByDate)
         ];
     }
 
@@ -65,15 +65,15 @@ export function connectToPersistence(model, reaction) {
                         accessToken: model.accessToken,
                         courses: model.courses,
                         taskTimeTracking: model.taskTimeTracking,
-                        taskTimeByDate: model.taskTimeByDate,
+                        taskTimeByDate: model.taskTimeByDate
                     },
-                    { merge: true },
+                    { merge: true }
                 );
             } else if (model.isTokenFromLogin) {
                 setDoc(
                     user_firestoreDoc,
                     { accessToken: model.accessToken },
-                    { merge: true },
+                    { merge: true }
                 );
             }
         }

@@ -27,7 +27,7 @@ function loading() {
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
-                height: "100vh",
+                height: "100vh"
             }}
         >
             <CircularProgress size="200px" />

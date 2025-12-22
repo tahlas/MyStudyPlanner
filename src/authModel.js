@@ -1,10 +1,10 @@
 import { getAuth, GoogleAuthProvider, onAuthStateChanged, signOut } from "firebase/auth";
-import {app} from "./firebaseConfig.js";
+import { app } from "./firebaseConfig.js";
 
 
 export const googleAuthProvider = new GoogleAuthProvider();
-googleAuthProvider.addScope('https://www.googleapis.com/auth/calendar');
-googleAuthProvider.addScope('https://www.googleapis.com/auth/tasks');
+googleAuthProvider.addScope("https://www.googleapis.com/auth/calendar");
+googleAuthProvider.addScope("https://www.googleapis.com/auth/tasks");
 
 export const auth = getAuth(app);
 
@@ -15,7 +15,7 @@ export function connectToAuthentication(model) {
         } else {
             // User logged out, complete cleanup
             model.clearAccessToken();
-            model.completeCleanup()
+            model.completeCleanup();
         }
     });
 }

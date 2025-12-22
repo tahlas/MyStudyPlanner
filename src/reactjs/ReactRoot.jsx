@@ -1,5 +1,5 @@
 import { observer } from "mobx-react-lite";
-import { createHashRouter, RouterProvider, Outlet, useLocation } from "react-router-dom";
+import { createHashRouter, Outlet, RouterProvider, useLocation } from "react-router-dom";
 import { Overview } from "./overviewPresenter";
 import { Login } from "./loginPresenter";
 import { Timer } from "./timerPresenter";
@@ -35,36 +35,36 @@ function makeRouter(model) {
             children: [
                 {
                     path: "/",
-                    element: <Login model={model} />,
+                    element: <Login model={model} />
                 },
 
                 {
                     path: "/login",
-                    element: <Login model={model} />,
+                    element: <Login model={model} />
                 },
 
                 {
                     path: "/overview",
-                    element: <Overview model={model} />,
+                    element: <Overview model={model} />
                 },
                 {
                     path: "/timer",
-                    element: <Timer model={model} />,
+                    element: <Timer model={model} />
                 },
                 {
                     path: "/calendar",
-                    element: <Calendar model={model} />,
+                    element: <Calendar model={model} />
                 },
                 {
                     path: "/statistics",
-                    element: <Statistics model={model} />,
+                    element: <Statistics model={model} />
                 },
                 {
                     path: "/settings",
-                    element: <Settings model={model} />,
+                    element: <Settings model={model} />
                 }
-            ],
-        },
+            ]
+        }
     ]);
 }
 

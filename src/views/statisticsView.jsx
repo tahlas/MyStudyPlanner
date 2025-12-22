@@ -1,4 +1,4 @@
-import { Typography, IconButton, Tooltip, Button } from "@mui/material";
+import { Button, IconButton, Tooltip, Typography } from "@mui/material";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { useState } from "react";
@@ -34,7 +34,7 @@ export function WeeklyTimeView(props) {
         "Thursday",
         "Friday",
         "Saturday",
-        "Sunday",
+        "Sunday"
     ];
 
     function formatTime(seconds) {
@@ -57,11 +57,11 @@ export function WeeklyTimeView(props) {
                     if (task) {
                         tasksForDay.push({
                             task: task,
-                            timeSpent: dateData[dateKey],
+                            timeSpent: dateData[dateKey]
                         });
                     }
                 }
-            },
+            }
         );
         return tasksForDay;
     }
@@ -155,7 +155,7 @@ export function WeeklyTimeView(props) {
                                                     className="p-2 rounded"
                                                     style={{
                                                         backgroundColor:
-                                                            item.task.color,
+                                                        item.task.color
                                                     }}
                                                 >
                                                     <Tooltip title={item.task.title}>
@@ -169,7 +169,7 @@ export function WeeklyTimeView(props) {
 
                                                     <Typography variant="caption">
                                                         {formatTime(
-                                                            item.timeSpent,
+                                                            item.timeSpent
                                                         )}
                                                     </Typography>
                                                 </div>

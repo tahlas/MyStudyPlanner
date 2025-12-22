@@ -1,4 +1,3 @@
-
 import { observer } from "mobx-react-lite";
 import { OverviewView } from "../views/overviewView.jsx";
 import { useEffect } from "react";
@@ -9,12 +8,11 @@ import { use401Redirect, useFetchCalendarEvents, useFetchTasks } from "../modelE
 
 const Overview = observer(function OverviewRender(props) {
 
-   use401Redirect(props.model);
+    use401Redirect(props.model);
 
-   useFetchTasks(props.model);
+    useFetchTasks(props.model);
 
-   useFetchCalendarEvents(props.model);
-
+    useFetchCalendarEvents(props.model);
 
 
     useEffect(() => {
@@ -25,7 +23,6 @@ const Overview = observer(function OverviewRender(props) {
             logout(props.model).then(() => (window.location.hash = "#/login"));
         }
     }, [props.model.accessToken, props.model.user, props.model.ready]);
-
 
 
     const taskState = props.model.currentTasksPromiseState;
@@ -48,14 +45,14 @@ const Overview = observer(function OverviewRender(props) {
     }
 
 
-    return  <SuspenseView
+    return <SuspenseView
         taskPromise={taskState.promise}
         taskError={taskState.error}
         taskData={taskState.data}
         eventPromise={eventState.promise}
         eventError={eventState.error}
         eventData={eventState.data}
-    />
+    />;
 
     function handleNewTaskACB(taskInfo) {
         props.model.saveNewTask(taskInfo);
