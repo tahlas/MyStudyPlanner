@@ -23,7 +23,7 @@ function AddEventModal({ onClose, onNewEvent, courseNames,repeatOptions, eventTy
             className="fixed top-0 left-0 right-0 bottom-0 bg-black/30 backdrop-blur-sm flex justify-center items-center z-50"
             onClick={onClose}>
             <div className = "mt-10 flex flex-col gap-5 text-white">
-                <div style={{backgroundColor: "#1e2939"}}  className="rounded-xl px-20 py-25 flex-col gap-25 items-center mx-4 relative" onClick={(e) => e.stopPropagation()}>
+                <div style={{backgroundColor: "#1e2939"}}  className="rounded-xl w-full max-w-md max-h-[90vh] overflow-y-auto px-6 py-5 mx-4 relative" onClick={(e) => e.stopPropagation()}>
                     <IconButton  style={{ position: "absolute", top: 12, right: 12 }}><CloseIcon className="text-white hover:bg-red-700"  onClick={onClose}/></IconButton>
                     <h1 className= "text-3xl font-bold text-center mb-6">Add Event</h1>
                     <form className="w-full space-y-3" onSubmit={submitACB}>
