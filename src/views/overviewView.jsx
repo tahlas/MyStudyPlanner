@@ -33,7 +33,7 @@ export function OverviewView(props) {
         <div>
             {/* <div className="flexParent"> */}
             <div className="flex w-full">
-                <div className="w-1/3">
+                <div className="min-w-[280px] flex-1">
                     <div className="overviewHeader">
                         {renderPieChart(
                             props.eventsData.filter(classIsTodayCB),
@@ -50,14 +50,14 @@ export function OverviewView(props) {
                         onTaskSelectACB,
                     )}
                 </div>
-                <div className="w-1/3">
+                <div className="min-w-[280] flex-1">
                     <div className="overviewHeader">
                         {renderPieChart(props.tasksData, "Tasks")}
                         {addTaskButton(props.newTask, props.courseNames)}
                     </div>
                     {upcomingOverview(props.tasksData, onTaskSelectACB)}
                 </div>
-                <div className="w-1/3">
+                <div className="min-w-[280px] flex-1">
                     <div className="overviewHeader">
                         {renderPieChart(
                             props.eventsData.filter(eventIsExamCB),
