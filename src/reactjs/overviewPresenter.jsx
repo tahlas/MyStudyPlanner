@@ -43,7 +43,6 @@ const Overview = observer(function OverviewRender(props) {
     if (taskState.data && eventState.data) {
         // Flatten the array of arrays into a single array of tasks
         const flattenedTasks = taskState.data.flat();
-        const flattenedEvents = eventState.data.flat();
 
         return (
             <OverviewView
@@ -52,7 +51,7 @@ const Overview = observer(function OverviewRender(props) {
                 completeTask={handleCompleteTaskACB}
                 newCourse={handleNewCourse}
                 courseNames={getCourseNames(props.model.courses)}
-                eventsData={flattenedEvents}
+                eventsData={eventState.data}
             />
         );
     }
