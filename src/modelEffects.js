@@ -36,10 +36,12 @@ export function useFetchTasks(model) {
 export function useFetchCalendarEvents(model) {
     useEffect(() => {
         if (
+            model.user &&
             model.accessToken &&
+            model.ready &&
             !model.currentCalendarEventsPromiseState.promise
         ) {
             model.getCalendarEvents();
         }
-    }, [model.accessToken]);
+    }, [model.user, model.accessToken, model.ready]);
 }
