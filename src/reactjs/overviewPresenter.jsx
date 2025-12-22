@@ -4,7 +4,11 @@ import { useEffect } from "react";
 import { logout } from "../authModel.js";
 import { SuspenseView } from "../views/suspenseView.jsx";
 import { getCourseNames } from "../utilities.js";
-import { use401Redirect, useFetchCalendarEvents, useFetchTasks } from "../modelEffects.js";
+import {
+    use401Redirect,
+    useFetchCalendarEvents,
+    useFetchTasks,
+} from "../modelEffects.js";
 
 const Overview = observer(function OverviewRender(props) {
 

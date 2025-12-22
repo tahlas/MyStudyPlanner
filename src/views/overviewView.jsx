@@ -332,7 +332,6 @@ function renderTaskCB(task, onTaskSelect) {
     );
 }
 
-//TODO: Remove code duplication
 function taskIsOverdueCB(task) {
     const currentDate = new Date();
     const taskDueDate = new Date(task.due);
