@@ -1,4 +1,4 @@
-import { Typography, IconButton, Tooltip } from "@mui/material";
+import { Typography, IconButton, Tooltip, Button } from "@mui/material";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { useState } from "react";
@@ -101,13 +101,9 @@ export function WeeklyTimeView(props) {
                     </IconButton>
 
                     {currentWeekOffset !== 0 && (
-                        <button
-                            onClick={() => setCurrentWeekOffset(0)}
-                            style={{ backgroundColor: "#1565C0" }}
-                            className="text-white px-6 py-3 rounded-md font-bold hover:opacity-90 transition duration-300"
-                        >
+                        <Button onClick={() => setCurrentWeekOffset(0)} variant="contained" color="primary">
                             Go to Current Week
-                        </button>
+                        </Button>
                     )}
                 </div>
 
