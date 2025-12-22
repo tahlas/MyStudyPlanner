@@ -33,8 +33,6 @@ export function OverviewView(props) {
         setShowCompleteTaskModal(true);
     }
 
-    const windowWidth = getWindowDimensions().width;
-
     return (
         <div>
             {/* <div className="flexParent"> */}
