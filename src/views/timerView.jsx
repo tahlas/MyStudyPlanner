@@ -10,12 +10,12 @@ import ItemCard from "./components/itemCard.jsx";
 export function TimerView(props) {
 
     return (
-        <div className="flex flex-row max-[1200px]:flex-col gap-10 p-5 ml-28 max-[1200px]:ml-5">
+        <div className="flex flex-row max-[1100px]:flex-col gap-10 p-5 ml-28 max-[1100px]:ml-5">
             <div className="flex flex-col items-center">
                 {timerProgress()}
                 {timerControls()}
             </div>
-            <div className="w-1/3 max-[1200px]:w-full flex flex-col gap-2.5 ml-auto max-[1200px]:ml-0">
+            <div className="w-1/3 max-[1100px]:w-full flex flex-col gap-2.5 ml-auto max-[1100px]:ml-0">
                 {tasksList()}
             </div>
         </div>
