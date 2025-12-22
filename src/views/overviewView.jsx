@@ -20,8 +20,6 @@ import {
 import ItemCard from "./components/itemCard.jsx";
 import AddEventModal from "./components/addEventModal.jsx";
 
-//TODO: Remove A LOT of code duplication!
-
 /**
  * Renders the Overview View component.
  * @returns the Overview View JSX element
@@ -123,12 +121,11 @@ export function OverviewView(props) {
 }
 
 function todaysOverview(tasksData, eventsData, onTaskSelect, onEventSelect) {
-    //TODO: Should this be called ACB or CB?
-    function renderTaskWithSelectACB(task) {
+    function renderTaskWithSelectCB(task) {
         return renderTaskCB(task, onTaskSelect);
     }
 
-    function renderEventWithSelectACB(event) {
+    function renderEventWithSelectCB(event) {
         return renderClassCB(event, onEventSelect);
     }
 
@@ -138,10 +135,10 @@ function todaysOverview(tasksData, eventsData, onTaskSelect, onEventSelect) {
         <div style={{ marginLeft: "10px" }}>
             <div style={{ color: "white" }}>Today</div>
             <div>
-                {classesToday.map(renderEventWithSelectACB)}
+                {classesToday.map(renderEventWithSelectCB)}
                 {tasksData
                     .filter(taskIsDueTodayCB)
-                    .map(renderTaskWithSelectACB)}
+                    .map(renderTaskWithSelectCB)}
             </div>
         </div>
     );
@@ -300,40 +297,40 @@ function upcomingTasksOverview(tasksData, onTaskSelect) {
             <div hidden={overdueTasks.length === 0} style={{ color: "red" }}>
                 Overdue
             </div>
-            {overdueTasks.map(renderTaskWithSelectACB)}
+            {overdueTasks.map(renderTaskWithSelectCB)}
             <div
                 hidden={dueTodayTasks.length === 0}
                 style={{ color: "orange" }}
             >
                 Due Today
             </div>
-            {dueTodayTasks.map(renderTaskWithSelectACB)}
+            {dueTodayTasks.map(renderTaskWithSelectCB)}
             <div
                 hidden={dueTomorrowTasks.length === 0}
                 style={{ color: "yellow" }}
             >
                 Due Tomorrow
             </div>
-            {dueTomorrowTasks.map(renderTaskWithSelectACB)}
+            {dueTomorrowTasks.map(renderTaskWithSelectCB)}
             <div
                 style={{ color: "white" }}
                 hidden={dueLaterThisWeek.length === 0}
             >
                 Due This Week
             </div>
-            {dueLaterThisWeek.map(renderTaskWithSelectACB)}
+            {dueLaterThisWeek.map(renderTaskWithSelectCB)}
             <div style={{ color: "white" }} hidden={dueNextWeek.length === 0}>
                 Due Next Week
             </div>
-            {dueNextWeek.map(renderTaskWithSelectACB)}
+            {dueNextWeek.map(renderTaskWithSelectCB)}
             <div style={{ color: "white" }} hidden={dueLaterTasks.length === 0}>
                 Due Later
             </div>
-            {dueLaterTasks.map(renderTaskWithSelectACB)}
+            {dueLaterTasks.map(renderTaskWithSelectCB)}
         </div>
     );
 
-    function renderTaskWithSelectACB(task) {
+    function renderTaskWithSelectCB(task) {
         return renderTaskCB(task, onTaskSelect);
     }
 }
