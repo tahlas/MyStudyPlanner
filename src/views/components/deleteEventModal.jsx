@@ -27,11 +27,16 @@ function DeleteEventModal({ onClose, onDelete, event, deleteOptions }) {
                                 className="w-full px-4 py-3 text-black rounded-md bg-white"
                             >
                                 <option value="">Select Delete Option</option>
-                                {deleteOptions.map((option) => (
-                                    <option key={option} value={option}>
-                                        {option}
-                                    </option>
-                                ))}
+                                {deleteOptions.map((option) => {
+                                    if (option === "All events" && !event.recurringEventId) {
+                                        return null;
+                                    }
+                                    return (
+                                        <option key={option} value={option}>
+                                            {option}
+                                        </option>
+                                    );
+                                })}
                             </select>
                         </div>
                         <div>
