@@ -29,9 +29,6 @@ import AddEventModal from "./components/addEventModal.jsx";
 export function OverviewView(props) {
     const [showCompleteTaskModal, setShowCompleteTaskModal] = useState(false);
     const [selectedTask, setSelectedTask] = useState(null);
-    const [showAddEventModal, setShowAddEventModal] = useState(false);
-    const [showDeleteEventModal, setShowDeleteEventModal] = useState(false);
-    const [selectedEvent, setSelectedEvent] = useState(null);
 
     function onTaskSelectACB(task) {
         setSelectedTask(task);
