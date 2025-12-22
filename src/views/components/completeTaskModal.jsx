@@ -3,12 +3,15 @@ import { IconButton } from '@mui/material';
 
 function CompleteTaskModal({ onClose, onCompleteTask,  task}) {
 
-    function submitACB(evt){
+    function submitACB(evt) {
         evt.preventDefault();
-        onCompleteTask(task);
+
+        if (evt.target.taskComplete.checked) {
+            onCompleteTask(task);
+        }
+
         onClose();
     }
-
     return (
         <div
             className="fixed top-0 left-0 right-0 bottom-0 bg-black/30 backdrop-blur-sm flex justify-center items-center z-50"

@@ -25,6 +25,7 @@ function AddCourseModal({ onClose, onNewCourse }) {
                         <div>
                             <input
                                 id="name"
+                                required
                                 type="text"
                                 placeholder="Course Name"
                                 className="w-full px-4 py-3 text-black  rounded-md bg-white"
