@@ -1,9 +1,7 @@
 import { observer } from "mobx-react-lite";
 import { CalendarView } from "../views/calendarView.jsx";
-import { useEffect } from "react";
 import { getCourseNames } from "../utilities.js";
 import { SuspenseView } from "../views/suspenseView.jsx";
-import { logout } from "../authModel.js";
 import { use401Redirect, useFetchCalendarEvents, useFetchTasks } from "../modelEffects.js";
 
 
