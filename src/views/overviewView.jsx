@@ -5,9 +5,13 @@ import "/src/utilities.js";
 import AddTaskModal from "./components/addTaskModal.jsx";
 import CompleteTaskModal from "./components/completeTaskModal.jsx";
 import { useState } from "react";
-import { extractSummaryWithoutCourseNameAndEventType, numberOfTasksPerCourse } from "../utilities.js";
+import {
+    extractSummaryWithoutCourseNameAndEventType,
+    numberOfTasksPerCourse,
+} from "../utilities.js";
 import { getWindowDimensions } from "../utilities.js";
 import { isToday } from "../utilities.js";
+import ItemCard from "./components/itemCard.jsx";
 
 //TODO: Remove A LOT of code duplication!
 
@@ -36,7 +40,7 @@ export function OverviewView(props) {
                         }}
                     >
                         {renderPieChart(
-                            props.eventsData.filter(lectureIsTodayCB),
+                            props.eventsData.filter(classIsTodayCB),
                             "Events",
                         )}
                         {renderPieChart(
@@ -95,13 +99,13 @@ function todaysOverview(tasksData, eventsData, onTaskSelect) {
     function renderTaskWithSelectACB(task) {
         return renderTaskCB(task, onTaskSelect);
     }
-    const lecturesToday = eventsData.filter(lectureIsTodayCB);
+    const classesToday = eventsData.filter(classIsTodayCB);
 
     return (
         <div style={{ marginLeft: "10px" }}>
             <div style={{ color: "white" }}>Today</div>
             <div>
-                {lecturesToday.map(renderLecturesTodayCB)}
+                {classesToday.map(renderClassCB)}
                 {tasksData
                     .filter(taskIsDueTodayCB)
                     .map(renderTaskWithSelectACB)}
@@ -110,58 +114,43 @@ function todaysOverview(tasksData, eventsData, onTaskSelect) {
     );
 }
 
-function renderLecturesTodayCB(lecture) {
-    const lectureStartDate = new Date(
-        lecture.start.dateTime || lecture.start.date,
+function renderClassCB(classItem) {
+    const classStartDate = new Date(
+        classItem.start.dateTime || classItem.start.date,
     );
-    const lectureEndDate = new Date(lecture.end.dateTime || lecture.end.date);
-    const startHours = lectureStartDate.getHours().toString().padStart(2, "0");
-    const startMinutes = lectureStartDate
+    const classEndDate = new Date(classItem.end.dateTime || classItem.end.date);
+    const startHours = classStartDate.getHours().toString().padStart(2, "0");
+    const startMinutes = classStartDate
         .getMinutes()
         .toString()
         .padStart(2, "0");
-    const endHours = lectureEndDate.getHours().toString().padStart(2, "0");
-    const endMinutes = lectureEndDate.getMinutes().toString().padStart(2, "0");
-    // const summaryWithoutCourseAndType = lecture.summary.substring(
-    //     lecture.summary.indexOf(": ") + 2,
-    // );
+    const endHours = classEndDate.getHours().toString().padStart(2, "0");
+    const endMinutes = classEndDate.getMinutes().toString().padStart(2, "0");
+
     return (
-        <div
-            key={lecture.id}
-            className="overviewTask pl-1 pr-1 pb-1 pt-1 mb-2"
-            style={{
-                backgroundColor: lecture.color,
-                cursor: "pointer",
-                display: "flex",
-                flexDirection: "space-between",
-                justifyContent: "space-between",
-            }}
-        >
-            <div>
-                <span className="font-bold">{lecture.courseName}</span> <br />
-                <span className="font-medium">
-                    {extractSummaryWithoutCourseNameAndEventType(lecture)}
-                </span>
-                <br />
-                {lecture.description && <span>{lecture.description}</span>}
-            </div>
-            <div className="pr-1">
-                {startHours +
-                    ":" +
-                    startMinutes +
-                    " - " +
-                    endHours +
-                    ":" +
-                    endMinutes}
-            </div>
-        </div>
+        <ItemCard
+            key={classItem.id}
+            item={classItem}
+            title={classItem.courseName}
+            subtitle={extractSummaryWithoutCourseNameAndEventType(classItem)}
+            description={classItem.description}
+            rightContent={
+                startHours +
+                ":" +
+                startMinutes +
+                " - " +
+                endHours +
+                ":" +
+                endMinutes
+            }
+        />
     );
 }
 
-function lectureIsTodayCB(lecture) {
+function classIsTodayCB(classItem) {
     //start.date is for all-day events, dateTime is for timed events
-    const lectureStartDate = new Date(lecture.start.dateTime);
-    return isToday(lectureStartDate);
+    const classStartDate = new Date(classItem.start.dateTime);
+    return isToday(classStartDate);
 }
 
 function examsOverview(eventsData) {
@@ -181,32 +170,16 @@ function renderExamEventCB(event) {
     const eventDate = new Date(event.start.dateTime);
     const eventDay = eventDate.getDate();
     const eventMonth = eventDate.toLocaleString("default", { month: "short" });
-    const indexOfCourseNameAndTypeEnd = event.summary.lastIndexOf(": ");
-    // const summaryWithoutCourseAndType = event.summary.substring(
-    //     indexOfCourseNameAndTypeEnd + 2,
-    // );
+
     return (
-        <div
+        <ItemCard
             key={event.id}
-            className="overviewTask pl-1 pr-1 pb-1 pt-1 mb-2"
-            style={{
-                backgroundColor: event.color,
-                cursor: "pointer",
-                display: "flex",
-                flexDirection: "space-between",
-                justifyContent: "space-between",
-            }}
-        >
-            <div>
-                <span className="font-bold">{event.courseName}</span> <br />
-                <span className="font-medium">
-                    {extractSummaryWithoutCourseNameAndEventType(event)}
-                </span>
-                <br />
-                {event.description && <span>{event.description}</span>}
-            </div>
-            <div className="pr-1">{eventMonth + " " + eventDay}</div>
-        </div>
+            item={event}
+            title={event.courseName}
+            subtitle={extractSummaryWithoutCourseNameAndEventType(event)}
+            description={event.description}
+            rightContent={eventMonth + " " + eventDay}
+        />
     );
 }
 
@@ -350,32 +323,17 @@ function renderTaskCB(task, onTaskSelect) {
     });
 
     return (
-        <div
+        <ItemCard
             key={task.id}
-            className="overviewTask pl-1 pr-1 pb-1 pt-1 mb-2"
-            style={{
-                backgroundColor: task.color,
-                cursor: "pointer",
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "space-between",
-            }}
+            item={task}
+            title={task.listTitle}
+            subtitle={task.title}
+            description={task.notes}
+            rightContent={dueDateMonth + " " + dueDateDay}
             onClick={function () {
                 onTaskSelect(task);
             }}
-        >
-            <div>
-                <span className="font-semibold">{task.listTitle}</span>
-                <br />
-                <span className="font-medium">{task.title}</span> <br />
-                {task.notes && (
-                    <>
-                        <span>{task.notes}</span> <br />
-                    </>
-                )}
-            </div>
-            <div className="pr-1">{dueDateMonth + " " + dueDateDay}</div>
-        </div>
+        />
     );
 }
 
