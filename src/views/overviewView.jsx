@@ -9,7 +9,7 @@ import {
     extractSummaryWithoutCourseNameAndEventType,
     getWindowDimensions,
     isToday,
-    numberOfTasksPerCourse
+    numberOfTasksPerCourse,
 } from "../utilities.js";
 import ItemCard from "./components/itemCard.jsx";
 
@@ -38,17 +38,17 @@ export function OverviewView(props) {
                     <div className="overviewHeader">
                         {renderPieChart(
                             props.eventsData.filter(classIsTodayCB),
-                            "Classes"
+                            "Classes",
                         )}
                         {renderPieChart(
                             props.tasksData.filter(taskIsDueTodayCB),
-                            "Tasks"
+                            "Tasks",
                         )}
                     </div>
                     {todaysOverview(
                         props.tasksData,
                         props.eventsData,
-                        onTaskSelectACB
+                        onTaskSelectACB,
                     )}
                 </div>
                 <div className="min-w-[280] flex-1">
@@ -62,7 +62,7 @@ export function OverviewView(props) {
                     <div className="overviewHeader">
                         {renderPieChart(
                             props.eventsData.filter(eventIsExamCB),
-                            "Exams"
+                            "Exams",
                         )}
                         {/* TODO: Fix so adding exam from overview works */}
                         {/* {addExamButton()} */}
@@ -104,7 +104,7 @@ function todaysOverview(tasksData, eventsData, onTaskSelect) {
 
 function renderClassCB(classItem) {
     const classStartDate = new Date(
-        classItem.start.dateTime || classItem.start.date
+        classItem.start.dateTime || classItem.start.date,
     );
     const classEndDate = new Date(classItem.end.dateTime || classItem.end.date);
     const startHours = classStartDate.getHours().toString().padStart(2, "0");
@@ -177,7 +177,7 @@ function renderPieChart(dataArray, label) {
     const settings = {
         width: 150,
         height: 150,
-        hideLegend: true
+        hideLegend: true,
     };
     //TODO: Use PieChartWithCenterLabel function?
     //https://mui.com/x/react-charts/pie-demo/#piechartwithcenterlabel
@@ -186,14 +186,14 @@ function renderPieChart(dataArray, label) {
             style={{
                 display: "flex",
                 flexDirection: "column",
-                alignItems: "center"
+                alignItems: "center",
             }}
         >
             <div
                 style={{
                     position: "relative",
                     width: "150px",
-                    height: "150px"
+                    height: "150px",
                 }}
             >
                 <PieChart
@@ -205,17 +205,18 @@ function renderPieChart(dataArray, label) {
                             data:
                                 data.length > 0
                                     ? data
-                                    : [{ value: 1, color: "#797474ff" }]
-                        }
+                                    : [{ value: 1, color: "#797474ff" }],
+                        },
                     ]}
                     // TODO: Understand how this works...
                     slotProps={{
-                        tooltip: data.length > 0 ? undefined : { trigger: "none" }
+                        tooltip:
+                            data.length > 0 ? undefined : { trigger: "none" },
                     }}
                     sx={{
                         [`& .${pieArcClasses.root}`]: {
-                            stroke: "none"
-                        }
+                            stroke: "none",
+                        },
                     }}
                     {...settings}
                 />
@@ -226,7 +227,7 @@ function renderPieChart(dataArray, label) {
                         left: "50%",
                         transform: "translate(-50%, -50%)",
                         color: "white",
-                        fontSize: "60px"
+                        fontSize: "60px",
                     }}
                 >
                     {dataArray.length}
@@ -239,7 +240,7 @@ function renderPieChart(dataArray, label) {
                         top: "62%",
                         left: "50%",
                         transform: "translateX(-50%)",
-                        fontSize: "12px"
+                        fontSize: "12px",
                     }}
                 >
                     {label}
@@ -272,12 +273,9 @@ function upcomingTasksOverview(tasksData, onTaskSelect) {
     const overdueTasks = tasksData.filter(taskIsOverdueCB);
     const dueTodayTasks = tasksData.filter(taskIsDueTodayCB);
     const dueTomorrowTasks = tasksData.filter(taskIsDueTomorrowCB);
-    const dueNextWeek = tasksData.filter(taskIsDueNextWeekAndNotTomorrowCB);
+    const dueLaterThisWeek = tasksData.filter(taskIsDueLaterThisWeek);
+    const dueNextWeek = tasksData.filter(taskIsDueNextWeek);
     const dueLaterTasks = tasksData.filter(taskIsDueAfterNextWeekAndLaterCB);
-
-    function renderTaskWithSelectACB(task) {
-        return renderTaskCB(task, onTaskSelect);
-    }
 
     return (
         <div>
@@ -299,6 +297,10 @@ function upcomingTasksOverview(tasksData, onTaskSelect) {
                 Due Tomorrow
             </div>
             {dueTomorrowTasks.map(renderTaskWithSelectACB)}
+            <div style={{ color: "white" }} hidden={dueLaterThisWeek.length === 0}>
+                Due This Week
+            </div>
+            {dueLaterThisWeek.map(renderTaskWithSelectACB)}
             <div style={{ color: "white" }} hidden={dueNextWeek.length === 0}>
                 Due Next Week
             </div>
@@ -309,12 +311,16 @@ function upcomingTasksOverview(tasksData, onTaskSelect) {
             {dueLaterTasks.map(renderTaskWithSelectACB)}
         </div>
     );
+
+    function renderTaskWithSelectACB(task) {
+        return renderTaskCB(task, onTaskSelect);
+    }
 }
 
 function renderTaskCB(task, onTaskSelect) {
     const dueDateDay = new Date(task.due).getDate();
     const dueDateMonth = new Date(task.due).toLocaleString("default", {
-        month: "short"
+        month: "short",
     });
 
     return (
@@ -325,7 +331,7 @@ function renderTaskCB(task, onTaskSelect) {
             subtitle={task.title}
             description={task.notes}
             rightContent={dueDateMonth + " " + dueDateDay}
-            onClick={function() {
+            onClick={function () {
                 onTaskSelect(task);
             }}
         />
@@ -358,22 +364,67 @@ function taskIsDueTomorrowCB(task) {
     );
 }
 
+function taskIsDueLaterThisWeek(task) {
+    if (taskIsOverdueCB(task) ||taskIsDueTodayCB(task) || taskIsDueTomorrowCB(task)) {
+        return false;
+    }
+    const currentWeek = new Date().getEuropeanWeek();
+    const taskDueWeek = new Date(task.due).getEuropeanWeek();
+    return taskDueWeek === currentWeek;
+}
+
 //TODO: Might not work if the next week is in the next year.
-function taskIsDueNextWeekAndNotTomorrowCB(task) {
-    const currentDate = new Date();
-    const taskDueDate = new Date(task.due);
-    const currentWeek = currentDate.getEuropeanWeek();
-    const taskDueWeek = taskDueDate.getEuropeanWeek();
-    if (taskIsDueTomorrowCB(task)) {
+function taskIsDueNextWeek(task) {
+    const currentWeek = new Date().getEuropeanWeek();
+    const taskDueWeek = new Date(task.due).getEuropeanWeek();
+    if (taskIsDueLaterThisWeek(task)) {
         return false;
     }
     return taskDueWeek === currentWeek + 1;
 }
 
 function taskIsDueAfterNextWeekAndLaterCB(task) {
-    return !(taskIsDueTomorrowCB(task) ||
-        taskIsDueNextWeekAndNotTomorrowCB(task) ||
+    return !(
+        taskIsDueTomorrowCB(task) ||
+        taskIsDueLaterThisWeek(task) ||
+        taskIsDueNextWeek(task) ||
         taskIsDueTodayCB(task) ||
-        taskIsOverdueCB(task));
+        taskIsOverdueCB(task)
+    );
+}
 
+function eventIsTodayCB(event) {
+    const eventStartDate = new Date(event.start.dateTime);
+    return isToday(eventStartDate);
+}
+
+function eventIsTomorrowCB(event) {
+    const currentDate = new Date();
+    const eventStartDate = new Date(event.start.dateTime);
+    const tomorrowDate = new Date(currentDate);
+    tomorrowDate.setDate(currentDate.getDate() + 1);
+    return (
+        eventStartDate.getFullYear() === tomorrowDate.getFullYear() &&
+        eventStartDate.getMonth() === tomorrowDate.getMonth() &&
+        eventStartDate.getDate() === tomorrowDate.getDate()
+    );
+}
+
+function eventIsThisWeekAndNotTomorrowCB(event) {
+    const currentDate = new Date();
+    const eventStartDate = new Date(event.start.dateTime);
+    const currentWeek = currentDate.getEuropeanWeek();
+    const eventWeek = eventStartDate.getEuropeanWeek();
+    if (eventIsTomorrowCB(event)) {
+        return false;
+    }
+    return eventWeek === currentWeek;
+}
+
+function eventIsDueAfterNextWeekAndLaterCB(event) {
+    return !(
+        eventIsTomorrowCB(event) ||
+        eventIsThisWeekAndNotTomorrowCB(event) ||
+        eventIsTodayCB(event)
+    );
 }
