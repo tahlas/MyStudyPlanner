@@ -1,6 +1,5 @@
 import { observer } from "mobx-react-lite";
 import { SettingsView } from "../views/settingsView.jsx";
-import { getCourseNames } from "../utilities.js";
 import { SuspenseView } from "../views/suspenseView.jsx";
 import { logout } from "../authModel.js";
 

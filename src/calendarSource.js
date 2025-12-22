@@ -1,5 +1,4 @@
 import { CALENDAR_URL } from "./apiConfig";
-import { getCourseNames } from "./utilities.js";
 
 function responseACB(response) {
     if(response.status === 401){
