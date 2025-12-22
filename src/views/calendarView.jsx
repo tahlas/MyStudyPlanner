@@ -72,7 +72,7 @@ export function CalendarView(props) {
                 <div
                     key={day}
                     onClick={() => handleDayClick(day)}
-                    className={`aspect-square border border-gray-600 p-2 cursor-pointer hover:bg-gray-700 transition-colors flex flex-col ${
+                    className={`aspect-square border border-gray-600 p-2 cursor-pointer calendar-day-hover transition-all flex flex-col smooth-scale ${
                         isToday ? "bg-blue-600" : "bg-gray-800"
                     }`}
                 >

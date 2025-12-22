@@ -2,12 +2,9 @@
 
 
 .itemCard {
-    /* display: block; */
     border-radius: 10px;
-    /* width: 300px; */
     min-height: 50px;
     border: 2px solid black;
-    /* font-size: 16px; */
     transition: 0.3s;
     display:flex;
     flex-direction: row;
@@ -15,28 +12,18 @@
 }
 
 .itemCard:hover {
-    /* opacity: 0.8; */
     filter: brightness(110%);
-    /* transform: translateY(-3px); */
     transform: translate(-4px);
 }
 
 .overviewTopBar {
     height: 200px;
     width: 100%;
-    /* background-color: #1c8d77; */
     background-color: #1e2939;
     position: relative;
 }
 
-
-/* .flexParent {
-    display: flex;
-    flex-direction: row;
-} */
-
 body {
-    /* background: #f9f9f9; Color from MyStudyLife */
     background: #101828;
 }
 
@@ -82,7 +69,6 @@ body {
 
 .settingsBoxes {
     border-radius: 10px;
-    /* background-color: #1c8d77; */
     background-color: #1e2939;
     margin: 10px;
     min-width: 300px;
@@ -136,10 +122,6 @@ body {
 }
 
 .card {
-  
-  /* background: #fff; */
-  /* border-radius: 10px; */
-  /* box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); */
   transition: transform 0.3s ease;
   transform-style: preserve-3d;
   perspective: 1000px;
@@ -147,5 +129,15 @@ body {
 
 .card:hover {
   transform: rotateY(20deg) rotateX(15deg);
+}
+
+
+.calendar-day-hover {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.calendar-day-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
 }
 
