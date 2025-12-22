@@ -42,6 +42,10 @@ export function TimerView(props) {
                               100
                     }
                     size={400}
+                    sx={{
+                        color: props.breakStatus ? '#10b981' : '#3b82f6',
+                        transition: 'color 0.3s ease'
+                    }}
                 />
                 <Typography
                     variant="h2"
