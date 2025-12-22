@@ -25,7 +25,7 @@ export function LoginView(props) {
                 <span className="text-2xl italic font-bold">easier</span>
             </span>
             <AppProvider>
-                <SignInPage providers={providers} signIn={loginACB} />
+                <SignInPage sx={{ marginTop: "-150px" }} providers={providers} signIn={loginACB} />
             </AppProvider>
         </div>
     );
