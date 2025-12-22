@@ -37,7 +37,7 @@ export function OverviewView(props) {
                     <div className="overviewHeader">
                         {renderPieChart(
                             props.eventsData.filter(classIsTodayCB),
-                            "Events",
+                            "Classes",
                         )}
                         {renderPieChart(
                             props.tasksData.filter(taskIsDueTodayCB),
@@ -55,7 +55,7 @@ export function OverviewView(props) {
                         {renderPieChart(props.tasksData, "Tasks")}
                         {addTaskButton(props.newTask, props.courseNames)}
                     </div>
-                    {upcomingOverview(props.tasksData, onTaskSelectACB)}
+                    {upcomingTasksOverview(props.tasksData, onTaskSelectACB)}
                 </div>
                 <div className="min-w-[280px] flex-1">
                     <div className="overviewHeader">
@@ -267,7 +267,7 @@ function addTaskButton(newTask, courseNames) {
     );
 }
 
-function upcomingOverview(tasksData, onTaskSelect) {
+function upcomingTasksOverview(tasksData, onTaskSelect) {
     const overdueTasks = tasksData.filter(taskIsOverdueCB);
     const dueTodayTasks = tasksData.filter(taskIsDueTodayCB);
     const dueTomorrowTasks = tasksData.filter(taskIsDueTomorrowCB);
