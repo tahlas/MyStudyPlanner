@@ -155,33 +155,6 @@ export function TimerView(props) {
                     isSelected={isSelected}
                 />
             );
-
-            // return (
-            //     <div
-            //     // TODO: REMOVE DUPLICATE CODE (also in overviewView.jsx)
-            //         key={task.id}
-            //         onClick={() => props.onTaskSelect(task)}
-            //         className={"overviewTask" + (isSelected ? ' task-pop-in' : "")}
-            //         style={{
-            //             backgroundColor: task.color,
-            //             filter: isSelected ? "brightness(110%)" : "none",
-            //             border: isSelected ? "3px solid #f4a261" : "none",
-            //             padding: "5px",
-            //             cursor: "pointer",
-            //         }}
-            //     >
-            //         <span className="font-semibold">{task.listTitle}</span>
-            //         <br />
-            //         <span className="font-medium">{task.title}</span> <br />
-            //         {task.notes && (
-            //             <>
-            //                 {task.notes} <br />
-            //             </>
-            //         )}
-            //         Time spent: {hours}h {minutes}m <br />
-            //         {/* {task.due && <>{new Date(task.due).toLocaleDateString()}</>} */}
-            //     </div>
-            // );
         }
     }
 }

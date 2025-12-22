@@ -57,7 +57,6 @@ body {
 
 .mainContent {
     flex: 1;
-    /* TODO: This is hardcoded. Should fix this, but I'm lazy. */
     margin-left: 40px;
 }
 

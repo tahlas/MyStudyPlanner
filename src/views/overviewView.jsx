@@ -194,8 +194,7 @@ function renderPieChart(dataArray, label) {
         height: 150,
         hideLegend: true,
     };
-    //TODO: Use PieChartWithCenterLabel function?
-    //https://mui.com/x/react-charts/pie-demo/#piechartwithcenterlabel
+
     return (
         <div
             style={{
@@ -223,7 +222,6 @@ function renderPieChart(dataArray, label) {
                                     : [{ value: 1, color: "#797474ff" }],
                         },
                     ]}
-                    // TODO: Understand how this works...
                     slotProps={{
                         tooltip:
                             data.length > 0 ? undefined : { trigger: "none" },
@@ -247,7 +245,6 @@ function renderPieChart(dataArray, label) {
                 >
                     {dataArray.length}
                 </div>
-                {/* TODO: Might be better to put this in the same div */}
                 <div
                     style={{
                         color: "white",
