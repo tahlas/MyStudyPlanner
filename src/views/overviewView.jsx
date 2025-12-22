@@ -375,11 +375,11 @@ function taskIsDueLaterThisWeek(task) {
 
 //TODO: Might not work if the next week is in the next year.
 function taskIsDueNextWeek(task) {
-    const currentWeek = new Date().getEuropeanWeek();
-    const taskDueWeek = new Date(task.due).getEuropeanWeek();
     if (taskIsDueLaterThisWeek(task)) {
         return false;
     }
+    const currentWeek = new Date().getEuropeanWeek();
+    const taskDueWeek = new Date(task.due).getEuropeanWeek();
     return taskDueWeek === currentWeek + 1;
 }
 
