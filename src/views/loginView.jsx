@@ -18,7 +18,7 @@ export function LoginView(props) {
                 flexDirection: "column"
             }}
         >
-            <img className="h-48 w-96 object-contain" src="src/images/logo.png" alt="MyStudyPlanner Logo"></img>
+            <img className="h-48 w-96 object-contain" src="https://i.imgur.com/M5PYRQ1.png" alt="MyStudyPlanner Logo"></img>
             <div style={{ marginTop: "-50px" }} className="card text-5xl">Welcome to MyStudyPlanner</div>
             <span className="text-2xl mt-5">
                 Studying just got{" "}
