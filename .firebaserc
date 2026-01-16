@@ -1,5 +1,8 @@
 {
   "projects": {
-    "default": "mystudyplanner-b49b3"
-  }
+    "default": "studyplanner-88c86",
+    "myAlias": "studyplanner-88c86"
+  },
+  "targets": {},
+  "etags": {}
 }
