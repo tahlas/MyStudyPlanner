@@ -20,13 +20,13 @@ npm run dev
 ```
 
 ### Third party components
-Materail UI: Improves the UI with pre-created components
-Tailwind CSS: Makes styling easier and faster
-Firebase: Used for authentication and Firestore database
-MobX: Used for state management
-React Router: Used for navigation between views
-Toolpad: Used for the login page
-React: Core library for the project
-Vite: Used as a build tool and development server
+- Materail UI: Improves the UI with pre-created components
+- Tailwind CSS: Makes styling easier and faster
+- Firebase: Used for authentication and Firestore database
+- MobX: Used for state management
+- React Router: Used for navigation between views
+- Toolpad: Used for the login page
+- React: Core library for the project
+- Vite: Used as a build tool and development server
 
 
