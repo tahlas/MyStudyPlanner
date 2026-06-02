@@ -4,7 +4,7 @@ MyStudyPlanner is a study planner website inspired by MyStudyLife and other plan
 ### Setup
 Clone repository
 ```bash
-git clone https://gits-15.sys.kth.se/iprog-students/lardner-tahmid-HT25-Project
+git clone https://github.com/tahlas/MyStudyPlanner.git
 ```
 
 Install dependencies
